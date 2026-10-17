@@ -1,0 +1,1088 @@
+[
+  {
+    "id": "S1",
+    "tool": "standard",
+    "input": "25 + 17",
+    "expected": "42"
+  },
+  {
+    "id": "S2",
+    "tool": "standard",
+    "input": "10 / 4",
+    "expected": "2.5"
+  },
+  {
+    "id": "S3",
+    "tool": "standard",
+    "input": "10 / 0",
+    "error": "DIV_BY_ZERO"
+  },
+  {
+    "id": "S4",
+    "tool": "standard",
+    "input": "0.1 + 0.2",
+    "expected": "0.3"
+  },
+  {
+    "id": "S5",
+    "tool": "standard",
+    "input": "-5 + 3",
+    "expected": "-2"
+  },
+  {
+    "id": "S6",
+    "tool": "standard",
+    "input": "2 * -3",
+    "expected": "-6"
+  },
+  {
+    "id": "S7",
+    "tool": "standard",
+    "input": "2 + 3 * 4",
+    "expected": "14"
+  },
+  {
+    "id": "S8",
+    "tool": "standard",
+    "input": "(2 + 3) * 4",
+    "expected": "20"
+  },
+  {
+    "id": "S9",
+    "tool": "standard",
+    "input": "2^3^2",
+    "expected": "512"
+  },
+  {
+    "id": "S10",
+    "tool": "standard",
+    "input": "-2^2",
+    "expected": "-4"
+  },
+  {
+    "id": "S11",
+    "tool": "standard",
+    "input": "2^-1",
+    "expected": "0.5"
+  },
+  {
+    "id": "S12",
+    "tool": "standard",
+    "input": "sqrt(16)",
+    "expected": "4"
+  },
+  {
+    "id": "S13",
+    "tool": "standard",
+    "input": "sqrt(2)",
+    "expected": "1.41421356237"
+  },
+  {
+    "id": "S14",
+    "tool": "standard",
+    "input": "sqrt(-1)",
+    "error": "DOMAIN_ERROR"
+  },
+  {
+    "id": "S15",
+    "tool": "standard",
+    "input": "abs(-7.5)",
+    "expected": "7.5"
+  },
+  {
+    "id": "S16",
+    "tool": "standard",
+    "input": "20% of 150",
+    "expected": "30"
+  },
+  {
+    "id": "S17",
+    "tool": "standard",
+    "input": "200 + 10%",
+    "expected": "220"
+  },
+  {
+    "id": "S18",
+    "tool": "standard",
+    "input": "200 - 10%",
+    "expected": "180"
+  },
+  {
+    "id": "S19",
+    "tool": "standard",
+    "input": "200 * 10%",
+    "expected": "20"
+  },
+  {
+    "id": "S20",
+    "tool": "standard",
+    "input": "50%",
+    "expected": "0.5"
+  },
+  {
+    "id": "S21",
+    "tool": "standard",
+    "input": "0^0",
+    "error": "UNDEFINED"
+  },
+  {
+    "id": "S22",
+    "tool": "standard",
+    "input": "0^-1",
+    "error": "DIV_BY_ZERO"
+  },
+  {
+    "id": "S23",
+    "tool": "standard",
+    "input": "10^400",
+    "error": "OVERFLOW"
+  },
+  {
+    "id": "S24",
+    "tool": "standard",
+    "input": "(2 + 3",
+    "error": "INVALID_EXPRESSION"
+  },
+  {
+    "id": "S25",
+    "tool": "standard",
+    "input": "2 +",
+    "error": "INVALID_EXPRESSION"
+  },
+  {
+    "id": "S26",
+    "tool": "standard",
+    "input": "2(3)",
+    "error": "INVALID_EXPRESSION"
+  },
+  {
+    "id": "S27",
+    "tool": "standard",
+    "input": "abc",
+    "error": "INVALID_EXPRESSION"
+  },
+  {
+    "id": "S28",
+    "tool": "standard",
+    "input": "1 / 3",
+    "expected": "0.333333333333"
+  },
+  {
+    "id": "S29",
+    "tool": "standard",
+    "input": "2 / 3",
+    "expected": "0.666666666667"
+  },
+  {
+    "id": "S30",
+    "tool": "standard",
+    "input": "1000000 * 1000000000",
+    "expected": "1e+15"
+  },
+  {
+    "id": "S31",
+    "tool": "standard",
+    "input": "1 / 10000000",
+    "expected": "1e-7"
+  },
+  {
+    "id": "S32",
+    "tool": "standard",
+    "steps": [
+      {
+        "input": "5 + 5",
+        "expected": "10"
+      },
+      {
+        "input": "ans * 2",
+        "expected": "20"
+      }
+    ]
+  },
+  {
+    "id": "S33",
+    "tool": "standard",
+    "steps": [
+      {
+        "input": "7",
+        "expected": "7"
+      },
+      {
+        "input": "10 / 0",
+        "error": "DIV_BY_ZERO"
+      },
+      {
+        "input": "ans",
+        "expected": "7"
+      }
+    ]
+  },
+  {
+    "id": "P1",
+    "tool": "programmer",
+    "input": "convert 255 dec hex",
+    "expected": "FF"
+  },
+  {
+    "id": "P2",
+    "tool": "programmer",
+    "input": "convert FF hex dec",
+    "expected": "255"
+  },
+  {
+    "id": "P3",
+    "tool": "programmer",
+    "input": "convert 11111111 bin dec",
+    "expected": "255"
+  },
+  {
+    "id": "P4",
+    "tool": "programmer",
+    "input": "convert 255 dec bin",
+    "expected": "11111111"
+  },
+  {
+    "id": "P5",
+    "tool": "programmer",
+    "input": "convert 255 dec oct",
+    "expected": "377"
+  },
+  {
+    "id": "P6",
+    "tool": "programmer",
+    "input": "5 AND 3",
+    "expected": {
+      "DEC": "1"
+    }
+  },
+  {
+    "id": "P7",
+    "tool": "programmer",
+    "input": "5 OR 3",
+    "expected": {
+      "DEC": "7"
+    }
+  },
+  {
+    "id": "P8",
+    "tool": "programmer",
+    "input": "5 XOR 3",
+    "expected": {
+      "DEC": "6"
+    }
+  },
+  {
+    "id": "P9",
+    "tool": "programmer",
+    "input": "NOT 5",
+    "expected": {
+      "DEC": "-6",
+      "HEX": "FFFFFFFFFFFFFFFA"
+    }
+  },
+  {
+    "id": "P10",
+    "tool": "programmer",
+    "input": "NOT 0",
+    "expected": {
+      "DEC": "-1"
+    }
+  },
+  {
+    "id": "P11",
+    "tool": "programmer",
+    "input": "1 << 3",
+    "expected": {
+      "DEC": "8"
+    }
+  },
+  {
+    "id": "P12",
+    "tool": "programmer",
+    "input": "1 << 63",
+    "expected": {
+      "DEC": "-9223372036854775808"
+    }
+  },
+  {
+    "id": "P13",
+    "tool": "programmer",
+    "input": "-8 >> 1",
+    "expected": {
+      "DEC": "-4"
+    }
+  },
+  {
+    "id": "P14",
+    "tool": "programmer",
+    "input": "-8 >>> 1",
+    "expected": {
+      "DEC": "9223372036854775804",
+      "HEX": "7FFFFFFFFFFFFFFC"
+    }
+  },
+  {
+    "id": "P15",
+    "tool": "programmer",
+    "input": "1 << 64",
+    "error": "INVALID_SHIFT"
+  },
+  {
+    "id": "P16",
+    "tool": "programmer",
+    "input": "1 << -1",
+    "error": "INVALID_SHIFT"
+  },
+  {
+    "id": "P17",
+    "tool": "programmer",
+    "input": "-1",
+    "expected": {
+      "HEX": "FFFFFFFFFFFFFFFF",
+      "BIN": "1111111111111111111111111111111111111111111111111111111111111111"
+    }
+  },
+  {
+    "id": "P18",
+    "tool": "programmer",
+    "input": "0xFFFFFFFFFFFFFFFF",
+    "expected": {
+      "DEC": "-1"
+    }
+  },
+  {
+    "id": "P19",
+    "tool": "programmer",
+    "input": "-FF",
+    "setup": [
+      "base hex"
+    ],
+    "expected": {
+      "DEC": "-255"
+    }
+  },
+  {
+    "id": "P20",
+    "tool": "programmer",
+    "input": "9223372036854775807",
+    "expected": {
+      "HEX": "7FFFFFFFFFFFFFFF"
+    }
+  },
+  {
+    "id": "P21",
+    "tool": "programmer",
+    "input": "9223372036854775808",
+    "error": "OUT_OF_RANGE"
+  },
+  {
+    "id": "P22",
+    "tool": "programmer",
+    "input": "0x10000000000000000",
+    "error": "OUT_OF_RANGE"
+  },
+  {
+    "id": "P23",
+    "tool": "programmer",
+    "input": "convert 102 bin dec",
+    "error": "INVALID_DIGIT"
+  },
+  {
+    "id": "P24",
+    "tool": "programmer",
+    "input": "convert 8 oct dec",
+    "error": "INVALID_DIGIT"
+  },
+  {
+    "id": "P25",
+    "tool": "programmer",
+    "input": "convert G hex dec",
+    "error": "INVALID_DIGIT"
+  },
+  {
+    "id": "P26",
+    "tool": "programmer",
+    "input": "base xyz",
+    "error": "INVALID_BASE"
+  },
+  {
+    "id": "P27",
+    "tool": "programmer",
+    "input": "0",
+    "expected": {
+      "HEX": "0",
+      "DEC": "0",
+      "OCT": "0",
+      "BIN": "0"
+    }
+  },
+  {
+    "id": "P28",
+    "tool": "programmer",
+    "input": "0xff AND 0x0f",
+    "expected": {
+      "DEC": "15"
+    }
+  },
+  {
+    "id": "C1",
+    "tool": "converter",
+    "input": "convert 1 in cm",
+    "expected": "2.54"
+  },
+  {
+    "id": "C2",
+    "tool": "converter",
+    "input": "convert 1 mi km",
+    "expected": "1.609344"
+  },
+  {
+    "id": "C3",
+    "tool": "converter",
+    "input": "convert 1 km mi",
+    "expected": "0.621371192237"
+  },
+  {
+    "id": "C4",
+    "tool": "converter",
+    "input": "convert 1 lb kg",
+    "expected": "0.45359237"
+  },
+  {
+    "id": "C5",
+    "tool": "converter",
+    "input": "convert 1 kg lb",
+    "expected": "2.20462262185"
+  },
+  {
+    "id": "C6",
+    "tool": "converter",
+    "input": "convert 1 gal l",
+    "expected": "3.785411784"
+  },
+  {
+    "id": "C7",
+    "tool": "converter",
+    "input": "convert 1 ha m2",
+    "expected": "10000"
+  },
+  {
+    "id": "C8",
+    "tool": "converter",
+    "input": "convert 1 ac m2",
+    "expected": "4046.8564224"
+  },
+  {
+    "id": "C9",
+    "tool": "converter",
+    "input": "convert 1 h min",
+    "expected": "60"
+  },
+  {
+    "id": "C10",
+    "tool": "converter",
+    "input": "convert 1 d h",
+    "expected": "24"
+  },
+  {
+    "id": "C11",
+    "tool": "converter",
+    "input": "convert 60 mph kmh",
+    "expected": "96.56064"
+  },
+  {
+    "id": "C12",
+    "tool": "converter",
+    "input": "convert 100 kmh mps",
+    "expected": "27.7777777778"
+  },
+  {
+    "id": "C13",
+    "tool": "converter",
+    "input": "convert 1 kn kmh",
+    "expected": "1.852"
+  },
+  {
+    "id": "C14",
+    "tool": "converter",
+    "input": "convert 1 byte bit",
+    "expected": "8"
+  },
+  {
+    "id": "C15",
+    "tool": "converter",
+    "input": "convert 1 kb byte",
+    "expected": "1000"
+  },
+  {
+    "id": "C16",
+    "tool": "converter",
+    "input": "convert 1 gb mb",
+    "expected": "1000"
+  },
+  {
+    "id": "C17",
+    "tool": "converter",
+    "input": "convert 0 c f",
+    "expected": "32"
+  },
+  {
+    "id": "C18",
+    "tool": "converter",
+    "input": "convert 100 c f",
+    "expected": "212"
+  },
+  {
+    "id": "C19",
+    "tool": "converter",
+    "input": "convert -40 c f",
+    "expected": "-40"
+  },
+  {
+    "id": "C20",
+    "tool": "converter",
+    "input": "convert 32 f c",
+    "expected": "0"
+  },
+  {
+    "id": "C21",
+    "tool": "converter",
+    "input": "convert 273.15 k c",
+    "expected": "0"
+  },
+  {
+    "id": "C22",
+    "tool": "converter",
+    "input": "convert 0 k c",
+    "expected": "-273.15"
+  },
+  {
+    "id": "C23",
+    "tool": "converter",
+    "input": "convert -1 k c",
+    "error": "BELOW_ABSOLUTE_ZERO"
+  },
+  {
+    "id": "C24",
+    "tool": "converter",
+    "input": "convert -300 c f",
+    "error": "BELOW_ABSOLUTE_ZERO"
+  },
+  {
+    "id": "C25",
+    "tool": "converter",
+    "input": "convert 5 m kg",
+    "error": "INCOMPATIBLE_UNITS"
+  },
+  {
+    "id": "C26",
+    "tool": "converter",
+    "input": "convert 5 xyz m",
+    "error": "UNKNOWN_UNIT"
+  },
+  {
+    "id": "C27",
+    "tool": "converter",
+    "input": "convert abc m cm",
+    "error": "INVALID_NUMBER"
+  },
+  {
+    "id": "C28",
+    "tool": "converter",
+    "input": "convert 5 CM M",
+    "expected": "0.05"
+  },
+  {
+    "id": "C29",
+    "tool": "converter",
+    "input": "convert 0 m ft",
+    "expected": "0"
+  },
+  {
+    "id": "C30",
+    "tool": "converter",
+    "input": "convert -5 m cm",
+    "expected": "-500"
+  },
+  {
+    "id": "C31",
+    "tool": "converter",
+    "input": "convert 1 kj j",
+    "expected": "1000"
+  },
+  {
+    "id": "C32",
+    "tool": "converter",
+    "input": "convert 1 kcal kj",
+    "expected": "4.184"
+  },
+  {
+    "id": "C33",
+    "tool": "converter",
+    "input": "convert 1 cal j",
+    "expected": "4.184"
+  },
+  {
+    "id": "C34",
+    "tool": "converter",
+    "input": "convert 1 kcal cal",
+    "expected": "1000"
+  },
+  {
+    "id": "C35",
+    "tool": "converter",
+    "input": "convert 1 kwh wh",
+    "expected": "1000"
+  },
+  {
+    "id": "C36",
+    "tool": "converter",
+    "input": "convert 1 kwh j",
+    "expected": "3600000"
+  },
+  {
+    "id": "C37",
+    "tool": "converter",
+    "input": "convert 1 btu j",
+    "expected": "1055.05585262"
+  },
+  {
+    "id": "C38",
+    "tool": "converter",
+    "input": "convert 1 ftlb j",
+    "expected": "1.35581794833"
+  },
+  {
+    "id": "C39",
+    "tool": "converter",
+    "input": "convert 1 ev j",
+    "expected": "1.602176634e-19"
+  },
+  {
+    "id": "C40",
+    "tool": "converter",
+    "input": "convert 1 kw w",
+    "expected": "1000"
+  },
+  {
+    "id": "C41",
+    "tool": "converter",
+    "input": "convert 1 hp w",
+    "expected": "745.699871582"
+  },
+  {
+    "id": "C42",
+    "tool": "converter",
+    "input": "convert 1 hp kw",
+    "expected": "0.745699871582"
+  },
+  {
+    "id": "C43",
+    "tool": "converter",
+    "input": "convert 1 kw hp",
+    "expected": "1.3410220896"
+  },
+  {
+    "id": "C44",
+    "tool": "converter",
+    "input": "convert 1 btumin w",
+    "expected": "17.5842642103"
+  },
+  {
+    "id": "C45",
+    "tool": "converter",
+    "input": "convert 60 ftlbmin w",
+    "expected": "1.35581794833"
+  },
+  {
+    "id": "C46",
+    "tool": "converter",
+    "input": "convert 1 atm pa",
+    "expected": "101325"
+  },
+  {
+    "id": "C47",
+    "tool": "converter",
+    "input": "convert 1 bar kpa",
+    "expected": "100"
+  },
+  {
+    "id": "C48",
+    "tool": "converter",
+    "input": "convert 1 atm bar",
+    "expected": "1.01325"
+  },
+  {
+    "id": "C49",
+    "tool": "converter",
+    "input": "convert 1 hpa mbar",
+    "expected": "1"
+  },
+  {
+    "id": "C50",
+    "tool": "converter",
+    "input": "convert 1 psi pa",
+    "expected": "6894.75729317"
+  },
+  {
+    "id": "C51",
+    "tool": "converter",
+    "input": "convert 1 atm psi",
+    "expected": "14.6959487755"
+  },
+  {
+    "id": "C52",
+    "tool": "converter",
+    "input": "convert 1 bar psi",
+    "expected": "14.503773773"
+  },
+  {
+    "id": "C53",
+    "tool": "converter",
+    "input": "convert 760 torr atm",
+    "expected": "1"
+  },
+  {
+    "id": "C54",
+    "tool": "converter",
+    "input": "convert 1 torr pa",
+    "expected": "133.322368421"
+  },
+  {
+    "id": "C55",
+    "tool": "converter",
+    "input": "convert 1 mmhg pa",
+    "expected": "133.322387415"
+  },
+  {
+    "id": "C56",
+    "tool": "converter",
+    "input": "convert 180 deg rad",
+    "expected": "3.14159265359"
+  },
+  {
+    "id": "C57",
+    "tool": "converter",
+    "input": "convert 1 rad deg",
+    "expected": "57.2957795131"
+  },
+  {
+    "id": "C58",
+    "tool": "converter",
+    "input": "convert 90 deg grad",
+    "expected": "100"
+  },
+  {
+    "id": "C59",
+    "tool": "converter",
+    "input": "convert 200 grad deg",
+    "expected": "180"
+  },
+  {
+    "id": "C60",
+    "tool": "converter",
+    "input": "convert 1 turn deg",
+    "expected": "360"
+  },
+  {
+    "id": "C61",
+    "tool": "converter",
+    "input": "convert 1 turn rad",
+    "expected": "6.28318530718"
+  },
+  {
+    "id": "C62",
+    "tool": "converter",
+    "input": "convert 1 deg arcmin",
+    "expected": "60"
+  },
+  {
+    "id": "C63",
+    "tool": "converter",
+    "input": "convert 1 arcmin arcsec",
+    "expected": "60"
+  },
+  {
+    "id": "C64",
+    "tool": "converter",
+    "input": "convert -90 deg rad",
+    "expected": "-1.57079632679"
+  },
+  {
+    "id": "C65",
+    "tool": "converter",
+    "input": "convert 0 deg rad",
+    "expected": "0"
+  },
+  {
+    "id": "C66",
+    "tool": "converter",
+    "input": "convert 1 j w",
+    "error": "INCOMPATIBLE_UNITS"
+  },
+  {
+    "id": "C67",
+    "tool": "converter",
+    "input": "convert 1 psi deg",
+    "error": "INCOMPATIBLE_UNITS"
+  },
+  {
+    "id": "C68",
+    "tool": "converter",
+    "input": "convert 5 pascal pa",
+    "error": "UNKNOWN_UNIT"
+  },
+  {
+    "id": "C69",
+    "tool": "converter",
+    "input": "convert 1 KWH J",
+    "expected": "3600000"
+  },
+  {
+    "id": "C70",
+    "tool": "converter",
+    "input": "convert 1 nm m",
+    "expected": "1e-9"
+  },
+  {
+    "id": "C71",
+    "tool": "converter",
+    "input": "convert 1 um nm",
+    "expected": "1000"
+  },
+  {
+    "id": "C72",
+    "tool": "converter",
+    "input": "convert 1 nmi m",
+    "expected": "1852"
+  },
+  {
+    "id": "C73",
+    "tool": "converter",
+    "input": "convert 1 nmi km",
+    "expected": "1.852"
+  },
+  {
+    "id": "C74",
+    "tool": "converter",
+    "input": "convert 1 au km",
+    "expected": "149597870.7"
+  },
+  {
+    "id": "C75",
+    "tool": "converter",
+    "input": "convert 1 ly km",
+    "expected": "9460730472580"
+  },
+  {
+    "id": "C76",
+    "tool": "converter",
+    "input": "convert 1 ang nm",
+    "expected": "0.1"
+  },
+  {
+    "id": "C77",
+    "tool": "converter",
+    "input": "convert 1 pm ang",
+    "expected": "0.01"
+  },
+  {
+    "id": "C78",
+    "tool": "converter",
+    "input": "convert 1 ct mg",
+    "expected": "200"
+  },
+  {
+    "id": "C79",
+    "tool": "converter",
+    "input": "convert 1 st lb",
+    "expected": "14"
+  },
+  {
+    "id": "C80",
+    "tool": "converter",
+    "input": "convert 1 ton lb",
+    "expected": "2000"
+  },
+  {
+    "id": "C81",
+    "tool": "converter",
+    "input": "convert 1 lton lb",
+    "expected": "2240"
+  },
+  {
+    "id": "C82",
+    "tool": "converter",
+    "input": "convert 1 gr mg",
+    "expected": "64.79891"
+  },
+  {
+    "id": "C83",
+    "tool": "converter",
+    "input": "convert 1 mg ug",
+    "expected": "1000"
+  },
+  {
+    "id": "C84",
+    "tool": "converter",
+    "input": "convert 1 cm3 ml",
+    "expected": "1"
+  },
+  {
+    "id": "C85",
+    "tool": "converter",
+    "input": "convert 1 ft3 l",
+    "expected": "28.316846592"
+  },
+  {
+    "id": "C86",
+    "tool": "converter",
+    "input": "convert 1 in3 ml",
+    "expected": "16.387064"
+  },
+  {
+    "id": "C87",
+    "tool": "converter",
+    "input": "convert 1 yd3 ft3",
+    "expected": "27"
+  },
+  {
+    "id": "C88",
+    "tool": "converter",
+    "input": "convert 1 impgal l",
+    "expected": "4.54609"
+  },
+  {
+    "id": "C89",
+    "tool": "converter",
+    "input": "convert 1 impgal gal",
+    "expected": "1.2009499255"
+  },
+  {
+    "id": "C90",
+    "tool": "converter",
+    "input": "convert 1 impqt impfloz",
+    "expected": "40"
+  },
+  {
+    "id": "C91",
+    "tool": "converter",
+    "input": "convert 1 ms us",
+    "expected": "1000"
+  },
+  {
+    "id": "C92",
+    "tool": "converter",
+    "input": "convert 1 us ns",
+    "expected": "1000"
+  },
+  {
+    "id": "C93",
+    "tool": "converter",
+    "input": "convert 1 nibble bit",
+    "expected": "4"
+  },
+  {
+    "id": "C94",
+    "tool": "converter",
+    "input": "convert 1 byte nibble",
+    "expected": "2"
+  },
+  {
+    "id": "C95",
+    "tool": "converter",
+    "input": "convert 1 mbit kbit",
+    "expected": "1000"
+  },
+  {
+    "id": "C96",
+    "tool": "converter",
+    "input": "convert 8 mbit mb",
+    "expected": "1"
+  },
+  {
+    "id": "C97",
+    "tool": "converter",
+    "input": "convert 1 eb pb",
+    "expected": "1000"
+  },
+  {
+    "id": "C98",
+    "tool": "converter",
+    "input": "convert 1 gw kw",
+    "expected": "1000000"
+  },
+  {
+    "id": "C99",
+    "tool": "converter",
+    "input": "convert 1 ps w",
+    "expected": "735.49875"
+  },
+  {
+    "id": "C100",
+    "tool": "converter",
+    "input": "convert 1 btuh w",
+    "expected": "0.293071070172"
+  },
+  {
+    "id": "C101",
+    "tool": "converter",
+    "input": "convert 1 mpa kpa",
+    "expected": "1000"
+  },
+  {
+    "id": "C102",
+    "tool": "converter",
+    "input": "convert 1 inhg pa",
+    "expected": "3386.38864034"
+  },
+  {
+    "id": "C103",
+    "tool": "converter",
+    "input": "convert 1 inhg mmhg",
+    "expected": "25.4"
+  },
+  {
+    "id": "C104",
+    "tool": "converter",
+    "input": "convert 1 erg j",
+    "expected": "1e-7"
+  },
+  {
+    "id": "C105",
+    "tool": "converter",
+    "input": "convert 1 km all",
+    "expectedContains": [
+      "m: 1000",
+      "mi: 0.621371192237"
+    ]
+  },
+  {
+    "id": "C106",
+    "tool": "converter",
+    "input": "convert 0 c all",
+    "expectedContains": [
+      "c: 0",
+      "f: 32",
+      "k: 273.15"
+    ]
+  },
+  {
+    "id": "C107",
+    "tool": "converter",
+    "input": "convert 1 xyz all",
+    "error": "UNKNOWN_UNIT"
+  },
+  {
+    "id": "C108",
+    "tool": "converter",
+    "input": "convert -1 k all",
+    "error": "BELOW_ABSOLUTE_ZERO"
+  },
+  {
+    "id": "C109",
+    "tool": "converter",
+    "input": "convert 1 m s",
+    "error": "INCOMPATIBLE_UNITS"
+  }
+]

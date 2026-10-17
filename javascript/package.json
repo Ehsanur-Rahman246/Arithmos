@@ -1,0 +1,21 @@
+{
+  "name": "arithmos-js",
+  "version": "0.2.0",
+  "description": "Arithmos Release 1 — Core CLI (Standard Calculator, Programmer Calculator, Unit Converter) in JavaScript. Reference implementation.",
+  "type": "module",
+  "bin": {
+    "arithmos": "./bin/arithmos.js"
+  },
+  "scripts": {
+    "start": "node bin/arithmos.js",
+    "test": "node --test",
+    "test:std": "node --test test/standard.test.js",
+    "test:prog": "node --test test/programmer.test.js",
+    "test:conv": "node --test test/converter.test.js"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "license": "MIT",
+  "private": true
+}

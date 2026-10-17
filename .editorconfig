@@ -1,0 +1,37 @@
+root = true
+
+[*]
+charset = utf-8
+end_of_line = lf
+insert_final_newline = true
+trim_trailing_whitespace = true
+indent_style = space
+indent_size = 2
+
+# Markdown: trailing spaces can be intentional line breaks
+[*.md]
+trim_trailing_whitespace = false
+
+# 4-space languages
+[*.{py,c,h,cpp,hpp,cc,cs,fs,vb,java,kt,scala,groovy,php,pl,swift,m,mm,zig,nim,rs,jl,r,R,sol,cls,trigger,abap,adb,ads}]
+indent_size = 4
+
+# 2-space languages
+[*.{js,mjs,cjs,ts,json,yml,yaml,html,css,rb,ex,exs,erl,hrl,hs,ml,mli,clj,cljs,lisp,lsp,lua,dart,sh,bash,ps1,psm1,vba,bas}]
+indent_size = 2
+
+# Tabs required or conventional
+[Makefile]
+indent_style = tab
+
+[*.go]
+indent_style = tab
+
+# Windows scripts
+[*.{bat,cmd}]
+end_of_line = crlf
+
+# Fixed-column languages: don't reflow or strip aggressively
+[*.{cob,cbl,cpy,f,for,f77,asm,s}]
+trim_trailing_whitespace = false
+indent_style = space
