@@ -1,13 +1,8 @@
-// Arrow-key list selector (the "pick a framework" style of prompt).
-// No dependencies. The key handling is a pure function so it can be tested
-// without a terminal; selectFromList() is the thin terminal wrapper around it.
-import { emitKeypressEvents } from "node:readline";
-
-const HINT = {
-  esc: (text) => `Esc ${text}`,
-  back: (text) => `b ${text}`,
-  quit: (text) => `q ${text}`,
-};
+// Arrow-key list selector. The key handling and drawing are plain functions with no
+// terminal code in them, so they can be tested; selectFromList() is the thin
+// terminal wrapper around them.
+import { emitKeypressEvents } from 'node:readline';
+import { PLAIN } from './style.js';
 
 export function initialState(count, size = 10) {
   return { index: 0, offset: 0, count, size: Math.min(size, count) };
@@ -20,55 +15,43 @@ function moveTo(state, index) {
   return { ...state, index, offset };
 }
 
-// extras = which extra keys are active, e.g. { esc: 'categories', back: 'main menu', quit: 'quit' }
-// Returns { state, done? } where done is 'selected' | 'esc' | 'back' | 'quit' | 'abort'.
-export function applyKey(state, key, extras = {}) {
+// Returns { state, done? }. done: 'selected' | 'back' | 'quit' | 'abort'.
+// Esc and b mean "back" when it is on offer; q means "quit" when it is on offer.
+export function applyKey(state, key, { back = false, quit = false } = {}) {
   const name = key?.name;
-  if (key?.ctrl)
-    return name === "c" || name === "d" ? { state, done: "abort" } : { state };
+  if (key?.ctrl) return name === 'c' || name === 'd' ? { state, done: 'abort' } : { state };
   const { index, count } = state;
   switch (name) {
-    case "up":
-      return { state: moveTo(state, (index - 1 + count) % count) };
-    case "down":
-      return { state: moveTo(state, (index + 1) % count) };
-    case "home":
-      return { state: moveTo(state, 0) };
-    case "end":
-      return { state: moveTo(state, count - 1) };
-    case "return":
-    case "enter":
-      return { state, done: "selected" };
-    case "escape":
-      return extras.esc ? { state, done: "esc" } : { state };
-    case "b":
-      return extras.back ? { state, done: "back" } : { state };
-    case "q":
-      return extras.quit ? { state, done: "quit" } : { state };
-    default:
-      return { state };
+    case 'up': return { state: moveTo(state, (index - 1 + count) % count) };
+    case 'down': return { state: moveTo(state, (index + 1) % count) };
+    case 'home': return { state: moveTo(state, 0) };
+    case 'end': return { state: moveTo(state, count - 1) };
+    case 'return':
+    case 'enter': return { state, done: 'selected' };
+    case 'escape':
+    case 'b': return back ? { state, done: 'back' } : { state };
+    case 'q': return quit ? { state, done: 'quit' } : { state };
+    default: return { state };
   }
 }
 
-export function renderList(title, labels, state, extras = {}) {
-  const lines = [title];
+export function renderList(title, labels, state, { style = PLAIN, back = false, quit = false } = {}) {
+  const width = Math.max(...labels.map((label) => label.length));
+  const lines = [style.bold(title)];
   for (let i = state.offset; i < state.offset + state.size; i += 1) {
-    lines.push(`${i === state.index ? "❯" : " "} ${labels[i]}`);
+    // the whole selected row is highlighted
+    lines.push(i === state.index ? style.inverse(` ❯ ${labels[i].padEnd(width)} `) : `   ${labels[i]}`);
   }
-  if (state.count > state.size)
-    lines.push(`  (${state.index + 1} of ${state.count})`);
-  const keys = ["↑↓ move", "Enter select"];
-  for (const k of ["esc", "back", "quit"]) {
-    if (!extras[k]) continue;
-    if (k === "back" && extras.back === extras.esc) continue; // same destination: one hint is enough
-    keys.push(HINT[k](extras[k]));
-  }
-  lines.push(`  ${keys.join(" · ")}`);
+  if (state.count > state.size) lines.push(style.dim(`   ${state.index + 1} of ${state.count}`));
+  const hint = ['↑↓ move', 'Enter select'];
+  if (back) hint.push('Esc back');
+  if (quit) hint.push('q quit');
+  lines.push(style.dim(`   ${hint.join(' · ')}`));
   return lines;
 }
 
-// Resolves to { status: 'selected', index } or { status: 'esc' | 'back' | 'quit' | 'abort' }.
-export function selectFromList({ input, output, title, labels, extras = {} }) {
+// Resolves to { status: 'selected', index } or { status: 'back' | 'quit' | 'abort' }.
+export function selectFromList({ input, output, title, labels, style = PLAIN, back = false, quit = false }) {
   return new Promise((resolve) => {
     emitKeypressEvents(input);
     const wasRaw = Boolean(input.isRaw);
@@ -77,39 +60,37 @@ export function selectFromList({ input, output, title, labels, extras = {} }) {
 
     let state = initialState(labels.length);
     let drawn = 0;
-    const erase = () => {
-      if (drawn) output.write(`\x1b[${drawn}A\x1b[0J`);
-      drawn = 0;
-    };
+    const erase = () => { if (drawn) output.write(`\x1b[${drawn}A\x1b[0J`); drawn = 0; };
     const draw = () => {
       erase();
-      const lines = renderList(title, labels, state, extras);
-      output.write(`${lines.join("\n")}\n`);
+      const lines = renderList(title, labels, state, { style, back, quit });
+      output.write(`${lines.join('\n')}\n`);
       drawn = lines.length;
     };
 
     const finish = (status) => {
-      input.off("keypress", onKey);
+      input.off('keypress', onKey);
       input.setRawMode(wasRaw);
       input.pause();
       erase();
-      if (status === "selected")
-        output.write(`✔ ${title}: ${labels[state.index]}\n`);
-      output.write("\x1b[?25h");
-      resolve(
-        status === "selected" ? { status, index: state.index } : { status },
-      );
+      if (status === 'selected') output.write(`${style.green('✔')} ${title}: ${labels[state.index]}\n`);
+      output.write('\x1b[?25h');
+      resolve(status === 'selected' ? { status, index: state.index } : { status });
     };
 
     function onKey(_str, key) {
-      const result = applyKey(state, key, extras);
-      state = result.state;
-      if (result.done) finish(result.done);
-      else draw();
+      const result = applyKey(state, key, { back, quit });
+      if (result.done) {
+        state = result.state;
+        finish(result.done);
+      } else if (result.state !== state) {
+        state = result.state;
+        draw();
+      }
     }
 
-    output.write("\x1b[?25l");
+    output.write('\x1b[?25l'); // hide the cursor while choosing
     draw();
-    input.on("keypress", onKey);
+    input.on('keypress', onKey);
   });
 }

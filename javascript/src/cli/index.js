@@ -1,8 +1,10 @@
 // CLI entry: one-shot arguments (`arithmos convert 100 cm in`) when given,
 // otherwise the interactive main menu (spec 2.1).
 // Exit status: 0 success, 1 the line produced an Error [CODE], 2 bad usage.
-import { ArithmosError, formatError } from '../shared/index.js';
+import { ArithmosError } from '../shared/index.js';
 import { createStdIO } from './io.js';
+import { printError } from './repl.js';
+import { PLAIN } from './style.js';
 import { runMenu } from './menu.js';
 import { standardTool } from './tools/standard.js';
 import { programmerTool } from './tools/programmer.js';
@@ -37,7 +39,7 @@ export async function main(argv, io) {
     return 0;
   }
 
-  const out = io ?? { write: (t) => process.stdout.write(t) };
+  const out = io ?? { write: (t) => process.stdout.write(t), style: PLAIN };
   const head = args[0].toLowerCase();
   if (head === '-h' || head === '--help' || head === 'help') { out.write(`${USAGE}\n`); return 0; }
   const entry = Object.hasOwn(ONE_SHOT, head) ? ONE_SHOT[head] : null;
@@ -49,7 +51,7 @@ export async function main(argv, io) {
     if (text) out.write(`${text}\n`);
     return 0;
   } catch (err) {
-    if (err instanceof ArithmosError) { out.write(`${formatError(err)}\n`); return 1; }
+    if (err instanceof ArithmosError) { printError(out, err); return 1; }
     throw err;
   }
 }

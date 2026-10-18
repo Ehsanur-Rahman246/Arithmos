@@ -5,7 +5,7 @@
 //   { type: 'convert', text: string }
 //   { type: 'base',    base: string }
 import { fail } from '../shared/index.js';
-import { parseLiteral, parseShiftCount, resolveBase } from './parse.js';
+import { BASES, parseLiteral, parseShiftCount, resolveBase } from './parse.js';
 import { operations } from './operations.js';
 import { formatAllBases, formatInBase } from './format.js';
 
@@ -29,11 +29,15 @@ export function createProgrammerSession() {
       return { type: 'base', base: inputBase };
     }
 
-    if (head === 'convert') {
-      if (parts.length !== 4) fail('UNKNOWN_COMMAND', 'Usage: convert <value> <from> <to>');
-      const from = resolveBase(parts[2]);
-      const to = resolveBase(parts[3]);
-      return { type: 'convert', text: formatInBase(parseLiteral(parts[1], from), to) };
+    // `convert 255 dec hex`, or just `255 dec hex` (the word convert is optional).
+    const looksLikeConvert = parts.length === 3
+      && Object.hasOwn(BASES, parts[1].toLowerCase()) && Object.hasOwn(BASES, parts[2].toLowerCase());
+    if (head === 'convert' || looksLikeConvert) {
+      const args = head === 'convert' ? parts.slice(1) : parts;
+      if (args.length !== 3) fail('UNKNOWN_COMMAND', 'Usage: convert <value> <from> <to>');
+      const from = resolveBase(args[1]);
+      const to = resolveBase(args[2]);
+      return { type: 'convert', text: formatInBase(parseLiteral(args[0], from), to) };
     }
 
     if (head === 'not') {
