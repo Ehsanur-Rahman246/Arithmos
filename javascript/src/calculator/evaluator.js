@@ -3,7 +3,7 @@
 import { fail } from '../shared/index.js';
 
 function guard(x) {
-  if (Number.isNaN(x)) fail('DOMAIN_ERROR', 'Result is not a number');
+  if (Number.isNaN(x)) fail('DOMAIN_ERROR', 'The result is not a number');
   if (!Number.isFinite(x)) fail('OVERFLOW', 'The result is too large');
   return x;
 }

@@ -6,6 +6,14 @@ Each version is tagged `vX.Y.Z`.
 
 ## [Unreleased]
 
+## [0.3.3] — 2026-10-20
+
+### Added
+- `scripts/build-error-messages.py` generates `docs/error-messages.md` (code, situation, wording) from the JavaScript and Python engines. `--check` fails if the file is stale or the editions disagree; `--verify` runs both engines against the table.
+
+### Changed
+- JavaScript: the evaluator's NaN safety net now says `The result is not a number`, matching Python and amendment R26.
+
 ## [0.3.2] — 2026-10-19
 
 ### Added
