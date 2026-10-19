@@ -72,8 +72,8 @@ def run_guided_converter(io) -> str:
 
 def _convert_values(io, session, name, source, target) -> str:
     io.write(f"\n{io.style.bold(f'{name}: {source} → {target}')}\n")
-    io.write(io.style.dim("Type a number.   (help · back · quit)") + "\n")
-    prompt = f"{source} → {target}> "
+    io.write(io.style.dim("Type a number or a full command.   (help · back · quit)") + "\n")
+    prompt = f"converter ({source} → {target})> "
     while True:
         raw = io.read_line(prompt)
         if raw is None:
@@ -89,7 +89,7 @@ def _convert_values(io, session, name, source, target) -> str:
             io.write(HELP + "\n")
             continue
         try:
-            if " " in line:  # a full one-line command
+            if " " in line or word == "list":  # a full one-line command
                 io.write(session.run(line) + "\n")
             else:
                 io.write(f"{line} {source} = {session.run(f'convert {line} {source} {target}')} {target}\n")

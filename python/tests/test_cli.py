@@ -52,7 +52,7 @@ class TestMenuAndTools(unittest.TestCase):
         self.assertIn("(help · back · quit)", session(["1", "quit"])[1])
         self.assertIn("Try: 2 + 3 * 4", session(["1", "quit"])[1])
         self.assertIn("Try: 255    5 AND 3", session(["2", "quit"])[1])
-        self.assertIn("Type a number.", session([*CONVERTER_VALUES, "quit"])[1])
+        self.assertIn("Type a number", session([*CONVERTER_VALUES, "quit"])[1])
 
     def test_help_and_question_mark_print_a_short_command_list(self):
         for flow in (["1"], ["2"], CONVERTER_VALUES):
@@ -142,6 +142,10 @@ class TestGuidedConverter(unittest.TestCase):
         self.assertIn("pm, ang, nm, um, mm, cm, m, km, in, ft, yd, mi, nmi, au, ly\n", out)
         self.assertIn("km: 1\n", out)
         self.assertIn("mi: 0.621371192237\n", out)
+
+    def test_list_works_at_the_values_prompt(self):
+        _, out = session([*CONVERTER_VALUES, "list", "quit"])
+        self.assertIn("length, mass, area", out)
 
     def test_typed_back_and_quit_on_pick_screens(self):
         self.assertEqual(session(["3", "Back", "0"])[1].count(MENU), 2)

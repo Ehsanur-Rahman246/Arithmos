@@ -2,7 +2,6 @@
 // (with fake streams), and pick() on top of it.
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { EventEmitter } from 'node:events';
 import { initialState, applyKey, renderList, selectFromList } from '../src/cli/select.js';
 import { pick } from '../src/cli/pick.js';
 import { PLAIN, Style } from '../src/cli/style.js';
@@ -67,43 +66,52 @@ test('hint line lists only the keys on offer', () => {
   assert.ok(hint({ quit: true }).includes('q quit'));
 });
 
-function fakeTerminal() {
-  const input = new EventEmitter();
-  input.isRaw = false;
-  input.raw = [];
-  input.setRawMode = (v) => { input.raw.push(v); input.isRaw = v; };
-  input.resume = () => {};
-  input.pause = () => {};
+// A fake key reader: press() feeds keys, readKey() is what the selector awaits.
+function fakeKeys() {
+  const queue = [];
+  let waiter = null;
   const chunks = [];
-  return { input, output: { write: (t) => chunks.push(t) }, text: () => chunks.join('') };
+  return {
+    readKey: () => (queue.length ? Promise.resolve(queue.shift()) : new Promise((resolve) => { waiter = resolve; })),
+    press(name, extra = {}) {
+      const k = { name, ...extra };
+      if (waiter) { const w = waiter; waiter = null; w(k); } else queue.push(k);
+    },
+    output: { write: (t) => chunks.push(t) },
+    text: () => chunks.join(''),
+  };
 }
-const key = (input, name, extra = {}) => input.emit('keypress', undefined, { name, ...extra });
 
-test('selectFromList: keys in, index out, raw mode restored, summary left behind', async () => {
-  const t = fakeTerminal();
-  const p = selectFromList({ input: t.input, output: t.output, title: 'Pick', labels: ['a', 'b', 'c'], back: true });
-  key(t.input, 'down'); key(t.input, 'down'); key(t.input, 'return');
+test('selectFromList: keys in, index out, summary left behind, cursor restored', async () => {
+  const t = fakeKeys();
+  const p = selectFromList({ readKey: t.readKey, output: t.output, title: 'Pick', labels: ['a', 'b', 'c'], back: true });
+  t.press('down'); t.press('down'); t.press('return');
   assert.deepEqual(await p, { status: 'selected', index: 2 });
-  assert.deepEqual(t.input.raw, [true, false]);
   assert.ok(t.text().includes('✔ Pick: c'));
   assert.ok(t.text().startsWith('\x1b[?25l') && t.text().endsWith('\x1b[?25h')); // cursor hidden, then restored
-  assert.equal(t.input.listenerCount('keypress'), 0);
 });
 
 test('selectFromList: Esc, ignored keys, Ctrl-C', async () => {
-  let t = fakeTerminal();
-  let p = selectFromList({ input: t.input, output: t.output, title: 'Pick', labels: ['a', 'b'], back: true });
-  key(t.input, 'escape');
+  let t = fakeKeys();
+  let p = selectFromList({ readKey: t.readKey, output: t.output, title: 'Pick', labels: ['a', 'b'], back: true });
+  t.press('escape');
   assert.deepEqual(await p, { status: 'back' });
-  t = fakeTerminal();
-  p = selectFromList({ input: t.input, output: t.output, title: 'Pick', labels: ['a', 'b'] });
-  key(t.input, 'escape'); // not on offer: ignored
-  key(t.input, 'return');
+  t = fakeKeys();
+  p = selectFromList({ readKey: t.readKey, output: t.output, title: 'Pick', labels: ['a', 'b'] });
+  t.press('escape'); // not on offer: ignored
+  t.press('return');
   assert.deepEqual(await p, { status: 'selected', index: 0 });
-  t = fakeTerminal();
-  p = selectFromList({ input: t.input, output: t.output, title: 'Pick', labels: ['a', 'b'] });
-  key(t.input, 'c', { ctrl: true });
+  t = fakeKeys();
+  p = selectFromList({ readKey: t.readKey, output: t.output, title: 'Pick', labels: ['a', 'b'] });
+  t.press('c', { ctrl: true });
   assert.deepEqual(await p, { status: 'abort' });
+});
+
+test('selectFromList: keys pressed before the screen is ready are not lost', async () => {
+  const t = fakeKeys();
+  t.press('down'); t.press('return'); // queued before selectFromList is even called
+  assert.deepEqual(await selectFromList({ readKey: t.readKey, output: t.output, title: 'Pick', labels: ['a', 'b'] }),
+    { status: 'selected', index: 1 });
 });
 
 test('pick() uses io.select when it exists and maps results', async () => {

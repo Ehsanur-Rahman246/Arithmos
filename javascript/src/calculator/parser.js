@@ -67,13 +67,13 @@ export function parse(tokens) {
 
   function primary() {
     const t = next();
-    if (!t) bad('Unexpected end of expression');
+    if (!t) bad('The expression ends too early');
     if (t.type === 'num') return { type: 'num', value: t.value };
     if (t.type === 'ident') {
       if (t.value === 'ans') return { type: 'ans' };
       if (t.value === 'sqrt' || t.value === 'abs') {
         const open = next();
-        if (!open || open.type !== 'lparen') bad(`${t.value} needs parentheses`);
+        if (!open || open.type !== 'lparen') bad(`${t.value} needs parentheses, like ${t.value}(4)`);
         const arg = expression();
         const close = next();
         if (!close || close.type !== 'rparen') bad('Missing closing parenthesis');
@@ -87,11 +87,11 @@ export function parse(tokens) {
       if (!close || close.type !== 'rparen') bad('Missing closing parenthesis');
       return { type: 'group', arg: inner };
     }
-    return bad('Unexpected token');
+    return bad('Unexpected symbol');
   }
 
-  if (tokens.length === 0) bad('Empty expression');
+  if (tokens.length === 0) bad('Nothing to calculate');
   const ast = expression();
-  if (pos < tokens.length) bad('Unexpected token');
+  if (pos < tokens.length) bad('Unexpected symbol');
   return ast;
 }

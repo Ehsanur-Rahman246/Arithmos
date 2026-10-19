@@ -7,7 +7,7 @@ const toCelsius = { c: (v) => v, f: (v) => ((v - 32) * 5) / 9, k: (v) => v - 273
 const fromCelsius = { c: (v) => v, f: (v) => (v * 9) / 5 + 32, k: (v) => v + 273.15 };
 
 export function checkTemperature(value, unit) {
-  if (value < ABS_ZERO[unit]) fail('BELOW_ABSOLUTE_ZERO', 'Temperature is below absolute zero');
+  if (value < ABS_ZERO[unit]) fail('BELOW_ABSOLUTE_ZERO', 'That is below absolute zero');
 }
 
 export function convertTemperature(value, from, to) {

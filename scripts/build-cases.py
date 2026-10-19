@@ -26,7 +26,7 @@ for line in open(sys.argv[1], encoding="utf-8"):
     else:
         parts = bt(inp)
         case["input"] = parts[0]
-        if cid == "P19":
+        if cid[0] == "P" and len(parts) > 1:
             case["setup"] = [parts[1]]
         ticks = bt(exp)
         if len(ticks) == 1 and ticks[0] in ERRORS:
@@ -42,5 +42,10 @@ for line in open(sys.argv[1], encoding="utf-8"):
             case["expected"] = ticks[0]
     cases.append(case)
 
+counts = {t: sum(c["tool"] == t for c in cases) for t in TOOL.values()}
+assert counts == {"standard": 33, "programmer": 32, "converter": 110}, counts
+assert len({c["id"] for c in cases}) == len(cases), "duplicate case ids"
+outcome = lambda x: sum(k in x for k in ("expected", "expectedContains", "error"))
+assert all(outcome(s) == 1 for c in cases for s in (c.get("steps") or [c])), "each case or step needs exactly one outcome"
 json.dump(cases, open(sys.argv[2], "w", encoding="utf-8"), indent=2, ensure_ascii=False)
 print(len(cases), "cases:", {t: sum(c["tool"] == t for c in cases) for t in TOOL.values()})

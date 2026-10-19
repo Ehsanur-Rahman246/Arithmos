@@ -4,14 +4,14 @@ import { fail } from '../shared/index.js';
 
 function guard(x) {
   if (Number.isNaN(x)) fail('DOMAIN_ERROR', 'Result is not a number');
-  if (!Number.isFinite(x)) fail('OVERFLOW', 'Result is too large to represent');
+  if (!Number.isFinite(x)) fail('OVERFLOW', 'The result is too large');
   return x;
 }
 
 function power(base, exp) {
   if (base === 0 && exp === 0) fail('UNDEFINED', '0^0 is undefined');
   if (base === 0 && exp < 0) fail('DIV_BY_ZERO', 'Zero cannot be raised to a negative power');
-  if (base < 0 && !Number.isInteger(exp)) fail('DOMAIN_ERROR', 'Negative base with fractional exponent');
+  if (base < 0 && !Number.isInteger(exp)) fail('DOMAIN_ERROR', 'A negative number cannot have a fractional power');
   return guard(Math.pow(base, exp));
 }
 
@@ -29,7 +29,7 @@ export function evaluateAst(ast, context = { ans: 0 }) {
       case 'call': {
         const v = ev(n.arg);
         if (n.fn === 'sqrt') {
-          if (v < 0) fail('DOMAIN_ERROR', 'Square root of a negative number');
+          if (v < 0) fail('DOMAIN_ERROR', 'Cannot take the square root of a negative number');
           return Math.sqrt(v);
         }
         return Math.abs(v);

@@ -14,7 +14,7 @@ const DIGITS = '0123456789abcdef';
 
 export function resolveBase(name) {
   const key = String(name ?? '').toLowerCase();
-  if (!Object.hasOwn(BASES, key)) fail('INVALID_BASE', `Unknown base '${name}'`);
+  if (!Object.hasOwn(BASES, key)) fail('INVALID_BASE', `'${name}' is not a base. Use bin, oct, dec or hex`);
   return key;
 }
 
@@ -34,29 +34,29 @@ export function parseLiteral(text, inputBase = 'dec') {
   const { radix, prefix } = BASES[base];
   const valid = DIGITS.slice(0, radix);
   for (const ch of s.toLowerCase()) {
-    if (!valid.includes(ch)) fail('INVALID_DIGIT', `'${ch.toUpperCase()}' is not a valid ${base} digit`);
+    if (!valid.includes(ch)) fail('INVALID_DIGIT', `'${ch.toUpperCase()}' is not a ${base} digit`);
   }
 
   const magnitude = BigInt(radix === 10 ? s : `0${prefix}${s}`);
 
   if (negative) {
-    if (magnitude > -INT64_MIN) fail('OUT_OF_RANGE', 'Value is outside the 64-bit signed range');
+    if (magnitude > -INT64_MIN) fail('OUT_OF_RANGE', 'That number does not fit in 64 bits');
     return -magnitude;
   }
   if (radix === 10) {
-    if (magnitude > INT64_MAX) fail('OUT_OF_RANGE', 'Value is outside the 64-bit signed range');
+    if (magnitude > INT64_MAX) fail('OUT_OF_RANGE', 'That number does not fit in 64 bits');
     return magnitude;
   }
   // bin/oct/hex: raw bit pattern, up to 64 bits, reinterpreted as signed.
-  if (magnitude >= 2n ** 64n) fail('OUT_OF_RANGE', 'Value needs more than 64 bits');
+  if (magnitude >= 2n ** 64n) fail('OUT_OF_RANGE', 'That number needs more than 64 bits');
   return toInt64(magnitude);
 }
 
 // Shift counts are always plain decimal integers 0–63 (spec 4.5).
 export function parseShiftCount(text) {
   const s = String(text).trim();
-  if (!/^\d+$/.test(s)) fail('INVALID_SHIFT', 'Shift count must be a decimal integer from 0 to 63');
+  if (!/^\d+$/.test(s)) fail('INVALID_SHIFT', 'A shift count must be a whole number from 0 to 63');
   const n = BigInt(s);
-  if (n > 63n) fail('INVALID_SHIFT', 'Shift count must be from 0 to 63');
+  if (n > 63n) fail('INVALID_SHIFT', 'A shift count must be a whole number from 0 to 63');
   return n;
 }

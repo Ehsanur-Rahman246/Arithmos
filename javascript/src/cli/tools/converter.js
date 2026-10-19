@@ -63,10 +63,10 @@ export async function runGuidedConverter(io) {
 async function convertValues(io, session, name, source, target) {
   const style = io.style;
   io.write(`\n${style.bold(`${name}: ${source} → ${target}`)}\n`);
-  io.write(`${style.dim('Type a number.   (help · back · quit)')}\n`);
-  const prompt = `${source} → ${target}> `;
+  io.write(`${style.dim('Type a number or a full command.   (help · back · quit)')}\n`);
+  const prompt = `converter (${source} → ${target})> `;
   for (;;) {
-    const raw = await io.readLine(prompt);
+    const raw = await io.readLine(prompt, { escBack: true });
     if (raw === null) { io.write('\n'); return 'eof'; }
     const line = raw.trim();
     if (line === '') continue;
@@ -74,7 +74,7 @@ async function convertValues(io, session, name, source, target) {
     if (word === 'back' || word === 'quit') return word;
     if (word === 'help' || word === '?') { io.write(`${HELP}\n`); continue; }
     try {
-      if (/\s/.test(line)) io.write(`${session.run(line)}\n`); // a full one-line command
+      if (/\s/.test(line) || word === 'list') io.write(`${session.run(line)}\n`); // a full one-line command
       else io.write(`${line} ${source} = ${session.run(`convert ${line} ${source} ${target}`)} ${target}\n`);
     } catch (err) {
       printError(io, err);

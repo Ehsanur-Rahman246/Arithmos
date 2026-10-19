@@ -48,7 +48,7 @@ test('every tool says what to type', async () => {
   const std = (await session(['1', 'quit'])).out;
   assert.ok(std.includes('(help · back · quit)') && std.includes('Try: 2 + 3 * 4'));
   assert.ok((await session(['2', 'quit'])).out.includes('Try: 255    5 AND 3'));
-  assert.ok((await session([...CONVERTER_VALUES, 'quit'])).out.includes('Type a number.'));
+  assert.ok((await session([...CONVERTER_VALUES, 'quit'])).out.includes('Type a number'));
 });
 
 test('help and ? print a short command list', async () => {
@@ -147,6 +147,11 @@ test('converter: typed back and quit on the pick screens', async () => {
   assert.equal(count((await session(['3', 'Back', '0'])).out, MENU), 2);
   assert.equal(count((await session(['3', '1', 'Back', 'Back', '0'])).out, MENU), 2);
   assert.equal(count((await session(['3', '1', '1', 'QUIT', '0'])).out, MENU), 1);
+});
+
+test('converter: list works at the values prompt', async () => {
+  const { out } = await session([...CONVERTER_VALUES, 'list', 'quit']);
+  assert.ok(out.includes('length, mass, area'));
 });
 
 test('converter: a bad unit pick is an error and asks again', async () => {

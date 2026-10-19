@@ -8,28 +8,28 @@ const VALUE_RE = /^[+-]?(?:\d+\.?\d*|\.\d+)$/;
 function parseValue(text) {
   if (!VALUE_RE.test(text)) fail('INVALID_NUMBER', `'${text}' is not a number`);
   const n = Number(text);
-  if (!Number.isFinite(n)) fail('OVERFLOW', 'Value is too large');
+  if (!Number.isFinite(n)) fail('OVERFLOW', 'That number is too large');
   return n;
 }
 
 export function createConverterSession() {
   function run(line) {
     const parts = String(line).trim().split(/\s+/).filter(Boolean);
-    if (parts.length === 0) fail('UNKNOWN_COMMAND', 'Empty command');
+    if (parts.length === 0) fail('UNKNOWN_COMMAND', 'Type a value, e.g. 100');
     const head = parts[0].toLowerCase();
 
     if (head === 'list') {
       if (parts.length === 1) return listCategories().join(', ');
       if (parts.length === 2) return listUnits(parts[1]).join(', ');
-      return fail('UNKNOWN_COMMAND', 'Usage: list [category]');
+      return fail('UNKNOWN_COMMAND', 'Use: list  or  list <category>');
     }
 
     let args;
     if (head === 'convert') {
-      if (parts.length !== 4) fail('UNKNOWN_COMMAND', 'Usage: convert <value> <from> <to>');
+      if (parts.length !== 4) fail('UNKNOWN_COMMAND', 'Use: convert <value> <from> <to>');
       args = parts.slice(1);
     } else {
-      if (parts.length !== 3) fail('UNKNOWN_COMMAND', 'Unrecognized command');
+      if (parts.length !== 3) fail('UNKNOWN_COMMAND', 'Not a command. Try: convert 100 cm in');
       args = parts;
     }
     const [valueText, from, to] = args;

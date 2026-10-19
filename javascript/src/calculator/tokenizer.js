@@ -23,7 +23,7 @@ export function tokenize(input) {
     m = IDENT_RE.exec(rest);
     if (m) {
       const word = m[0].toLowerCase();
-      if (!KEYWORDS.has(word)) fail('INVALID_EXPRESSION', `Unknown token '${m[0]}'`);
+      if (!KEYWORDS.has(word)) fail('INVALID_EXPRESSION', `Unknown word '${m[0]}'`);
       tokens.push({ type: 'ident', value: word });
       i += m[0].length;
       continue;

@@ -75,7 +75,8 @@ target/
 .cpcache/
 
 # ===== C# / F# / VB.NET =====
-bin/
+**/bin/Debug/
+**/bin/Release/
 obj/
 *.user
 *.suo

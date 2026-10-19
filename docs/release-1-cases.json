@@ -425,6 +425,40 @@
     }
   },
   {
+    "id": "P29",
+    "tool": "programmer",
+    "input": "255 dec hex",
+    "expected": "FF"
+  },
+  {
+    "id": "P30",
+    "tool": "programmer",
+    "input": "FF hex dec",
+    "expected": "255"
+  },
+  {
+    "id": "P31",
+    "tool": "programmer",
+    "input": "FACE XOR BEEF",
+    "setup": [
+      "base hex"
+    ],
+    "expected": {
+      "HEX": "4421"
+    }
+  },
+  {
+    "id": "P32",
+    "tool": "programmer",
+    "input": "0B1",
+    "setup": [
+      "base hex"
+    ],
+    "expected": {
+      "DEC": "1"
+    }
+  },
+  {
     "id": "C1",
     "tool": "converter",
     "input": "convert 1 in cm",
@@ -1084,5 +1118,11 @@
     "tool": "converter",
     "input": "convert 1 m s",
     "error": "INCOMPATIBLE_UNITS"
+  },
+  {
+    "id": "C110",
+    "tool": "converter",
+    "input": "convert 1 ly pm",
+    "expected": "9.46073047258e+27"
   }
 ]

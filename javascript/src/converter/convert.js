@@ -6,7 +6,7 @@ import { convertTemperature, checkTemperature } from './temperature.js';
 
 function lookup(symbol) {
   const hit = SYMBOL_INDEX.get(String(symbol).toLowerCase());
-  if (!hit) fail('UNKNOWN_UNIT', `Unknown unit '${symbol}'`);
+  if (!hit) fail('UNKNOWN_UNIT', `'${symbol}' is not a known unit. Try: list`);
   return hit;
 }
 
@@ -18,7 +18,7 @@ function convertResolved(value, from, to) {
 export function convert(value, from, to) {
   const a = lookup(from);
   const b = lookup(to);
-  if (a.category !== b.category) fail('INCOMPATIBLE_UNITS', `${a.category.name} and ${b.category.name} cannot be converted`);
+  if (a.category !== b.category) fail('INCOMPATIBLE_UNITS', `Cannot convert ${a.category.name} to ${b.category.name}`);
   return convertResolved(value, a, b);
 }
 
@@ -38,6 +38,6 @@ export function listCategories() {
 
 export function listUnits(category) {
   const found = CATEGORIES.find((c) => c.name === String(category).toLowerCase());
-  if (!found) fail('UNKNOWN_COMMAND', `Unknown category '${category}'`);
+  if (!found) fail('UNKNOWN_COMMAND', `'${category}' is not a category. Try: list`);
   return found.units.map((u) => u.symbol);
 }
