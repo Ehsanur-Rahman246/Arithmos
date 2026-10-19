@@ -6,6 +6,14 @@ Each version is tagged `vX.Y.Z`.
 
 ## [Unreleased]
 
+## [0.4.0] — 2026-10-20
+
+### Added
+- C edition of Release 1 (Standard Calculator, Programmer Calculator, Unit Converter).
+  Passes all 175 shared cases, also under AddressSanitizer and UBSan.
+- C: arrow-key selector for the menus and pickers (POSIX termios, Windows `_getch`),
+  typed fallback, `ARITHMOS_PLAIN=1`.
+
 ## [0.3.3] — 2026-10-20
 
 ### Added

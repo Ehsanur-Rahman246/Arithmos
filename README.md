@@ -14,13 +14,14 @@ Date Calculation, Currency, memory/history, GUI). See [docs/roadmap.md](docs/roa
 
 ## Status
 
-Release 1 is complete in **2 of 43** languages. Per-language progress is tracked in
+Release 1 is complete in **3 of 43** languages. Per-language progress is tracked in
 Section 9 of [the Release 1 spec](docs/specifications/release-1.md).
 
 | Language | Version tag | Folder |
 |---|---|---|
 | JavaScript (reference) | `v0.2.0` | [javascript/](javascript/) |
 | Python | `v0.3.0` | [python/](python/) |
+| C | `v0.4.0` | [c/](c/) |
 
 ## Quick start
 
@@ -56,7 +57,7 @@ python/      Python edition
 | [docs/development-workflow.md](docs/development-workflow.md) | Versioning, tagging, adding a language |
 | [docs/roadmap.md](docs/roadmap.md) | Releases 1–5 and the language track |
 
-Current version: 0.3.2.
+Current version: 0.4.0.
 
 ## Versioning
 

@@ -35,18 +35,18 @@ never import from `cli`.
 
 ## Module map
 
-| Layer | JavaScript (`javascript/src/`) | Python (`python/arithmos/`) |
-|---|---|---|
-| Entry point | `../bin/arithmos.js`, `cli/index.js` | `__main__.py`, `cli/app.py` |
-| Menu | `cli/menu.js` | `cli/menu.py` |
-| Prompt loop | `cli/repl.js` | `cli/repl.py` |
-| Arrow-key selector | `cli/select.js`, `cli/pick.js` | `cli/selector.py`, `cli/pick.py` |
-| Terminal I/O, colours | `cli/io.js`, `cli/style.js` | `cli/console.py`, `cli/style.py` |
-| Tool bindings | `cli/tools/{standard,programmer,converter}.js` | `cli/tools/{standard,programmer,converter}.py` |
-| Standard Calculator | `calculator/{tokenizer,parser,evaluator,index}.js` | `calculator/{tokenizer,parser,evaluator,__init__}.py` |
-| Programmer Calculator | `programmer/{int64,parse,operations,format,index}.js` | `programmer/{int64,parse,operations,format,__init__}.py` |
-| Unit Converter | `converter/{units,convert,temperature,session,index}.js` | `converter/{units,convert,temperature,session,__init__}.py` |
-| Shared | `shared/{errors,format-number,index}.js` | `shared/{errors,format_number,__init__}.py` |
+| Layer | JavaScript (`javascript/src/`) | Python (`python/arithmos/`) | C (`c/src/`) |
+|---|---|---|---|
+| Entry point | `../bin/arithmos.js`, `cli/index.js` | `__main__.py`, `cli/app.py` | `main.c` |
+| Menu | `cli/menu.js` | `cli/menu.py` | `cli/cli.c` |
+| Prompt loop | `cli/repl.js` | `cli/repl.py` | `cli/cli.c` |
+| Arrow-key selector | `cli/select.js`, `cli/pick.js` | `cli/selector.py`, `cli/pick.py` | `cli/select.c, select.h` |
+| Terminal I/O, colours | `cli/io.js`, `cli/style.js` | `cli/console.py`, `cli/style.py` | `cli/cli.c + select.c` (no colour module) |
+| Tool bindings | `cli/tools/{standard,programmer,converter}.js` | `cli/tools/{standard,programmer,converter}.py` | `cli/cli.c` |
+| Standard Calculator | `calculator/{tokenizer,parser,evaluator,index}.js` | `calculator/{tokenizer,parser,evaluator,__init__}.py` | `calculator/calculator.c` |
+| Programmer Calculator | `programmer/{int64,parse,operations,format,index}.js` | `programmer/{int64,parse,operations,format,__init__}.py` | `programmer/programmer.c` |
+| Unit Converter | `converter/{units,convert,temperature,session,index}.js` | `converter/{units,convert,temperature,session,__init__}.py` | `converter/converter.c, units.c` |
+| Shared | `shared/{errors,format-number,index}.js` | `shared/{errors,format_number,__init__}.py` | `shared/shared.c` |
 
 ## Data flow
 
@@ -112,6 +112,7 @@ plain notation for `1e-6 ≤ |x| < 1e15`, otherwise `<mantissa>e<sign><exponent>
 |---|---|
 | JavaScript | `toExponential(11)` on the exact binary value |
 | Python | `Decimal(float)` rounded with `ROUND_HALF_UP` (Python's own float formatting rounds ties to even) |
+| C | `printf("%.34e")` gives the exact expansion, and the digit string is rounded by hand. |
 
 ## CLI screens
 
@@ -129,6 +130,13 @@ screens from one helper:
 - Guided converter: a four-stage state machine (category, from, to, values).
   `back` steps back one stage and leaves to the main menu from the first.
   One-line commands are accepted at every stage.
+
+  Selector rules (when an edition implements the optional arrow-key selector):
+1. Only on a real terminal; otherwise the numbered list (the required baseline).
+2. ↑↓ move, Enter selects, Esc = `back`, Ctrl-C / Ctrl-D = end of input.
+3. A printable key switches to a typed line (number, name, symbol or one-line command).
+4. `ARITHMOS_PLAIN=1` forces the numbered list.
+5. Raw key reading is on only while a key is read, so the terminal is never left raw.
 
 ## Design decisions
 

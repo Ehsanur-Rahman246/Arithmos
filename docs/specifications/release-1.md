@@ -736,7 +736,7 @@ Release 1 is implemented in **all 43 selected languages**. Per the roadmap's lan
 | 3 | Apex | ☐ | ☐ | ☐ | ☐ | Requires Salesforce tooling. Run through anonymous Apex or test classes; `Long` is 64-bit. Specialized workflow. |
 | 4 | Assembly (ASM) | ☐ | ☐ | ☐ | ☐ | Choose and document one target (for example x86-64 Linux, NASM). Native 64-bit integers; floating-point and parsing are manual work. |
 | 5 | Bash | ☐ | ☐ | ☐ | ☐ | Builtin arithmetic is 64-bit integer only; decimals need `bc` or `awk`. Document the external dependency. |
-| 6 | C | ☐ | ☐ | ☐ | ☐ | Use `int64_t` / `uint64_t`. Hand-written expression parser. |
+| 6 | C | ☑ | ☑ | ☑ | ☑ | `int64_t` / `uint64_t`; hand-written expression parser. |
 | 7 | C++ | ☐ | ☐ | ☐ | ☐ | Use `<cstdint>` types. |
 | 8 | C# | ☐ | ☐ | ☐ | ☐ | `long` / `ulong`; `decimal` or `double` for calculations. |
 | 9 | Clojure | ☐ | ☐ | ☐ | ☐ | JVM-based; use `long` with unchecked ops for wrap-around. |
