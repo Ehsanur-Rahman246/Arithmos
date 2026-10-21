@@ -6,6 +6,20 @@ Each version is tagged `vX.Y.Z`.
 
 ## [Unreleased]
 
+## [0.4.1] — 2026-10-20
+
+### Added
+- C: arrow-key selector for the menus and pickers (POSIX termios, Windows `_getch`).
+- Selector tests SL1–SL21 in all three editions (JavaScript 22 with X1, Python 21, C 21),
+  documented in docs/test-cases.md.
+
+### Changed
+- JavaScript, Python: at an arrow-key selector, any printable key other than `b` and `q` now opens a typed
+  line (number, name, symbol or one-line command), as in C. Esc / `b` and `q` stay direct.
+- C: the menus and pickers now go through `pick()` like the other editions. Screen titles and the plain
+  list format match them (R28). Typed `b` / `q` lines are no longer accepted (use `back` / `quit`, or the
+  keys at a selector), as in JavaScript and Python. The main-menu hint no longer offers back.
+
 ## [0.4.0] — 2026-10-20
 
 ### Added

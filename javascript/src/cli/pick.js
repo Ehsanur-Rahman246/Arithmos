@@ -10,22 +10,27 @@ import { ArithmosError } from '../shared/index.js';
 import { printError } from './repl.js';
 
 export async function pick(io, { title, options, back = false, quit = true, passthrough, errorCode = 'UNKNOWN_COMMAND' }) {
-  if (io.select) {
-    const r = await io.select({ title, options: options.map((o) => o.label), back, quit });
-    if (r.status === 'selected') return { status: 'selected', option: options[r.index] };
-    return { status: r.status === 'abort' ? 'eof' : r.status };
-  }
-
   const show = () => io.write(`${title}\n${options.map((o) => `  ${o.key}) ${o.label}`).join('\n')}\n`);
-  show();
+  if (!io.select) show();
   for (;;) {
-    const raw = await io.readLine('> ');
+    let raw;
+    if (io.select) {
+      // Esc / b go back and q quits at once; any other printable key opens a typed line,
+      // so a number, a name, or a one-line command still works.
+      const r = await io.select({ title, options: options.map((o) => o.label), back, quit, typing: true });
+      if (r.status === 'selected') return { status: 'selected', option: options[r.index] };
+      if (r.status !== 'typed') return { status: r.status === 'abort' ? 'eof' : r.status };
+      const rest = await io.readLine(`> ${r.text}`);
+      raw = rest === null ? null : r.text + rest;
+    } else {
+      raw = await io.readLine('> ');
+    }
     if (raw === null) { io.write('\n'); return { status: 'eof' }; }
     const text = raw.trim().toLowerCase();
     if (text === '') continue;
     if (text === 'quit') return { status: 'quit' };
     if (text === 'back' && back) return { status: 'back' };
-    if (text === 'help' || text === '?') { show(); continue; }
+    if (text === 'help' || text === '?') { if (!io.select) show(); continue; }
 
     const hit = options.find((o) => o.key === text || o.label.toLowerCase() === text || o.aliases?.includes(text));
     if (hit) return { status: 'selected', option: hit };

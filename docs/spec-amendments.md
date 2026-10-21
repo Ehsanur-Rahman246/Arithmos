@@ -37,7 +37,9 @@ and add a case to Section 8.
 | R24 | Programmer | Is `convert` optional? | Optional (`255 dec hex`). Amended in spec §4.5 | Settled |
 | R25 | Shell | Help alias | `help` or `?` prints the command list. Amended in spec §2.1 | Settled |
 | R26 | Shell | Error message wording | Both editions use identical wording. Wording is not normative (tests check codes only), but new languages should reuse it where the language allows | Settled |
+| R27 | Shell | Optional arrow-key selector: keys | Esc / `b` back, `q` quit, other printable key opens a typed line (number, name, symbol or one-line command); plain mode unchanged. Same in JavaScript, Python and C | Settled |
+| R28 | Shell | Converter screens | Titles: `Unit Converter — choose a category`, `<Category> — convert from`, `<Category> — convert from <unit> to`. Plain list rows: two spaces, the number, `)`, a space, the label (`  1) length`). The selected row is a full bar with `❯`; a chosen row leaves `✔ <title>: <label>` behind. Same in JavaScript, Python and C | Settled |
 
-R22–R26 were behaviours of the reference edition that differed from the original
+R22–R28 were behaviours of the reference edition that differed from the original
 spec text. They are now spec behaviour, so every language implements them and none
 is a deviation. R24 is also covered by shared cases P29, P30 and P32.

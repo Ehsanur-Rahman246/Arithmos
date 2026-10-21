@@ -31,6 +31,8 @@ cd javascript && npm start
 
 # Python (3.9+)
 cd python && python -m arithmos
+
+cd c && arithmos.exe
 ```
 
 Each language folder's README has run, test and one-shot commands.
@@ -42,6 +44,7 @@ docs/        specifications, shared test cases, workflow, amendments
 scripts/     build-cases.py (generates docs/release-1-cases.json from the spec)
 javascript/  reference edition
 python/      Python edition
+c/           C edition
 ```
 
 ## Documentation
@@ -56,6 +59,7 @@ python/      Python edition
 | [docs/language-support.md](docs/language-support.md) | Runtime and delivery model per edition |
 | [docs/development-workflow.md](docs/development-workflow.md) | Versioning, tagging, adding a language |
 | [docs/roadmap.md](docs/roadmap.md) | Releases 1–5 and the language track |
+| [docs/error-messages.md](docs/error-messages.md) | Error messages shown throughout the app |
 
 Current version: 0.4.0.
 
@@ -67,4 +71,4 @@ whole track. Details in [docs/development-workflow.md](docs/development-workflow
 
 ## License
 
-MIT (add a `LICENSE` file).
+MIT

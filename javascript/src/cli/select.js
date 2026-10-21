@@ -14,9 +14,16 @@ function moveTo(state, index) {
   return { ...state, index, offset };
 }
 
-// Returns { state, done? }. done: 'selected' | 'back' | 'quit' | 'abort'.
+// A key that can start a typed line: one visible character (not a space, not Ctrl/Alt).
+const isPrintable = (key) =>
+  !key?.ctrl && !key?.meta && typeof key?.str === "string" && key.str.length === 1 &&
+  key.str > " " && key.str !== "\x7f";
+
+// Returns { state, done?, typed? }. done: 'selected' | 'back' | 'quit' | 'abort' | 'typed'.
 // Esc and b mean "back" when it is on offer; q means "quit" when it is on offer.
-export function applyKey(state, key, { back = false, quit = false } = {}) {
+// With typing on, any other printable key ends the selector as 'typed' (typed = the key),
+// so the caller can read the rest of a line: a number, a name, or a one-line command.
+export function applyKey(state, key, { back = false, quit = false, typing = false } = {}) {
   const name = key?.name;
   if (key?.ctrl)
     return name === "c" || name === "d" ? { state, done: "abort" } : { state };
@@ -39,6 +46,7 @@ export function applyKey(state, key, { back = false, quit = false } = {}) {
     case "q":
       return quit ? { state, done: "quit" } : { state };
     default:
+      if (typing && isPrintable(key)) return { state, done: "typed", typed: key.str };
       return { state };
   }
 }
@@ -47,7 +55,7 @@ export function renderList(
   title,
   labels,
   state,
-  { style = PLAIN, back = false, quit = false } = {},
+  { style = PLAIN, back = false, quit = false, typing = false } = {},
 ) {
   const width = Math.max(...labels.map((label) => label.length));
   const lines = [style.bold(title)];
@@ -62,13 +70,15 @@ export function renderList(
   if (state.count > state.size)
     lines.push(style.dim(`   ${state.index + 1} of ${state.count}`));
   const hint = ["↑↓ move", "Enter select"];
-  if (back) hint.push("Esc back");
+  if (back) hint.push(typing ? "Esc/b back" : "Esc back");
   if (quit) hint.push("q quit");
+  if (typing) hint.push("or type");
   lines.push(style.dim(`   ${hint.join(" · ")}`));
   return lines;
 }
 
-// Resolves to { status: 'selected', index } or { status: 'back' | 'quit' | 'abort' }.
+// Resolves to { status: 'selected', index }, { status: 'typed', text } or
+// { status: 'back' | 'quit' | 'abort' }.
 // readKey() resolves to the next key ({ name, ctrl, ... }). The selector never touches
 // raw mode or pause/resume: the key reader owns the terminal for the whole session.
 export async function selectFromList({
@@ -79,6 +89,7 @@ export async function selectFromList({
   style = PLAIN,
   back = false,
   quit = false,
+  typing = false,
 }) {
   let state = initialState(labels.length);
   let drawn = 0;
@@ -88,7 +99,7 @@ export async function selectFromList({
   };
   const draw = () => {
     erase();
-    const lines = renderList(title, labels, state, { style, back, quit });
+    const lines = renderList(title, labels, state, { style, back, quit, typing });
     output.write(`${lines.join("\n")}\n`);
     drawn = lines.length;
   };
@@ -96,11 +107,13 @@ export async function selectFromList({
   output.write("\x1b[?25l"); // hide the cursor while choosing
   draw();
   let status;
+  let typed = "";
   for (;;) {
-    const result = applyKey(state, await readKey(), { back, quit });
+    const result = applyKey(state, await readKey(), { back, quit, typing });
     if (result.done) {
       state = result.state;
       status = result.done;
+      typed = result.typed ?? "";
       break;
     }
     if (result.state !== state) {
@@ -112,5 +125,7 @@ export async function selectFromList({
   if (status === "selected")
     output.write(`${style.green("✔")} ${title}: ${labels[state.index]}\n`);
   output.write("\x1b[?25h");
-  return status === "selected" ? { status, index: state.index } : { status };
+  if (status === "selected") return { status, index: state.index };
+  if (status === "typed") return { status, text: typed };
+  return { status };
 }

@@ -10,7 +10,6 @@
 #include "shared/shared.h"
 
 #include <math.h>
-#include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -371,7 +370,7 @@ static void extra_garbage(void)
 {
     static const char alphabet[] =
         "0123456789 .+-*/^()%<>!=,;:'\"\\ofnsqrtabsANDORXNOTbasehexdecbinoctconvertlistkgmcf\t\xff\x01";
-    uint64_t seed = 12345;
+    unsigned long seed = 12345;
     int iter;
     Sessions ss;
     calc_session_init(&ss.calc);
@@ -383,10 +382,10 @@ static void extra_garbage(void)
         ArError err;
         double d;
         int len, i;
-        seed = seed * 6364136223846793005ULL + 1442695040888963407ULL;
+        seed = seed * 6364136223846793005UL + 1442695040888963407UL;
         len = (int)((seed >> 33) % 40);
         for (i = 0; i < len; i++) {
-            seed = seed * 6364136223846793005ULL + 1442695040888963407ULL;
+            seed = seed * 6364136223846793005UL + 1442695040888963407UL;
             line[i] = alphabet[(seed >> 33) % (sizeof alphabet - 1)];
         }
         line[len] = '\0';
@@ -464,7 +463,7 @@ static void extra_cases(void)
             if (o.is_err) fail("EXTRA", t[i].line);
             else passes++;
         } else if (o.is_err || strcmp(o.text, t[i].want)) {
-            char msg[400];
+            char msg[520];
             snprintf(msg, sizeof msg, "'%.150s': expected '%.150s', got '%.150s'", t[i].line, t[i].want, o.text);
             fail("EXTRA", msg);
         } else passes++;

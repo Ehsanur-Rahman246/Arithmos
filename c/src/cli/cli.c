@@ -2,9 +2,10 @@
 
 #include "calculator/calculator.h"
 #include "converter/converter.h"
+#include "cli/pick.h"
+#include "cli/select.h"
 #include "programmer/programmer.h"
 #include "shared/shared.h"
-#include "cli/select.h"
 
 #include <ctype.h>
 #include <stdio.h>
@@ -14,15 +15,8 @@
 #define LINE_LEN 4096
 #define OUT_LEN 4096
 
+/* The same numbers as PickStatus (PICK_BACK, PICK_QUIT, PICK_EOF), so a pick result can be returned as is. */
 enum { RES_BACK = 1, RES_QUIT = 2, RES_EOF = 3 };
-enum { PICK_CHOSEN = 0, PICK_BACK = RES_BACK, PICK_QUIT = RES_QUIT, PICK_EOF = RES_EOF };
-
-static const char *const MENU =
-    "Arithmos 1.0 \xe2\x80\x94 Core CLI\n"
-    "  1) Standard Calculator\n"
-    "  2) Programmer Calculator\n"
-    "  3) Unit Converter\n"
-    "  0) Exit\n";
 
 static const char *const STANDARD_HELP =
     "Type an expression: + - * / ^ ( ) % of sqrt(x) abs(x) ans\n"
@@ -169,12 +163,6 @@ static int starts_with_word(const char *s, const char *word)
     return s[n] == '\0' || isspace((unsigned char)s[n]);
 }
 
-static int looks_like_command(const char *line)
-{
-    return starts_with_word(line, "convert") || starts_with_word(line, "list") ||
-           count_words(line) == 3;
-}
-
 static void run_one_line(const char *line)
 {
     char out[OUT_LEN];
@@ -183,76 +171,86 @@ static void run_one_line(const char *line)
     else print_error(stdout, &err);
 }
 
-/* One question, many answers. On a real terminal: an arrow-key list (typing a
- * key switches to a typed line). Elsewhere: a numbered list answered by typing.
- * Either way a number, a name or symbol, or any one-line command is accepted. */
-static int pick(const char *title, int n, const char *const *keys, const char *const *labels,
-                int *choice)
-{
-    char line[LINE_LEN];
-    int i, use_sel = sel_enabled();
+/* ---------- the terminal side of pick() ---------- */
 
-    if (!use_sel) {
-        printf("%s\n", title);
-        for (i = 0; i < n; i++) printf("  %2d) %s\n", i + 1, labels[i]);
-    }
-    for (;;) {
-        char *end;
-        long idx;
-        if (use_sel) {
-            int typed = 0;
-            SelResult r = sel_run(title, n, labels, choice, &typed);
-            if (r == SEL_CHOSEN) return PICK_CHOSEN;
-            if (r == SEL_BACK) return PICK_BACK;
-            if (r == SEL_EOF) return PICK_EOF;
-            if (!read_line_after("converter> ", typed, line, sizeof line)) return PICK_EOF;
-        } else if (!read_line("converter> ", line, sizeof line)) {
-            return PICK_EOF;
-        }
-        if (!line[0]) continue;
-        if (!ar_strcasecmp(line, "back") || !ar_strcasecmp(line, "b")) return PICK_BACK;
-        if (!ar_strcasecmp(line, "quit") || !ar_strcasecmp(line, "q")) return PICK_QUIT;
-        if (!ar_strcasecmp(line, "help") || !strcmp(line, "?")) {
-            fputs(CONVERTER_HELP, stdout);
-            continue;
-        }
-        idx = strtol(line, &end, 10);
-        if (*end == '\0' && idx >= 1 && idx <= n) {
-            *choice = (int)idx - 1;
-            return PICK_CHOSEN;
-        }
-        for (i = 0; i < n; i++) {
-            if (!ar_strcasecmp(line, keys[i])) {
-                *choice = i;
-                return PICK_CHOSEN;
-            }
-        }
-        if (looks_like_command(line)) run_one_line(line);
-        else printf("Error [UNKNOWN_COMMAND]: Pick one from the list\n");
-    }
+static SelResult term_select(void *ctx, const char *title, int n, const char *const *labels,
+                             unsigned flags, int *choice, int *typed)
+{
+    (void)ctx;
+    return sel_run(title, n, labels, flags, choice, typed);
+}
+
+static int term_read_line(void *ctx, const char *prompt, int first, char *buf, size_t cap)
+{
+    (void)ctx;
+    return first >= 0 ? read_line_after(prompt, first, buf, cap) : read_line(prompt, buf, cap);
+}
+
+static void term_write(void *ctx, const char *text)
+{
+    (void)ctx;
+    fputs(text, stdout);
+}
+
+static PickIo terminal_io(void)
+{
+    PickIo io;
+    io.select = sel_enabled() ? term_select : NULL; /* numbered lists on pipes and files */
+    io.read_line = term_read_line;
+    io.write = term_write;
+    io.ctx = NULL;
+    return io;
+}
+
+static int converter_command(const char *line, char *out, size_t cap, ArError *err)
+{
+    return conv_run_line(line, out, cap, err);
 }
 
 static int pick_category(int *choice)
 {
-    const char *keys[32], *labels[32];
+    const char *names[32];
     int i, n = conv_category_count();
-    for (i = 0; i < n; i++) {
-        keys[i] = labels[i] = conv_category(i)->name;
-    }
-    return pick("Category:", n, keys, labels, choice);
+    PickIo io = terminal_io();
+    PickSpec spec;
+    for (i = 0; i < n; i++) names[i] = conv_category(i)->name;
+    spec.title = "Unit Converter \xe2\x80\x94 choose a category";
+    spec.n = n;
+    spec.labels = names;
+    spec.keys = names;
+    spec.numbers = NULL;
+    spec.flags = SEL_OFFER_BACK | SEL_OFFER_QUIT;
+    spec.prompt = "converter> ";
+    spec.command = converter_command;
+    return (int)pick(&io, &spec, choice);
 }
 
-static int pick_unit(const char *title, const ConvCategory *cat, int *choice)
+/* `from` is NULL for the from-unit screen, or the chosen from-unit's symbol. */
+static int pick_unit(const ConvCategory *cat, const char *from, int *choice)
 {
     const char *keys[32], *labels[32];
-    char text[32][96];
+    char text[32][96], title[160], cap[32];
     int i, n = cat->unit_count;
+    PickIo io = terminal_io();
+    PickSpec spec;
     for (i = 0; i < n; i++) {
-        snprintf(text[i], sizeof text[i], "%-8s %s", cat->units[i].symbol, cat->units[i].name);
+        snprintf(text[i], sizeof text[i], "%-8s%s", cat->units[i].symbol, cat->units[i].name);
         keys[i] = cat->units[i].symbol;
         labels[i] = text[i];
     }
-    return pick(title, n, keys, labels, choice);
+    snprintf(cap, sizeof cap, "%s", cat->name);
+    if (cap[0] >= 'a' && cap[0] <= 'z') cap[0] = (char)(cap[0] - 'a' + 'A');
+    if (from) snprintf(title, sizeof title, "%s \xe2\x80\x94 convert from %s to", cap, from);
+    else snprintf(title, sizeof title, "%s \xe2\x80\x94 convert from", cap);
+    spec.title = title;
+    spec.n = n;
+    spec.labels = labels;
+    spec.keys = keys;
+    spec.numbers = NULL;
+    spec.flags = SEL_OFFER_BACK | SEL_OFFER_QUIT;
+    spec.prompt = "converter> ";
+    spec.command = converter_command;
+    return (int)pick(&io, &spec, choice);
 }
 
 static int run_converter(void)
@@ -270,13 +268,13 @@ static int run_converter(void)
             else return r; /* back from the first screen leaves the tool */
             break;
         case ST_FROM:
-            r = pick_unit("From unit:", c, &from);
+            r = pick_unit(c, NULL, &from);
             if (r == PICK_CHOSEN) st = ST_TO;
             else if (r == PICK_BACK) st = ST_CATEGORY;
             else return r;
             break;
         case ST_TO:
-            r = pick_unit("To unit:", c, &to);
+            r = pick_unit(c, c->units[from].symbol, &to);
             if (r == PICK_CHOSEN) st = ST_VALUES;
             else if (r == PICK_BACK) st = ST_FROM;
             else return r;
@@ -318,54 +316,29 @@ static int run_converter(void)
 
 /* ---------- main menu ---------- */
 
-static const char *const MENU_LABELS[] = {
-    "Standard Calculator", "Programmer Calculator", "Unit Converter", "Exit"
-};
-
-/* Returns 0 = exit, 1 = a tool ran (its result is in *r), 2 = help, -1 = not an option. */
-static int menu_action(const char *line, int *r)
-{
-    if (!strcmp(line, "1") || !ar_strcasecmp(line, "standard")) { *r = run_standard(); return 1; }
-    if (!strcmp(line, "2") || !ar_strcasecmp(line, "programmer")) { *r = run_programmer(); return 1; }
-    if (!strcmp(line, "3") || !ar_strcasecmp(line, "converter")) { *r = run_converter(); return 1; }
-    if (!strcmp(line, "0") || !ar_strcasecmp(line, "exit") || !ar_strcasecmp(line, "quit") ||
-        !ar_strcasecmp(line, "q"))
-        return 0;
-    if (!ar_strcasecmp(line, "help") || !strcmp(line, "?")) return 2;
-    return -1;
-}
-
 static int run_menu(void)
 {
-    char line[LINE_LEN];
-    int use_sel = sel_enabled(), choice = 0;
+    static const char *const labels[] = {"Standard Calculator", "Programmer Calculator",
+                                         "Unit Converter", "Exit"};
+    static const char *const keys[] = {"standard", "programmer", "converter", "exit"};
+    static const char *const numbers[] = {"1", "2", "3", "0"};
+    PickIo io = terminal_io();
+    PickSpec spec;
+    int choice = 0;
+
+    spec.title = "Arithmos 1.0 \xe2\x80\x94 Core CLI";
+    spec.n = 4;
+    spec.labels = labels;
+    spec.keys = keys;
+    spec.numbers = numbers;
+    spec.flags = SEL_OFFER_QUIT; /* there is nowhere further back than the menu */
+    spec.prompt = "> ";
+    spec.command = NULL;
 
     for (;;) {
-        int r = 0;
-        if (!use_sel) fputs(MENU, stdout);
-        for (;;) {
-            int action;
-            if (use_sel) {
-                int typed = 0;
-                SelResult s = sel_run("Arithmos 1.0 \xe2\x80\x94 Core CLI", 4, MENU_LABELS,
-                                      &choice, &typed);
-                if (s == SEL_EOF) return 0;
-                if (s == SEL_BACK) continue; /* nowhere further back than the menu */
-                if (s == SEL_CHOSEN) snprintf(line, sizeof line, "%d", choice == 3 ? 0 : choice + 1);
-                else if (!read_line_after("> ", typed, line, sizeof line)) return 0;
-            } else if (!read_line("> ", line, sizeof line)) {
-                return 0;
-            }
-            if (!line[0]) continue;
-            action = menu_action(line, &r);
-            if (action == 0) return 0;
-            if (action == 1) break;
-            if (action == 2) {
-                if (!use_sel) fputs(MENU, stdout);
-                continue;
-            }
-            printf("Error [UNKNOWN_COMMAND]: Pick one from the list\n");
-        }
+        int r;
+        if (pick(&io, &spec, &choice) != PICK_CHOSEN || choice == 3) return 0;
+        r = choice == 0 ? run_standard() : choice == 1 ? run_programmer() : run_converter();
         if (r == RES_QUIT || r == RES_EOF) return 0;
         /* RES_BACK: show the menu again */
     }

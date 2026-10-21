@@ -62,6 +62,7 @@ npm run test:std       # Standard Calculator cases (S1–S33)
 npm run test:prog      # Programmer Calculator cases (P1–P32)
 npm run test:conv      # Unit Converter cases (C1–C110)
 ```
+— shared cases 175, selector tests 22 (SL1–SL21 + X1), plus the existing others.
 
 Uses Node's built-in runner. Shared cases are read from `../docs/release-1-cases.json`
 ([format](../docs/test-cases.md)). Extra tests cover number formatting, the selector

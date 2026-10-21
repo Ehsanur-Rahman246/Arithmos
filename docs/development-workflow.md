@@ -47,8 +47,8 @@ patch version instead.
 
 - [ ] Folder at the repo root, named in lowercase
 - [ ] Loads `docs/release-1-cases.json` and passes all 175 cases
-- [ ] Extra tests: number formatting boundaries, CLI scripted sessions, no crash on
-      garbage input
+- [ ] Extra tests: number formatting boundaries, CLI scripted sessions, no crash on garbage input
+- [ ] If the edition has an arrow-key selector: selector tests SL1–SL21 (docs/test-cases.md)
 - [ ] README follows the template
 - [ ] Row added to `language-support.md`
 - [ ] Release-1 §9 row ticked

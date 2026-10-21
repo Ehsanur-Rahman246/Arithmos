@@ -24,13 +24,21 @@ make
 ## Test
 
 ```bash
-make test    # 175 shared cases + extra tests + scripted CLI sessions
-make asan    # the same cases under AddressSanitizer + UBSan
+make test    # 175 shared cases + extra tests + 21 selector tests + scripted CLI sessions
+make asan    # the shared cases and the selector tests under AddressSanitizer + UBSan
 ```
 
-`make test` runs `test/run_cases.c` (loads `../docs/release-1-cases.json` with a small built-in
-JSON reader, then runs the extra tests) and `test/cli_session.sh` (whole sessions piped into the binary).
-Pass another file with `make test CASES=path/to/cases.json`.
+`make test` runs three things:
+
+| Program | What it checks | Count |
+|---|---|---|
+| `run_tests` (`test/run_cases.c`) | The shared cases (loaded from `../docs/release-1-cases.json` with a small built-in JSON reader), then the C extras (formatting boundaries, unit-table sanity, garbage input, settled amendments) | 175 shared + 176 extra = 351 |
+| `run_selector` (`test/run_selector.c`) | Selector tests SL1–SL21: key handling, drawing, the draw/read loop and `pick()` over a fake keyboard and screen | 21 |
+| `test/cli_session.sh` | Whole sessions piped into the binary, plus one-shot mode and exit codes | 27 |
+
+Pass another case file with `make test CASES=path/to/cases.json`. The selector tests are the same 21
+behaviours, with the same numbers, as the JavaScript and Python editions
+([docs/test-cases.md](../docs/test-cases.md)).
 
 ## Layout
 
@@ -39,13 +47,15 @@ c/
 ├── Makefile
 ├── src/
 │   ├── main.c
-│   ├── cli/          select.c, select.h, menus, prompt loops, one-shot mode (the only I/O)
+│   ├── cli/          cli.c (menus, prompt loops, one-shot mode: the only I/O),
+│   │                 select.c (arrow-key selector), pick.c (pick(): one question, many answers)
 │   ├── calculator/   tokenizer -> parser (AST) -> evaluator
 │   ├── programmer/   64-bit parsing, bases, bitwise ops, shifts
 │   ├── converter/    converter.c (logic) + units.c (unit tables as data)
 │   └── shared/       error codes, number formatting
 └── test/
-    ├── run_cases.c   shared cases + extra tests
+    ├── run_cases.c     shared cases + extra tests
+    ├── run_selector.c  selector tests SL1-SL21
     └── cli_session.sh
 ```
 
@@ -71,11 +81,17 @@ every other operator clear.
 ## Interface
 
 - On a real terminal the menus and converter pickers are arrow-key selectors: ↑↓ move,
-  Home/End/PgUp/PgDn jump, Enter selects, Esc goes back, Ctrl-C / Ctrl-D exits. Typing any
-  printable key switches to a typed line, so numbers, names, symbols and one-line commands
-  (`100 cm in`) still work.
-- Pipes, files, tests, dumb terminals and `ARITHMOS_PLAIN=1` get numbered lists.
-- `NO_COLOR=1` removes the highlight colour (the `>` marker stays).
+  Home/End/PgUp/PgDn jump, Enter selects, Esc or `b` goes back, `q` quits, Ctrl-C / Ctrl-D
+  ends the input. Any other printable key opens a typed line, so numbers, names, symbols
+  and one-line commands (`100 cm in`) still work. Names that start with `b` or `q`
+  (`bit`, `byte`, `bar`, `btu`, `qt`) must be picked with the arrows or a number, because `b`
+  and `q` act at once. The selector layers are the same as in the other editions: pure key
+  handling and drawing, a loop over an injectable keyboard and screen, and `pick()` over an
+  injectable `PickIo`.
+- Pipes, files, tests, dumb terminals and `ARITHMOS_PLAIN=1` get numbered lists (`  1) length`).
+  Typed words: a number, a name or symbol, a one-line command, `help` / `?`, `quit`, and `back`
+  where a screen can go back.
+- `NO_COLOR=1` removes the colours (the `❯` pointer stays).
 - Esc works in the selectors only; the prompts (`standard>`, `converter (m → yd)>`) read whole
   lines, so use `back` there.
 - Windows: the console is switched to UTF-8 while the program runs and restored on exit.

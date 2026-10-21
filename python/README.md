@@ -37,6 +37,7 @@ The command set is identical to the JavaScript edition; see its
 ```bash
 python -m unittest discover -s tests -t .
 ```
+— shared cases 175, selector tests 21 (SL1–SL21).
 
 Shared cases are read from `../docs/release-1-cases.json`
 ([format](../docs/test-cases.md)). Extra tests cover number formatting, the selector

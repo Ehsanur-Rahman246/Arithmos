@@ -28,18 +28,26 @@ def pick(io, title: str, options: list, *, back: bool = False, quit_: bool = Tru
          passthrough: Optional[Callable[[str], str]] = None,
          error_code: str = "UNKNOWN_COMMAND") -> Pick:
     select = getattr(io, "select", None)
-    if select:
-        status, index = select(title, [o.label for o in options], back=back, quit_=quit_)
-        if status == "selected":
-            return Pick("selected", options[index])
-        return Pick("eof" if status == "abort" else status)
 
     def show():
         io.write(title + "\n" + "\n".join(f"  {o.key}) {o.label}" for o in options) + "\n")
 
-    show()
+    if not select:
+        show()
     while True:
-        raw = io.read_line("> ")
+        if select:
+            # Esc / b go back and q quits at once; any other printable key opens a typed
+            # line, so a number, a name, or a one-line command still works.
+            status, value = select(title, [o.label for o in options], back=back, quit_=quit_,
+                                   typing=True)
+            if status == "selected":
+                return Pick("selected", options[value])
+            if status != "typed":
+                return Pick("eof" if status == "abort" else status)
+            rest = io.read_line("> " + value)
+            raw = None if rest is None else value + rest
+        else:
+            raw = io.read_line("> ")
         if raw is None:
             io.write("\n")
             return Pick("eof")
@@ -51,7 +59,8 @@ def pick(io, title: str, options: list, *, back: bool = False, quit_: bool = Tru
         if text == "back" and back:
             return Pick("back")
         if text in ("help", "?"):
-            show()
+            if not select:
+                show()
             continue
         for o in options:
             if text in (o.key, o.label.lower()) or text in o.aliases:

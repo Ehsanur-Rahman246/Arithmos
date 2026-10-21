@@ -48,11 +48,11 @@ class TerminalConsole:
         except (EOFError, KeyboardInterrupt):
             return None
 
-    def select(self, title, labels, back=False, quit_=False):
+    def select(self, title, labels, back=False, quit_=False, typing=False):
         with _raw_keys() as read_key:
             return select_from_list(
                 title, labels, out=self._out, read_key=read_key,
-                style=self.style, back=back, quit_=quit_,
+                style=self.style, back=back, quit_=quit_, typing=typing,
             )
 
 
@@ -69,7 +69,9 @@ def _raw_keys():
             named = {"\r": "enter", "\x1b": "esc", "\x03": "abort", "\x04": "abort"}
             if ch in named:
                 return named[ch]
-            return {"b": "b", "q": "q"}.get(ch.lower(), "other")
+            if ch.lower() in ("b", "q"):
+                return ch.lower()
+            return f"char:{ch}" if ch.isprintable() and not ch.isspace() else "other"
 
         yield read_key
         return
@@ -102,7 +104,13 @@ def _raw_keys():
             if data[-1:] == b"F" or data in (b"\x1b[4~", b"\x1b[8~"):
                 return "end"
             return "other"
-        return {b"b": "b", b"B": "b", b"q": "q", b"Q": "q"}.get(data, "other")
+        if data in (b"b", b"B"):
+            return "b"
+        if data in (b"q", b"Q"):
+            return "q"
+        if len(data) == 1 and 33 <= data[0] <= 126:  # one visible ASCII character
+            return "char:" + chr(data[0])
+        return "other"
 
     try:
         yield read_key

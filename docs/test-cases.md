@@ -55,12 +55,54 @@ Exactly one of `expected`, `expectedContains`, `error` is present per case or st
 |---|---|
 | JavaScript | `npm test` |
 | Python | `python -m unittest discover -s tests -t .` |
+| C | `make test` (from `c/`; `make` needs w64devkit/MinGW on Windows, see c/README.md) |
 
 ## Adding a case
 
 1. Add it to the spec's Section 8 table with the next id.
 2. Regenerate the JSON.
 3. Run every completed edition. Every bug found in any language becomes a shared case.
+4. Selector tests are separate: see "Selector tests (SL1–SL21)".
 
 Editions also keep their own non-shared tests (formatting boundaries, selector,
 scripted CLI sessions). Those never replace shared cases.
+
+## Selector tests (SL1–SL21)
+
+The arrow-key selector is optional (spec §2.1), but every edition that implements it runs the same
+21 numbered tests with the same numbers. They are not shared data cases: each edition keeps them in
+its own test folder and asserts behaviour only (never terminal formatting beyond the strings below).
+
+| # | Behaviour |
+|---|---|
+| SL1 | up/down move, wrap around, home/end |
+| SL2 | long lists scroll in a window of 10 |
+| SL3 | Enter selects; Esc / b / q only work when offered |
+| SL4 | Ctrl-C / Ctrl-D abort; other control keys are ignored |
+| SL5 | typing on: a printable key ends the selector and carries the character |
+| SL6 | typing off: printable keys are ignored |
+| SL7 | typing on: Esc, b, q, arrows and Enter keep their meaning |
+| SL8 | typing on: space and control keys do not start a typed line |
+| SL9 | the selected row is highlighted as a full bar |
+| SL10 | plain mode still marks the selected row with the pointer |
+| SL11 | hint line lists only the keys on offer |
+| SL12 | hint shows Esc/b back and or type when typing is on |
+| SL13 | loop: keys in, index out, summary left behind, cursor restored |
+| SL14 | loop: Esc, ignored keys, Ctrl-C |
+| SL15 | loop: a typed key returns its character and restores the cursor |
+| SL16 | pick() uses the selector when present and maps its results |
+| SL17 | pick(): a typed name or number selects it |
+| SL18 | pick(): a typed one-line command runs and the list comes back |
+| SL19 | pick(): an unknown typed word is an error and the list comes back |
+| SL20 | pick(): b, q and Esc act at once, with no prompt line |
+| SL21 | pick(): without a selector (pipes) the numbered list works as before |
+
+| Edition | File | Tests |
+|---|---|---|
+| JavaScript | `test/select.test.js` | SL1–SL21 + X1 (key queue, JavaScript only) = 22 |
+| Python | `tests/test_select.py` | SL1–SL21 = 21 |
+| C | `test/run_selector.c` | SL1–SL21 = 21 |
+
+Rules: a new edition that has a selector must add all 21 under these numbers (the C runner fails if
+the count is not 21). Behaviour that exists in only one edition gets an `X<n>` id and is listed here,
+never a number inside SL1–SL21.

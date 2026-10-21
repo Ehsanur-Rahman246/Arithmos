@@ -2,7 +2,7 @@
 //   readLine(prompt) -> Promise<string | null>   (null = end of input)
 //   write(text)
 //   style                                         (colours; plain for pipes)
-//   select({ title, options, back, quit })        (arrow-key selector, terminals only)
+//   select({ title, options, back, quit, typing }) (arrow-key selector, terminals only)
 //   close()
 import readline, { emitKeypressEvents } from 'node:readline';
 import { selectFromList } from './select.js';
@@ -107,8 +107,8 @@ function createTerminalIO(input, output) {
     style,
     readLine(prompt = '', options) { return readEditedLine(keys.readKey, output, prompt, options); },
     write(text) { output.write(text); },
-    select({ title, options, back, quit }) {
-      return selectFromList({ readKey: keys.readKey, output, title, labels: options, style, back, quit });
+    select({ title, options, back, quit, typing }) {
+      return selectFromList({ readKey: keys.readKey, output, title, labels: options, style, back, quit, typing });
     },
     close() { keys.close(); output.write('\x1b[?25h'); },
   };

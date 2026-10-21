@@ -40,7 +40,7 @@ never import from `cli`.
 | Entry point | `../bin/arithmos.js`, `cli/index.js` | `__main__.py`, `cli/app.py` | `main.c` |
 | Menu | `cli/menu.js` | `cli/menu.py` | `cli/cli.c` |
 | Prompt loop | `cli/repl.js` | `cli/repl.py` | `cli/cli.c` |
-| Arrow-key selector | `cli/select.js`, `cli/pick.js` | `cli/selector.py`, `cli/pick.py` | `cli/select.c, select.h` |
+| Arrow-key selector | `cli/select.js`, `cli/pick.js` | `cli/selector.py`, `cli/pick.py` | `cli/select.c`, `select.h`,  `cli/pick.c`, `pick.h` |
 | Terminal I/O, colours | `cli/io.js`, `cli/style.js` | `cli/console.py`, `cli/style.py` | `cli/cli.c + select.c` (no colour module) |
 | Tool bindings | `cli/tools/{standard,programmer,converter}.js` | `cli/tools/{standard,programmer,converter}.py` | `cli/cli.c` |
 | Standard Calculator | `calculator/{tokenizer,parser,evaluator,index}.js` | `calculator/{tokenizer,parser,evaluator,__init__}.py` | `calculator/calculator.c` |
@@ -121,7 +121,11 @@ screens from one helper:
 
 - `io`: `write(text)`, `readLine(prompt)` (null at end of input), `style`
   (colours; plain for pipes and tests) and, on real terminals only, `select(...)`.
-- `pick(io, title, options, back, quit)`: one question, many answers. On a real
+- `pick(io, title, options, back, quit)`: one question, many answers. 
+Each edition has the same four selector layers, so the same tests (SL1–SL21) apply: key handling
+(pure), drawing (pure), a draw/read loop over an injectable keyboard and screen, and `pick()` over an
+injectable io. The C edition passes them as `SelIo` and `PickIo` structs of function pointers.
+On a real
   terminal it is an arrow-key selector with a highlighted row; everywhere else
   it is a numbered list answered by typing a number, a name or a symbol. The
   numbered list is the required baseline, the selector is optional (spec §2.1).
@@ -131,10 +135,14 @@ screens from one helper:
   `back` steps back one stage and leaves to the main menu from the first.
   One-line commands are accepted at every stage.
 
-  Selector rules (when an edition implements the optional arrow-key selector):
+Selector rules (when an edition implements the optional arrow-key selector):
 1. Only on a real terminal; otherwise the numbered list (the required baseline).
-2. ↑↓ move, Enter selects, Esc = `back`, Ctrl-C / Ctrl-D = end of input.
-3. A printable key switches to a typed line (number, name, symbol or one-line command).
+2. ↑↓ move, Enter selects, Esc or `b` = `back`, `q` = `quit`, Ctrl-C / Ctrl-D = end of input.
+   `b` and `q` act immediately, with no prompt line.
+3. Any other printable key switches to a typed line (number, name, symbol or one-line
+   command): the prompt shows the key and the rest of the line is read. A name starting with `b`
+   or `q` is picked with the arrows or a number. After an error or a one-line command the list
+   is shown again.
 4. `ARITHMOS_PLAIN=1` forces the numbered list.
 5. Raw key reading is on only while a key is read, so the terminal is never left raw.
 

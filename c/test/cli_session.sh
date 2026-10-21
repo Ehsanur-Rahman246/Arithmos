@@ -30,7 +30,7 @@ check "converter 1-line" "2.54"                        '3\nconvert 1 in cm\nquit
 check "converter list"   "length, mass, area"          '3\nlist\nquit\n'
 check "guided flow"      "100 m = 109.361329834 yd"    '3\n1\nm\nyd\n100\nquit\n'
 check "guided prompt"    "converter (m → yd)>"         '3\n1\nm\nyd\nquit\n'
-check "guided back"      "To unit:"                    '3\n1\nm\nyd\nback\nquit\n'
+check "guided back"      "convert from m to"                   '3\n1\nm\nyd\nback\nquit\n'
 check "list at values"   "length, mass, area"          '3\n1\nm\nyd\nlist\nquit\n'
 check "temperature all"  "f: 32"                       '3\n0 c all\nquit\n'
 check "pick error"       "Pick one from the list"      '3\nzzz\nquit\n'
