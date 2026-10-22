@@ -10,7 +10,7 @@
 
 static const ConvUnit LENGTH[] = {
     {"pm", "picometre", 0.000000000001},
-    {"ang", "angstrom", 0.0000000001},
+    {"ang",  "\xc3\xa5ngstr\xc3\xb6m", 0.0000000001},
     {"nm", "nanometre", 0.000000001},
     {"um", "micrometre (micron)", 0.000001},
     {"mm", "millimetre", 0.001},

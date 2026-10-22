@@ -17,6 +17,6 @@ when a language is marked complete. Progress for languages in progress is tracke
 - On a real terminal the menus and converter pickers are arrow-key selectors: ↑↓ move, Enter selects,
   Esc or `b` goes back, `q` quits. Any other printable key opens a typed line, so numbers, names, symbols
   and one-line commands still work. Pipes, files and tests get the same screens as numbered lists.
-- `ARITHMOS_PLAIN=1` forces numbered lists on a real terminal (JavaScript, C).
+- `ARITHMOS_PLAIN=1` forces numbered lists on a real terminal (all editions).
 - `NO_COLOR=1` disables colour.
 - One-shot mode exits `0` on success, `1` on an `Error [CODE]` result, `2` on bad usage.

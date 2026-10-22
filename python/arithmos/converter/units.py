@@ -27,7 +27,7 @@ def _u(symbol, name, factor):
 CATEGORIES = (
     Category("length", "m", (
         _u("pm", "picometre", 1e-12), _u("ang", "ångström", 1e-10), _u("nm", "nanometre", 1e-9),
-        _u("um", "micrometre", 1e-6), _u("mm", "millimetre", 0.001), _u("cm", "centimetre", 0.01),
+        _u("um", "micrometre (micron)", 1e-6), _u("mm", "millimetre", 0.001), _u("cm", "centimetre", 0.01),
         _u("m", "metre", 1.0), _u("km", "kilometre", 1000.0), _u("in", "inch", 0.0254),
         _u("ft", "foot", 0.3048), _u("yd", "yard", 0.9144), _u("mi", "mile", 1609.344),
         _u("nmi", "nautical mile", 1852.0), _u("au", "astronomical unit", 149597870700.0),
@@ -38,7 +38,7 @@ CATEGORIES = (
         _u("gr", "grain", 0.00006479891), _u("g", "gram", 0.001), _u("kg", "kilogram", 1.0),
         _u("t", "metric tonne", 1000.0), _u("oz", "ounce", 0.028349523125),
         _u("lb", "pound", 0.45359237), _u("st", "stone", 6.35029318),
-        _u("ton", "US short ton", 907.18474), _u("lton", "UK long ton", 1016.0469088),
+        _u("ton", "US short ton (2000 lb)", 907.18474), _u("lton", "UK long ton (2240 lb)", 1016.0469088),
     )),
     Category("area", "m2", (
         _u("mm2", "square millimetre", 1e-6), _u("cm2", "square centimetre", 0.0001),
@@ -84,7 +84,7 @@ CATEGORIES = (
     )),
     Category("power", "w", (
         _u("w", "watt", 1.0), _u("kw", "kilowatt", 1000.0), _u("gw", "gigawatt", 1e9),
-        _u("hp", "mechanical horsepower", 745.69987158227022), _u("ps", "metric horsepower", 735.49875),
+        _u("hp", "mechanical horsepower", 745.69987158227022), _u("ps", "metric horsepower (PS)", 735.49875),
         _u("btuh", "BTU (IT) per hour", 1055.05585262 / 3600),
         _u("btumin", "BTU (IT) per minute", 1055.05585262 / 60),
         _u("ftlbmin", "foot-pound force per minute", 1.3558179483314004 / 60),
@@ -97,7 +97,7 @@ CATEGORIES = (
         _u("inhg", "inch of mercury", 25.4 * 133.322387415), _u("torr", "torr", 101325 / 760),
     )),
     Category("angle", "deg", (
-        _u("deg", "degree", 1.0), _u("rad", "radian", 180 / math.pi), _u("grad", "gradian", 0.9),
+        _u("deg", "degree", 1.0), _u("rad", "radian", 180 / math.pi), _u("grad", "gradian (gon)", 0.9),
         _u("turn", "full turn", 360.0), _u("arcmin", "arcminute", 1 / 60), _u("arcsec", "arcsecond", 1 / 3600),
     )),
     Category("temperature", "c", (

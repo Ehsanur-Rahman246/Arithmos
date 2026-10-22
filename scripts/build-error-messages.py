@@ -85,7 +85,7 @@ PLACEHOLDERS = {
 }
 PLACEHOLDER_HELP = [
     ("input", "The text exactly as the user typed it, case preserved (a unit symbol, base name, category name, or number)."),
-    ("word", "An unrecognised or misplaced word from an expression, case preserved."),
+    ("word", "An unrecognised or misplaced word from an expression, case preserved (a keyword in `Unexpected '…'` is shown in lower case)."),
     ("char", "The single unexpected character."),
     ("fn", "A function name: `sqrt` or `abs`."),
     ("digit", "The offending digit, uppercased."),

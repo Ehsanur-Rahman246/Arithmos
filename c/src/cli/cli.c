@@ -18,24 +18,33 @@
 /* The same numbers as PickStatus (PICK_BACK, PICK_QUIT, PICK_EOF), so a pick result can be returned as is. */
 enum { RES_BACK = 1, RES_QUIT = 2, RES_EOF = 3 };
 
+static const char *const STANDARD_INTRO =
+    "Standard Calculator   (help \xc2\xb7 back \xc2\xb7 quit)\n"
+    "Try: 2 + 3 * 4    sqrt(16)    20% of 150    ans * 2\n";
 static const char *const STANDARD_HELP =
-    "Type an expression: + - * / ^ ( ) % of sqrt(x) abs(x) ans\n"
-    "  25 + 17    20% of 150    200 + 10%    sqrt(16)    ans * 2\n"
-    "Commands: help, back, quit\n";
+    "  2 + 3 * 4        + - * / ^ and ( )\n"
+    "  sqrt(x) abs(x)   functions\n"
+    "  20% of 150       percent;  200 + 10% adds 10% of 200\n"
+    "  ans              the last result\n"
+    "  back  main menu     quit  exit\n";
 
+static const char *const PROGRAMMER_INTRO =
+    "Programmer Calculator \xc2\xb7 64-bit integers   (help \xc2\xb7 back \xc2\xb7 quit)\n"
+    "Try: 255    5 AND 3    1 << 3    255 dec hex\n";
 static const char *const PROGRAMMER_HELP =
-    "64-bit signed integers. Show a value in every base: 0xFF, 255, -1\n"
-    "  base bin|oct|dec|hex       set the input base\n"
-    "  [convert] 255 dec hex      convert between bases\n"
-    "  5 AND 3   5 OR 3   5 XOR 3   NOT 5\n"
-    "  1 << 3    -8 >> 1   -8 >>> 1     (shift count is decimal, 0-63)\n"
-    "Prefixes: 0b 0o 0d 0x. Commands: help, back, quit\n";
+    "  255  0xFF  0b101    show a number in HEX DEC OCT BIN\n"
+    "  5 AND 3             also OR, XOR;  NOT 5\n"
+    "  1 << 3              shifts: << left, >> arithmetic, >>> logical\n"
+    "  255 dec hex         convert between bin, oct, dec, hex\n"
+    "  base hex            type numbers in hex from now on\n"
+    "  back  main menu     quit  exit\n";
 
 static const char *const CONVERTER_HELP =
-    "Pick a category, a from-unit, a to-unit, then type values.\n"
-    "One-line forms work at every step:\n"
-    "  convert 100 cm in    100 cm in    100 cm all    list    list length\n"
-    "Commands: help, back (one screen), quit\n";
+    "  100            convert that number\n"
+    "  100 cm in      or the full form:  convert 100 cm in\n"
+    "  1 km all       the value in every unit\n"
+    "  list           categories;   list length   its units\n"
+    "  back  previous screen     quit  exit\n";
 
 /* ---------- input / output helpers ---------- */
 
@@ -59,7 +68,8 @@ static int read_line(const char *prompt, char *buf, size_t n)
 {
     fputs(prompt, stdout);
     fflush(stdout);
-    return read_into(buf, n, 0);
+    if (!read_into(buf, n, 0)) { putchar('\n'); return 0; }
+    return 1;
 }
 
 /* The selector consumed one typed key; echo it after the prompt and read the rest. */
@@ -68,7 +78,8 @@ static int read_line_after(const char *prompt, int first, char *buf, size_t n)
     printf("%s%c", prompt, first);
     fflush(stdout);
     buf[0] = (char)first;
-    return read_into(buf, n, 1);
+    if (!read_into(buf, n, 1)) { putchar('\n'); return 0; }
+    return 1;
 }
 
 static void print_error(FILE *f, const ArError *e)
@@ -106,6 +117,7 @@ static int run_standard(void)
     char line[LINE_LEN], out[64];
     ArError err;
     calc_session_init(&s);
+    fputs(STANDARD_INTRO, stdout);
     for (;;) {
         int cmd;
         if (!read_line("standard> ", line, sizeof line)) return RES_EOF;
@@ -127,6 +139,7 @@ static int run_programmer(void)
     ProgResult res;
     ArError err;
     prog_session_init(&s);
+    fputs(PROGRAMMER_INTRO, stdout);
     for (;;) {
         int cmd;
         if (!read_line("programmer> ", line, sizeof line)) return RES_EOF;
@@ -220,7 +233,7 @@ static int pick_category(int *choice)
     spec.keys = names;
     spec.numbers = NULL;
     spec.flags = SEL_OFFER_BACK | SEL_OFFER_QUIT;
-    spec.prompt = "converter> ";
+    spec.prompt = "> ";
     spec.command = converter_command;
     return (int)pick(&io, &spec, choice);
 }
@@ -248,7 +261,7 @@ static int pick_unit(const ConvCategory *cat, const char *from, int *choice)
     spec.keys = keys;
     spec.numbers = NULL;
     spec.flags = SEL_OFFER_BACK | SEL_OFFER_QUIT;
-    spec.prompt = "converter> ";
+    spec.prompt = "> ";
     spec.command = converter_command;
     return (int)pick(&io, &spec, choice);
 }
@@ -281,6 +294,11 @@ static int run_converter(void)
             break;
         case ST_VALUES: {
             ArError err;
+            char cap[32];
+            snprintf(cap, sizeof cap, "%s", c->name);
+            if (cap[0] >= 'a' && cap[0] <= 'z') cap[0] = (char)(cap[0] - 'a' + 'A');
+            printf("\n%s: %s \xe2\x86\x92 %s\n", cap, c->units[from].symbol, c->units[to].symbol);
+            puts("Type a number or a full command.   (help \xc2\xb7 back \xc2\xb7 quit)");
             snprintf(prompt, sizeof prompt, "converter (%s \xe2\x86\x92 %s)> ",
                      c->units[from].symbol, c->units[to].symbol);
             for (;;) {
@@ -349,10 +367,9 @@ static int run_menu(void)
 static const char *const USAGE =
     "Usage:\n"
     "  arithmos                          interactive menu\n"
-    "  arithmos std <expression>         e.g. arithmos std \"20% of 150\"\n"
-    "  arithmos prog <command>           e.g. arithmos prog 0xFF AND 0x0F\n"
-    "  arithmos convert <value> <from> <to|all>\n"
-    "  arithmos list [category]\n";
+    "  arithmos std \"<expression>\"       one Standard Calculator line\n"
+    "  arithmos prog \"<command>\"         one Programmer Calculator line\n"
+    "  arithmos convert <value> <from> <to>   one Unit Converter line (also: list, ... all)\n";
 
 static void join_args(int argc, char **argv, int start, char *buf, size_t cap)
 {
@@ -374,39 +391,33 @@ static int one_shot(int argc, char **argv)
     const char *cmd = argv[1];
     char line[LINE_LEN], out[OUT_LEN];
     ArError err;
+    int is_std  = !ar_strcasecmp(cmd, "std")  || !ar_strcasecmp(cmd, "standard");
+    int is_prog = !ar_strcasecmp(cmd, "prog") || !ar_strcasecmp(cmd, "programmer");
+    int is_conv = !ar_strcasecmp(cmd, "convert") || !ar_strcasecmp(cmd, "list");
 
-    if (!strcmp(cmd, "help") || !strcmp(cmd, "--help") || !strcmp(cmd, "-h")) {
+    if (!ar_strcasecmp(cmd, "help") || !strcmp(cmd, "--help") || !strcmp(cmd, "-h")) {
         fputs(USAGE, stdout);
         return 0;
     }
-    if (!strcmp(cmd, "std")) {
+    if (!is_std && !is_prog && !is_conv) { fputs(USAGE, stderr); return 2; }
+    join_args(argc, argv, is_conv ? 1 : 2, line, sizeof line); /* convert/list keep their own word */
+    ar_trim(line);
+    if (!line[0]) { fputs(USAGE, stderr); return 2; }
+
+    if (is_std) {
         CalcSession s;
-        if (argc < 3) { fputs(USAGE, stderr); return 2; }
-        join_args(argc, argv, 2, line, sizeof line);
         calc_session_init(&s);
         if (calc_run(&s, line, out, sizeof out, &err) == 0) { puts(out); return 0; }
-        print_error(stderr, &err);
-        return 1;
-    }
-    if (!strcmp(cmd, "prog")) {
+    } else if (is_prog) {
         ProgSession s;
         ProgResult res;
-        if (argc < 3) { fputs(USAGE, stderr); return 2; }
-        join_args(argc, argv, 2, line, sizeof line);
         prog_session_init(&s);
         if (prog_execute(&s, line, &res, &err) == 0) { print_prog_result(stdout, &res); return 0; }
-        print_error(stderr, &err);
-        return 1;
-    }
-    if (!strcmp(cmd, "convert") || !strcmp(cmd, "list")) {
-        if (!strcmp(cmd, "convert") && argc != 5) { fputs(USAGE, stderr); return 2; }
-        join_args(argc, argv, 1, line, sizeof line);
+    } else {
         if (conv_run_line(line, out, sizeof out, &err) == 0) { puts(out); return 0; }
-        print_error(stderr, &err);
-        return 1;
     }
-    fputs(USAGE, stderr);
-    return 2;
+    print_error(stderr, &err);
+    return 1;
 }
 
 int arithmos_main(int argc, char **argv)

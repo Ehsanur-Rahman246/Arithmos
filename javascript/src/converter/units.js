@@ -8,7 +8,7 @@ const u = (symbol, name, factor) => ({ symbol, name, factor });
 export const CATEGORIES = [
   { name: 'length', base: 'm', units: [
     u('pm', 'picometre', 0.000000000001), u('ang', 'ångström', 0.0000000001),
-    u('nm', 'nanometre', 0.000000001), u('um', 'micrometre', 0.000001),
+    u('nm', 'nanometre', 0.000000001), u('um', 'micrometre (micron)', 0.000001),
     u('mm', 'millimetre', 0.001), u('cm', 'centimetre', 0.01), u('m', 'metre', 1),
     u('km', 'kilometre', 1000), u('in', 'inch', 0.0254), u('ft', 'foot', 0.3048),
     u('yd', 'yard', 0.9144), u('mi', 'mile', 1609.344), u('nmi', 'nautical mile', 1852),
@@ -19,8 +19,8 @@ export const CATEGORIES = [
     u('ct', 'carat (metric)', 0.0002), u('gr', 'grain', 0.00006479891),
     u('g', 'gram', 0.001), u('kg', 'kilogram', 1), u('t', 'metric tonne', 1000),
     u('oz', 'ounce', 0.028349523125), u('lb', 'pound', 0.45359237),
-    u('st', 'stone', 6.35029318), u('ton', 'US short ton', 907.18474),
-    u('lton', 'UK long ton', 1016.0469088),
+    u('st', 'stone', 6.35029318), u('ton', 'US short ton (2000 lb)', 907.18474),
+    u('lton', 'UK long ton (2240 lb)', 1016.0469088),
   ] },
   { name: 'area', base: 'm2', units: [
     u('mm2', 'square millimetre', 0.000001), u('cm2', 'square centimetre', 0.0001),
@@ -66,7 +66,7 @@ export const CATEGORIES = [
   ] },
   { name: 'power', base: 'w', units: [
     u('w', 'watt', 1), u('kw', 'kilowatt', 1000), u('gw', 'gigawatt', 1000000000),
-    u('hp', 'mechanical horsepower', 745.69987158227022), u('ps', 'metric horsepower', 735.49875),
+    u('hp', 'mechanical horsepower', 745.69987158227022), u('ps', 'metric horsepower (PS)', 735.49875),
     u('btuh', 'BTU (IT) per hour', 1055.05585262 / 3600),
     u('btumin', 'BTU (IT) per minute', 1055.05585262 / 60),
     u('ftlbmin', 'foot-pound force per minute', 1.3558179483314004 / 60),
@@ -80,7 +80,7 @@ export const CATEGORIES = [
     u('torr', 'torr', 101325 / 760),
   ] },
   { name: 'angle', base: 'deg', units: [
-    u('deg', 'degree', 1), u('rad', 'radian', 180 / Math.PI), u('grad', 'gradian', 0.9),
+    u('deg', 'degree', 1), u('rad', 'radian', 180 / Math.PI), u('grad', 'gradian (gon)', 0.9),
     u('turn', 'full turn', 360), u('arcmin', 'arcminute', 1 / 60), u('arcsec', 'arcsecond', 1 / 3600),
   ] },
   { name: 'temperature', base: 'c', formula: true, units: [

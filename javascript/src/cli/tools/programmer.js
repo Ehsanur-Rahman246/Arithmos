@@ -20,7 +20,7 @@ export function programmerTool() {
     ].join('\n'),
     handle(line) {
       const result = session.run(line);
-      if (result.type === 'base') return '';
+      if (result.type === 'base') return `Input base: ${result.base}`;
       if (result.type === 'convert') return result.text;
       const all = formatAllBases(result.value);
       return ['HEX', 'DEC', 'OCT', 'BIN'].map((k) => `${k}: ${all[k]}`).join('\n');

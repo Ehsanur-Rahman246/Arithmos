@@ -63,7 +63,8 @@ static int parse_literal(const char *text, int default_base, int64_t *out, ArErr
     int overflow = 0;
 
     if (*p == '-') { neg = 1; p++; }
-    if (p[0] == '0' && p[1]) { /* a prefix beats the input base */
+    /* "0b" in hex mode is the hex number 0xB; "0x" in dec mode is INVALID_DIGIT 'X' */
+    if (p[0] == '0' && p[1] && p[2]) { /* a prefix beats the input base, but only when digits follow it */
         switch (tolower((unsigned char)p[1])) {
         case 'b': base = 2; p += 2; break;
         case 'o': base = 8; p += 2; break;
@@ -216,15 +217,25 @@ void prog_session_init(ProgSession *s) { s->input_base = 10; }
 
 int prog_execute(ProgSession *s, const char *line, ProgResult *res, ArError *err)
 {
-    char copy[1024];
+    char copy[2112];
     char *words[MAX_WORDS + 1];
     int n = 0;
     char *p;
     int64_t v;
 
-    if (strlen(line) >= sizeof copy)
+    if (strlen(line) >= 1024) /* input limit, unchanged; copy is bigger only to hold the added spaces */
         return ar_error_set(err, AR_UNKNOWN_COMMAND, "Not a command. Try help");
-    snprintf(copy, sizeof copy, "%s", line);
+    { /* `1<<3` works like `1 << 3`: put spaces around >>>, >> and << (longest first) */
+        const char *src = line;
+        char *dst = copy;
+        while (*src) {
+            if (!strncmp(src, ">>>", 3))      { memcpy(dst, " >>> ", 5); dst += 5; src += 3; }
+            else if (!strncmp(src, ">>", 2))  { memcpy(dst, " >> ", 4);  dst += 4; src += 2; }
+            else if (!strncmp(src, "<<", 2))  { memcpy(dst, " << ", 4);  dst += 4; src += 2; }
+            else *dst++ = *src++;
+        }
+        *dst = '\0';
+    }
 
     p = copy;
     while (*p) {

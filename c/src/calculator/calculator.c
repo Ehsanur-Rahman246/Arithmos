@@ -69,7 +69,7 @@ static int tokenize(const char *s, Token *toks, size_t *count, ArError *err)
                 p++;
                 while (is_digit((unsigned char)*p)) { p++; digits++; }
             }
-            if (digits == 0 || *p == '.') /* "." or "5.5.5" */
+            if (digits == 0) /* a lone "."; "5.5.5" is 5.5 then .5 and fails in the parser */
                 return ar_error_set(err, AR_INVALID_EXPRESSION, "Unexpected character '.'");
             len = (size_t)(p - t->text);
             tmp = (char *)malloc(len + 1);
@@ -86,7 +86,8 @@ static int tokenize(const char *s, Token *toks, size_t *count, ArError *err)
 
         if (is_alpha(c)) {
             size_t len;
-            while (is_alpha((unsigned char)*p)) p++;
+            p++;
+            while (is_alpha((unsigned char)*p) || is_digit((unsigned char)*p) || *p == '_') p++;
             len = (size_t)(p - t->text);
             t->len = len;
             if (word_is(t->text, len, "sqrt")) t->type = T_SQRT;
@@ -108,8 +109,12 @@ static int tokenize(const char *s, Token *toks, size_t *count, ArError *err)
         case '(': t->type = T_LPAREN; break;
         case ')': t->type = T_RPAREN; break;
         case '%': t->type = T_PERCENT; break;
-        default:
-            return ar_error_set(err, AR_INVALID_EXPRESSION, "Unexpected character '%c'", (char)c);
+        default: {
+            int k = c >= 0xF0 ? 4 : c >= 0xE0 ? 3 : c >= 0xC0 ? 2 : 1, i;
+            for (i = 1; i < k; i++)
+                if (((unsigned char)p[i] & 0xC0) != 0x80) { k = 1; break; }
+            return ar_error_set(err, AR_INVALID_EXPRESSION, "Unexpected character '%.*s'", k, p);
+        }
         }
         p++;
         n++;
@@ -211,7 +216,7 @@ static Node *parse_primary(Parser *P)
         P->pos++;
         return new_node(P, N_GROUP, inner, NULL);
     case T_OF:
-        ar_error_set(P->err, AR_INVALID_EXPRESSION, "Unexpected '%.*s'", (int)t->len, t->text);
+        ar_error_set(P->err, AR_INVALID_EXPRESSION, "Unexpected 'of'");
         return NULL;
     case T_END:
         ar_error_set(P->err, AR_INVALID_EXPRESSION, "The expression ends too early");

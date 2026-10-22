@@ -61,7 +61,7 @@ c/           C edition
 | [docs/roadmap.md](docs/roadmap.md) | Releases 1–5 and the language track |
 | [docs/error-messages.md](docs/error-messages.md) | Error messages shown throughout the app |
 
-Current version: 0.4.0.
+Current version: 0.4.2.
 
 ## Versioning
 

@@ -6,6 +6,20 @@ Each version is tagged `vX.Y.Z`.
 
 ## [Unreleased]
 
+## [0.4.2] — 2026-10-22
+
+### Fixed
+- C: hex-mode `0B`/`0D` literals, space-less shifts (`1<<3`), silent `base`, tokenizer wording and
+  UTF-8 error output, one-shot mode (case-insensitive command word, `standard`/`programmer`, stdout),
+  tool intros, help text, converter values header, prompts, EOF newline, unit display names:
+  C now matches JavaScript and Python byte for byte.
+- Python: `ARITHMOS_PLAIN=1` is honoured.
+
+### Changed
+- Spec amendments R29–R33.
+- JavaScript, Python: one-shot errors and usage-after-bad-input now go to stderr (as C already did).
+- JavaScript, Python, C: unit display names follow the spec exactly.
+
 ## [0.4.1] — 2026-10-20
 
 ### Added

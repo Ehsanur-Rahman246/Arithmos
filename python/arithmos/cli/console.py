@@ -126,7 +126,8 @@ def create_console(stdin=None, stdout=None):
                 stream.reconfigure(encoding="utf-8", errors="replace")
             except (ValueError, OSError):
                 pass
-    if stdin.isatty() and stdout.isatty():
+    plain = os.environ.get("ARITHMOS_PLAIN") == "1"
+    if stdin.isatty() and stdout.isatty() and not plain:
         if os.name == "nt":
             os.system("")  # switches on ANSI escape codes in the Windows console
         colour = not os.environ.get("NO_COLOR") and os.environ.get("TERM") != "dumb"

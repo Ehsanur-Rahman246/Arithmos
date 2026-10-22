@@ -5,6 +5,7 @@ Exit status: 0 ok, 1 the line produced Error [CODE], 2 bad usage."""
 import sys
 
 from arithmos.shared import ArithmosError
+from arithmos.cli.style import PLAIN
 
 from .console import create_console
 from .menu import run_menu
@@ -29,9 +30,17 @@ _ONE_SHOT = {
 }
 
 
+class _StderrIO:
+    """One-shot errors go to stderr. Plain style so no colour codes leak into logs."""
+    style = PLAIN
+    def write(self, text: str) -> None:
+        sys.stderr.write(text)
+
 def main(argv=None, io=None) -> int:
     args = list(sys.argv[1:] if argv is None else argv)
+    injected = io is not None
     io = io or create_console()
+    errio = io if injected else _StderrIO()
     if not args:
         run_menu(io)
         return 0
@@ -43,7 +52,7 @@ def main(argv=None, io=None) -> int:
     entry = _ONE_SHOT.get(head)
     line = " ".join(args[entry[1]:]) if entry else ""
     if not entry or not line.strip():
-        io.write(USAGE + "\n")
+        errio.write(USAGE + "\n")
         return 2
     try:
         out = entry[0]().handle(line)
@@ -51,7 +60,7 @@ def main(argv=None, io=None) -> int:
             io.write(out + "\n")
         return 0
     except ArithmosError as err:
-        print_error(io, err)
+        print_error(errio, err)
         return 1
 
 

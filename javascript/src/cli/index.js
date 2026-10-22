@@ -39,19 +39,20 @@ export async function main(argv, io) {
     return 0;
   }
 
-  const out = io ?? { write: (t) => process.stdout.write(t), style: PLAIN };
+  const out = io ?? { write: (t) => process.stderr.write(t), style: PLAIN };
+  const errOut = io ?? { write: (t) => process.stderr.write(t), style: PLAIN };
   const head = args[0].toLowerCase();
   if (head === '-h' || head === '--help' || head === 'help') { out.write(`${USAGE}\n`); return 0; }
   const entry = Object.hasOwn(ONE_SHOT, head) ? ONE_SHOT[head] : null;
   const line = entry ? args.slice(entry.rest).join(' ') : '';
-  if (!entry || line.trim() === '') { out.write(`${USAGE}\n`); return 2; }
+  if (!entry || line.trim() === '') { errOut.write(`${USAGE}\n`); return 2; }
 
   try {
     const text = entry.tool().handle(line);
     if (text) out.write(`${text}\n`);
     return 0;
   } catch (err) {
-    if (err instanceof ArithmosError) { printError(out, err); return 1; }
+    if (err instanceof ArithmosError) { printError(errOut, err); return 1; }
     throw err;
   }
 }

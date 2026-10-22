@@ -9,7 +9,7 @@ def programmer_tool() -> Tool:
     def handle(line: str) -> str:
         result = session.run(line)
         if result["type"] == "base":
-            return ""
+            return f"Input base: {result['base']}"
         if result["type"] == "convert":
             return result["text"]
         shown = format_all_bases(result["value"])
