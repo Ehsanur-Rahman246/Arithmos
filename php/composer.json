@@ -1,0 +1,14 @@
+{
+    "name": "arithmos/arithmos-php",
+    "description": "Arithmos CLI calculator and unit converter in PHP",
+    "type": "project",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Ehsanur-Rahman246",
+            "email": "rahmanehsanur246@gmail.com"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require": {}
+}

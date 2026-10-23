@@ -762,7 +762,7 @@ Release 1 is implemented in **all 43 selected languages**. Per the roadmap's lan
 | 27 | Objective-C | ☐ | ☐ | ☐ | ☐ | Build with clang (macOS) or GNUstep; use `int64_t`. |
 | 28 | OCaml | ☐ | ☐ | ☐ | ☐ | Native `int` is **63-bit**; use `Int64` for programmer mode. |
 | 29 | Perl | ☐ | ☐ | ☐ | ☐ | Needs a 64-bit Perl build; use `use integer` carefully for signed behavior. |
-| 30 | PHP | ☐ | ☐ | ☐ | ☐ | Requires a 64-bit build. Integer overflow turns into float, so guard it explicitly. |
+| 30 | PHP | ☑ | ☑ | ☑ | ☑ | Requires a 64-bit build. Literals are parsed from strings and results never pass through `float`, so there is no silent integer-to-float overflow. |
 | 31 | PowerShell | ☐ | ☐ | ☐ | ☐ | `[long]` / `[ulong]`; cross-platform PowerShell 7 preferred. |
 | 32 | Prolog | ☐ | ☐ | ☐ | ☐ | SWI-Prolog assumed; integers are unbounded, so mask to 64 bits. |
 | 33 | Python | ☑ | ☑ | ☑ | ☑ | Integers are unbounded; mask and sign-convert to 64 bits manually. Consider `decimal` for conversions. |

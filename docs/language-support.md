@@ -12,6 +12,7 @@ when a language is marked complete. Progress for languages in progress is tracke
 | Python | 0.3.0 | Python 3.9+ | Mask with `2**64 − 1` and sign-convert | Standalone CLI, no dependencies | None |
 | C | 0.4.0 | C99 compiler (gcc/clang) + libm | int64_t / uint64_t | Standalone CLI, no dependencies | None |
 | C++ | 0.5.0 | C++17 compiler (g++/clang++) | int64_t / uint64_t | Standalone CLI, no dependencies | None |
+| PHP | 0.6.0 | PHP 8.0+ (64-bit build) | Native `int`; literals parsed from strings so nothing passes through `float` | Standalone CLI, no dependencies | None |
 
 ## Interface (all editions)
 

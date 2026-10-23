@@ -6,6 +6,15 @@ Each version is tagged `vX.Y.Z`.
 
 ## [Unreleased]
 
+## [0.6.0] — 2026-10-23
+
+### Added
+- PHP edition of Release 1 (Standard Calculator, Programmer Calculator, Unit Converter).
+  Passes all 175 shared cases.
+- PHP: arrow-key selector for the menus and pickers (POSIX `stty`, Windows PowerShell key
+  reads), typed fallback, `ARITHMOS_PLAIN=1`, `NO_COLOR=1`.
+- Selector tests SL1–SL21 for PHP (21), plus X2 (also in C++) and X3 (key-byte parsing, PHP only).
+
 ## [0.5.0] — 2026-10-23
 
 ### Added

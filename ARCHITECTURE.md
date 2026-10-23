@@ -35,18 +35,18 @@ never import from `cli`.
 
 ## Module map
 
-| Layer | JavaScript (`javascript/src/`) | Python (`python/arithmos/`) | C (`c/src/`) | C++ (`cpp/src/`) |
-|---|---|---|---|---|
-| Entry point | `../bin/arithmos.js`, `cli/index.js` | `__main__.py`, `cli/app.py` | `main.c` | `main.cpp`, `cli/cli.cpp` |
-| Menu | `cli/menu.js` | `cli/menu.py` | `cli/cli.c` | `cli/cli.cpp` |
-| Prompt loop | `cli/repl.js` | `cli/repl.py` | `cli/cli.c` | `cli/cli.cpp` |
-| Arrow-key selector | `cli/select.js`, `cli/pick.js` | `cli/selector.py`, `cli/pick.py` | `cli/select.c`, `select.h`,  `cli/pick.c`, `pick.h` | `cli/selector.{hpp,cpp}`, `cli/pick.{hpp,cpp}` |
-| Terminal I/O, colours | `cli/io.js`, `cli/style.js` | `cli/console.py`, `cli/style.py` | `cli/cli.c + select.c` (no colour module) | `cli/terminal.{hpp,cpp}` (colour via `SelIo.color`) |
-| Tool bindings | `cli/tools/{standard,programmer,converter}.js` | `cli/tools/{standard,programmer,converter}.py` | `cli/cli.c` | `cli/cli.cpp` |
-| Standard Calculator | `calculator/{tokenizer,parser,evaluator,index}.js` | `calculator/{tokenizer,parser,evaluator,__init__}.py` | `calculator/calculator.c` | `calculator/calculator.{hpp,cpp}` |
-| Programmer Calculator | `programmer/{int64,parse,operations,format,index}.js` | `programmer/{int64,parse,operations,format,__init__}.py` | `programmer/programmer.c` | `programmer/programmer.{hpp,cpp}` |
-| Unit Converter | `converter/{units,convert,temperature,session,index}.js` | `converter/{units,convert,temperature,session,__init__}.py` | `converter/converter.c, units.c` | `converter/{converter.hpp,units.cpp,converter.cpp}` |
-| Shared | `shared/{errors,format-number,index}.js` | `shared/{errors,format_number,__init__}.py` | `shared/shared.c` | `shared/{errors.hpp,text.hpp,format_number.hpp,format_number.cpp}` |
+| Layer | JavaScript (`javascript/src/`) | Python (`python/arithmos/`) | C (`c/src/`) | C++ (`cpp/src/`) | PHP (`php/src/`) |
+|---|---|---|---|---|---|
+| Entry point | `../bin/arithmos.js`, `cli/index.js` | `__main__.py`, `cli/app.py` | `main.c` | `main.cpp`, `cli/cli.cpp` | `../bin/arithmos.php`, `cli/cli.php` |
+| Menu | `cli/menu.js` | `cli/menu.py` | `cli/cli.c` | `cli/cli.cpp` | `cli/cli.php` |
+| Prompt loop | `cli/repl.js` | `cli/repl.py` | `cli/cli.c` | `cli/cli.cpp` | `cli/tools.php` (`Repl`) |
+| Arrow-key selector | `cli/select.js`, `cli/pick.js` | `cli/selector.py`, `cli/pick.py` | `cli/select.c`, `select.h`,  `cli/pick.c`, `pick.h` | `cli/selector.{hpp,cpp}`, `cli/pick.{hpp,cpp}` | `cli/selector.php`, `cli/pick.php` |
+| Terminal I/O, colours | `cli/io.js`, `cli/style.js` | `cli/console.py`, `cli/style.py` | `cli/cli.c + select.c` (no colour module) | `cli/terminal.{hpp,cpp}` (colour via `SelIo.color`) | `cli/terminal.php`, `cli/io.php` |
+| Tool bindings | `cli/tools/{standard,programmer,converter}.js` | `cli/tools/{standard,programmer,converter}.py` | `cli/cli.c` | `cli/cli.cpp` | `cli/cli.php` |
+| Standard Calculator | `calculator/{tokenizer,parser,evaluator,index}.js` | `calculator/{tokenizer,parser,evaluator,__init__}.py` | `calculator/calculator.c` | `calculator/calculator.{hpp,cpp}` | `calculator/{tokenizer,parser,evaluator,calculator}.php` |
+| Programmer Calculator | `programmer/{int64,parse,operations,format,index}.js` | `programmer/{int64,parse,operations,format,__init__}.py` | `programmer/programmer.c` | `programmer/programmer.{hpp,cpp}` | `programmer/{int64,parse,programmer}.php` |
+| Unit Converter | `converter/{units,convert,temperature,session,index}.js` | `converter/{units,convert,temperature,session,__init__}.py` | `converter/converter.c, units.c` | `converter/{converter.hpp,units.cpp,converter.cpp}` | `converter/{units,converter}.php` |
+| Shared | `shared/{errors,format-number,index}.js` | `shared/{errors,format_number,__init__}.py` | `shared/shared.c` | `shared/{errors.hpp,text.hpp,format_number.hpp,format_number.cpp}` | `shared/{errors,format_number}.php` |
 
 ## Data flow
 
@@ -114,6 +114,7 @@ plain notation for `1e-6 ≤ |x| < 1e15`, otherwise `<mantissa>e<sign><exponent>
 | Python | `Decimal(float)` rounded with `ROUND_HALF_UP` (Python's own float formatting rounds ties to even) |
 | C | `printf("%.34e")` gives the exact expansion, and the digit string is rounded by hand. |
 | C++ | Same as C: `printf("%.34e")` gives the exact expansion, and the digit string is rounded by hand. |
+| PHP | `sprintf('%.34e')` gives the exact expansion, and the digit string is rounded by hand (as in C). |
 
 ## CLI screens
 
