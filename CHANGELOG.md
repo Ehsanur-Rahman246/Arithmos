@@ -6,6 +6,20 @@ Each version is tagged `vX.Y.Z`.
 
 ## [Unreleased]
 
+## [0.5.0] — 2026-10-23
+
+### Added
+- C++ edition of Release 1 (Standard Calculator, Programmer Calculator, Unit Converter).
+  Passes all 175 shared cases, also under AddressSanitizer and UBSan.
+- C++: arrow-key selector for the menus and pickers (POSIX termios, Windows `_getch` with
+  ANSI escape processing), typed fallback, `ARITHMOS_PLAIN=1`, `NO_COLOR=1`.
+- Selector tests SL1–SL21 for C++ (21).
+
+### Changed
+- Spec §2.1, §9, §11, ARCHITECTURE.md, docs/test-cases.md, docs/development-workflow.md and
+  docs/language-support.md: the arrow-key selector is now required on a real terminal in every
+  edition that can run an interactive terminal program (amendment R34).
+
 ## [0.4.2] — 2026-10-22
 
 ### Fixed

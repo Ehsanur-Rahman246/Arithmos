@@ -35,18 +35,18 @@ never import from `cli`.
 
 ## Module map
 
-| Layer | JavaScript (`javascript/src/`) | Python (`python/arithmos/`) | C (`c/src/`) |
-|---|---|---|---|
-| Entry point | `../bin/arithmos.js`, `cli/index.js` | `__main__.py`, `cli/app.py` | `main.c` |
-| Menu | `cli/menu.js` | `cli/menu.py` | `cli/cli.c` |
-| Prompt loop | `cli/repl.js` | `cli/repl.py` | `cli/cli.c` |
-| Arrow-key selector | `cli/select.js`, `cli/pick.js` | `cli/selector.py`, `cli/pick.py` | `cli/select.c`, `select.h`,  `cli/pick.c`, `pick.h` |
-| Terminal I/O, colours | `cli/io.js`, `cli/style.js` | `cli/console.py`, `cli/style.py` | `cli/cli.c + select.c` (no colour module) |
-| Tool bindings | `cli/tools/{standard,programmer,converter}.js` | `cli/tools/{standard,programmer,converter}.py` | `cli/cli.c` |
-| Standard Calculator | `calculator/{tokenizer,parser,evaluator,index}.js` | `calculator/{tokenizer,parser,evaluator,__init__}.py` | `calculator/calculator.c` |
-| Programmer Calculator | `programmer/{int64,parse,operations,format,index}.js` | `programmer/{int64,parse,operations,format,__init__}.py` | `programmer/programmer.c` |
-| Unit Converter | `converter/{units,convert,temperature,session,index}.js` | `converter/{units,convert,temperature,session,__init__}.py` | `converter/converter.c, units.c` |
-| Shared | `shared/{errors,format-number,index}.js` | `shared/{errors,format_number,__init__}.py` | `shared/shared.c` |
+| Layer | JavaScript (`javascript/src/`) | Python (`python/arithmos/`) | C (`c/src/`) | C++ (`cpp/src/`) |
+|---|---|---|---|---|
+| Entry point | `../bin/arithmos.js`, `cli/index.js` | `__main__.py`, `cli/app.py` | `main.c` | `main.cpp`, `cli/cli.cpp` |
+| Menu | `cli/menu.js` | `cli/menu.py` | `cli/cli.c` | `cli/cli.cpp` |
+| Prompt loop | `cli/repl.js` | `cli/repl.py` | `cli/cli.c` | `cli/cli.cpp` |
+| Arrow-key selector | `cli/select.js`, `cli/pick.js` | `cli/selector.py`, `cli/pick.py` | `cli/select.c`, `select.h`,  `cli/pick.c`, `pick.h` | `cli/selector.{hpp,cpp}`, `cli/pick.{hpp,cpp}` |
+| Terminal I/O, colours | `cli/io.js`, `cli/style.js` | `cli/console.py`, `cli/style.py` | `cli/cli.c + select.c` (no colour module) | `cli/terminal.{hpp,cpp}` (colour via `SelIo.color`) |
+| Tool bindings | `cli/tools/{standard,programmer,converter}.js` | `cli/tools/{standard,programmer,converter}.py` | `cli/cli.c` | `cli/cli.cpp` |
+| Standard Calculator | `calculator/{tokenizer,parser,evaluator,index}.js` | `calculator/{tokenizer,parser,evaluator,__init__}.py` | `calculator/calculator.c` | `calculator/calculator.{hpp,cpp}` |
+| Programmer Calculator | `programmer/{int64,parse,operations,format,index}.js` | `programmer/{int64,parse,operations,format,__init__}.py` | `programmer/programmer.c` | `programmer/programmer.{hpp,cpp}` |
+| Unit Converter | `converter/{units,convert,temperature,session,index}.js` | `converter/{units,convert,temperature,session,__init__}.py` | `converter/converter.c, units.c` | `converter/{converter.hpp,units.cpp,converter.cpp}` |
+| Shared | `shared/{errors,format-number,index}.js` | `shared/{errors,format_number,__init__}.py` | `shared/shared.c` | `shared/{errors.hpp,text.hpp,format_number.hpp,format_number.cpp}` |
 
 ## Data flow
 
@@ -113,6 +113,7 @@ plain notation for `1e-6 ≤ |x| < 1e15`, otherwise `<mantissa>e<sign><exponent>
 | JavaScript | `toExponential(11)` on the exact binary value |
 | Python | `Decimal(float)` rounded with `ROUND_HALF_UP` (Python's own float formatting rounds ties to even) |
 | C | `printf("%.34e")` gives the exact expansion, and the digit string is rounded by hand. |
+| C++ | Same as C: `printf("%.34e")` gives the exact expansion, and the digit string is rounded by hand. |
 
 ## CLI screens
 
@@ -124,18 +125,17 @@ screens from one helper:
 - `pick(io, title, options, back, quit)`: one question, many answers. 
 Each edition has the same four selector layers, so the same tests (SL1–SL21) apply: key handling
 (pure), drawing (pure), a draw/read loop over an injectable keyboard and screen, and `pick()` over an
-injectable io. The C edition passes them as `SelIo` and `PickIo` structs of function pointers.
+injectable io. The C edition passes them as `SelIo` and `PickIo` structs of function pointers; the C++ edition uses the same structs with `std::function` members.
 On a real
   terminal it is an arrow-key selector with a highlighted row; everywhere else
-  it is a numbered list answered by typing a number, a name or a symbol. The
-  numbered list is the required baseline, the selector is optional (spec §2.1).
+  it is a numbered list answered by typing a number, a name or a symbol. The selector is the default on a real terminal and the numbered list is used everywhere else (spec §2.1). Both are required.
 - Prompt loop (calculators): `help`/`?`, `back`, `quit`, blank lines ignored,
   EOF exits cleanly, every error printed as `Error [CODE]: message`.
 - Guided converter: a four-stage state machine (category, from, to, values).
   `back` steps back one stage and leaves to the main menu from the first.
   One-line commands are accepted at every stage.
 
-Selector rules (when an edition implements the optional arrow-key selector):
+Selector rules (every edition that can run an interactive terminal program):
 1. Only on a real terminal; otherwise the numbered list (the required baseline).
 2. ↑↓ move, Enter selects, Esc or `b` = `back`, `q` = `quit`, Ctrl-C / Ctrl-D = end of input.
    `b` and `q` act immediately, with no prompt line.
@@ -145,6 +145,10 @@ Selector rules (when an edition implements the optional arrow-key selector):
    is shown again.
 4. `ARITHMOS_PLAIN=1` forces the numbered list.
 5. Raw key reading is on only while a key is read, so the terminal is never left raw.
+6. A redraw moves the cursor up by the number of lines drawn, so one logical line must be one
+   screen line: every drawn line is at most (terminal width − 1) columns (longer lines end with
+   "…"), and the list window shrinks so the block fits the terminal height. Both are measured
+   on every redraw, so resizing works.
 
 ## Design decisions
 

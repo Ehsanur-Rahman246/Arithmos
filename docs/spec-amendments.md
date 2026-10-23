@@ -37,14 +37,15 @@ and add a case to Section 8.
 | R24 | Programmer | Is `convert` optional? | Optional (`255 dec hex`). Amended in spec §4.5 | Settled |
 | R25 | Shell | Help alias | `help` or `?` prints the command list. Amended in spec §2.1 | Settled |
 | R26 | Shell | Error message wording | Both editions use identical wording. Wording is not normative (tests check codes only), but new languages should reuse it where the language allows | Settled |
-| R27 | Shell | Optional arrow-key selector: keys | Esc / `b` back, `q` quit, other printable key opens a typed line (number, name, symbol or one-line command); plain mode unchanged. Same in JavaScript, Python and C | Settled |
+| R27 | Shell | Arrow-key selector: keys | Esc / `b` back, `q` quit, other printable key opens a typed line (number, name, symbol or one-line command); plain mode unchanged. Same in JavaScript, Python and C | Settled |
 | R28 | Shell | Converter screens | Titles: `Unit Converter — choose a category`, `<Category> — convert from`, `<Category> — convert from <unit> to`. Plain list rows: two spaces, the number, `)`, a space, the label (`  1) length`). The selected row is a full bar with `❯`; a chosen row leaves `✔ <title>: <label>` behind. Same in JavaScript, Python and C | Settled |
 | R29 | Programmer | `1<<3` without spaces | Same as `1 << 3`. Spaces are optional around `<<`, `>>`, `>>>` | Settled |
 | R30 | Programmer | `0B`, `0D` in hex mode; `0x` in dec mode | A prefix counts only when digits follow it. `0B` in hex mode is the number 11; a bare `0x` in dec mode is `INVALID_DIGIT` | Settled |
 | R31 | Shell | One-shot mode | Results and `--help` go to stdout; `Error [CODE]` lines and the usage shown after bad input go to stderr; exit status 0 / 1 / 2. The command word is case-insensitive; `standard` and `programmer` are long forms of `std` and `prog`. Inside the interactive session everything, errors included, goes to stdout. | Settled |
 | R32 | Programmer | Output of `base <name>` | Prints `Input base: <bin\|oct\|dec\|hex>` (lower-case canonical name, whatever case was typed). Only the CLI prints it; the engine returns the base. | Settled |
 | R33 | Converter | Unit display names | The names in the spec's unit tables are the display names, parentheses included. Every edition shows them exactly. | Settled |
+| R34 | Shell | Arrow-key selector is required | The selector is the default on a real terminal in every edition that can run an interactive terminal program (keys and screens as R27/R28, `ARITHMOS_PLAIN=1` and `NO_COLOR=1` as in the JavaScript edition). Numbered lists are used when stdin or stdout is not a terminal, or when `ARITHMOS_PLAIN=1` is set. Languages without a terminal are exempt and document it. Amended in spec §2.1, §9 and §11 | Settled |
 
-R22–R33 were behaviours of the reference edition that differed from the original
+R22–R34 were behaviours of the reference edition that differed from the original
 spec text. They are now spec behaviour, so every language implements them and none
 is a deviation. R24 is also covered by shared cases P29, P30 and P32.

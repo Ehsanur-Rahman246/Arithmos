@@ -56,6 +56,7 @@ Exactly one of `expected`, `expectedContains`, `error` is present per case or st
 | JavaScript | `npm test` |
 | Python | `python -m unittest discover -s tests -t .` |
 | C | `make test` (from `c/`; `make` needs w64devkit/MinGW on Windows, see c/README.md) |
+| C++ | `make test` from `cpp/`, or the g++ commands in cpp/README.md |
 
 ## Adding a case
 
@@ -69,7 +70,7 @@ scripted CLI sessions). Those never replace shared cases.
 
 ## Selector tests (SL1–SL21)
 
-The arrow-key selector is optional (spec §2.1), but every edition that implements it runs the same
+The arrow-key selector is required on a real terminal (spec §2.1), so every edition runs the same
 21 numbered tests with the same numbers. They are not shared data cases: each edition keeps them in
 its own test folder and asserts behaviour only (never terminal formatting beyond the strings below).
 
@@ -96,13 +97,16 @@ its own test folder and asserts behaviour only (never terminal formatting beyond
 | SL19 | pick(): an unknown typed word is an error and the list comes back |
 | SL20 | pick(): b, q and Esc act at once, with no prompt line |
 | SL21 | pick(): without a selector (pipes) the numbered list works as before |
+| X2 | lines never wider than the terminal; the window shrinks on a short terminal; erase moves up by the drawn line count | C++ (`test/run_selector.cpp`) |
+
 
 | Edition | File | Tests |
 |---|---|---|
 | JavaScript | `test/select.test.js` | SL1–SL21 + X1 (key queue, JavaScript only) = 22 |
 | Python | `tests/test_select.py` | SL1–SL21 = 21 |
 | C | `test/run_selector.c` | SL1–SL21 = 21 |
+| C++ | `test/run_selector.cpp` | SL1–SL21 = 21 + X2 |
 
-Rules: a new edition that has a selector must add all 21 under these numbers (the C runner fails if
+Rules: every new edition must add all 21 under these numbers (unless it is exempt under release-1.md §9) (the C runner fails if
 the count is not 21). Behaviour that exists in only one edition gets an `X<n>` id and is listed here,
 never a number inside SL1–SL21.

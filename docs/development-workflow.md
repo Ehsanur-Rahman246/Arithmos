@@ -4,7 +4,9 @@
 
 1. Read the spec: [specifications/release-1.md](specifications/release-1.md).
 2. Implement the core logic, separate from I/O (see [ARCHITECTURE.md](../ARCHITECTURE.md)).
-3. Add the CLI layer.
+3. Add the CLI layer, including the arrow-key selector (default on a real terminal; numbered
+      lists for pipes, files, tests and ARITHMOS_PLAIN=1). The selector is part of the CLI layer, not an
+      extra: build it before running the shared cases.
 4. Run the shared cases (see [test-cases.md](test-cases.md)). A language is not
    complete while any shared case fails.
 5. Write the language README using the template below.
@@ -15,7 +17,8 @@
 
 Every language folder contains one `README.md` with these sections:
 Prerequisites · Run · Test · Layout · How the hard parts are done (64-bit integers,
-12-digit formatting) · Interface · Deviations · Documentation links.
+12-digit formatting) · Interface (selector keys, numbered-list mode,
+   ARITHMOS_PLAIN, NO_COLOR, platform notes) · Deviations · Documentation links.
 It satisfies spec Section 6.
 
 ## Versioning
@@ -48,11 +51,16 @@ patch version instead.
 - [ ] Folder at the repo root, named in lowercase
 - [ ] Loads `docs/release-1-cases.json` and passes all 175 cases
 - [ ] Extra tests: number formatting boundaries, CLI scripted sessions, no crash on garbage input
-- [ ] If the edition has an arrow-key selector: selector tests SL1–SL21 (docs/test-cases.md)
+- [ ] Arrow-key selector on a real terminal, numbered lists when piped or with `ARITHMOS_PLAIN=1`
+            - [ ] Selector tests SL1–SL21 pass (docs/test-cases.md)
+            - [ ] Hand-tested in a real terminal: arrows, Enter, Esc, b, q, typing, Ctrl-C, ARITHMOS_PLAIN=1,
+                  terminal not left raw
+            (A language without a terminal is exempt: record it per release-1.md §9.)
 - [ ] README follows the template
 - [ ] Row added to `language-support.md`
 - [ ] Release-1 §9 row ticked
 - [ ] CHANGELOG entry, version bump, tag
+- [ ] Selector hand-tested in a narrow terminal (about 60 columns) and a short one (about 8 rows)
 
 ## Documentation rules
 

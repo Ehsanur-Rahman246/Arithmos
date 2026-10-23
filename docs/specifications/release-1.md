@@ -36,9 +36,9 @@ Arithmos 1.0 — Core CLI
   0) Exit
 ```
  
-- The user selects a tool by number. On a real terminal an edition may offer an arrow-key selector instead; the numbered list answered by typing is the required baseline.
+- On a real terminal the user picks with an arrow-key selector (↑↓ move, Enter selects). When stdin or stdout is not a terminal (pipes, files, tests), or when `ARITHMOS_PLAIN=1` is set, the same screens are numbered lists answered by typing a number, a name or a symbol. Both modes are required: the selector is the default on a terminal, and the numbered list is the baseline for automated tests.
 - Each tool runs its own loop until the user types `back` or `quit` (exit the program).
-- `back` goes back one screen; from a tool's first screen it returns to the main menu. On a real terminal an edition may also accept Esc as `back`.
+- `back` goes back one screen; from a tool's first screen it returns to the main menu. At an arrow-key selector, Esc and `b` also mean `back` and `q` means `quit`.
 - Every tool accepts `help` (or `?`), `back`, and `quit` at its prompt, case-insensitively.
 - End-of-input (EOF / Ctrl-D / Ctrl-Z) exits cleanly with no error.
 - An unrecognized command produces `UNKNOWN_COMMAND`.
@@ -728,6 +728,8 @@ Calculation logic must be separate from CLI input/output so it can be tested dir
 Release 1 is implemented in **all 43 selected languages**. Per the roadmap's language policy, languages with an unusual runtime still follow this specification as closely as possible; every deviation must be recorded in that language's README and in the Notes column below — never hidden.
  
 **Legend:** ☐ not started · ◐ in progress · ☑ complete and verified against Section 8
+
+**Terminal exemption.** A language that cannot run an interactive terminal program (for example ABAP, Apex, Solidity, VBA) is exempt from the arrow-key selector. Record the exemption in that language's README and in the Notes column; the numbered list is then the only interface.
  
 | # | Language | Std | Prog | Conv | Docs | Notes |
 |---|---|:-:|:-:|:-:|:-:|---|
@@ -737,7 +739,7 @@ Release 1 is implemented in **all 43 selected languages**. Per the roadmap's lan
 | 4 | Assembly (ASM) | ☐ | ☐ | ☐ | ☐ | Choose and document one target (for example x86-64 Linux, NASM). Native 64-bit integers; floating-point and parsing are manual work. |
 | 5 | Bash | ☐ | ☐ | ☐ | ☐ | Builtin arithmetic is 64-bit integer only; decimals need `bc` or `awk`. Document the external dependency. |
 | 6 | C | ☑ | ☑ | ☑ | ☑ | `int64_t` / `uint64_t`; hand-written expression parser. |
-| 7 | C++ | ☐ | ☐ | ☐ | ☐ | Use `<cstdint>` types. |
+| 7 | C++ | ☑ | ☑ | ☑ | ☑ | Use `<cstdint>` types. |
 | 8 | C# | ☐ | ☐ | ☐ | ☐ | `long` / `ulong`; `decimal` or `double` for calculations. |
 | 9 | Clojure | ☐ | ☐ | ☐ | ☐ | JVM-based; use `long` with unchecked ops for wrap-around. |
 | 10 | COBOL | ☐ | ☐ | ☐ | ☐ | Use GnuCOBOL; document the compiler. Bitwise operations need intrinsic or custom routines. |
@@ -818,6 +820,6 @@ The roadmap deliberately left several points open for the "agreed initial specif
 | Volume units | US customary |
 | Error checking | By error code, not message text |
 | Interactive converter | Guided flow: category → from → to → values. The values prompt shows the units; one-line forms are still accepted |
-| Navigation | `back` goes back one screen (main menu from a tool's first screen); Esc is an optional equivalent; `help` or `?` |
+| Navigation | `back` goes back one screen (main menu from a tool's first screen); Esc and `b` are the key equivalents at a selector; `help` or `?` |
 | Programmer `convert` | The word is optional (`255 dec hex`) |
-| Selectors | Arrow-key lists are optional; numbered lists are the baseline |
+| Selectors | Arrow-key selector is required on a real terminal; numbered lists for pipes, files, tests and `ARITHMOS_PLAIN=1` |

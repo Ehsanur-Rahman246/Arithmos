@@ -14,7 +14,7 @@ Date Calculation, Currency, memory/history, GUI). See [docs/roadmap.md](docs/roa
 
 ## Status
 
-Release 1 is complete in **3 of 43** languages. Per-language progress is tracked in
+Release 1 is complete in **4 of 43** languages. Per-language progress is tracked in
 Section 9 of [the Release 1 spec](docs/specifications/release-1.md).
 
 | Language | Version tag | Folder |
@@ -22,6 +22,7 @@ Section 9 of [the Release 1 spec](docs/specifications/release-1.md).
 | JavaScript (reference) | `v0.2.0` | [javascript/](javascript/) |
 | Python | `v0.3.0` | [python/](python/) |
 | C | `v0.4.0` | [c/](c/) |
+| C++ | `v0.5.0` | [cpp/](cpp/) |
 
 ## Quick start
 
@@ -32,7 +33,11 @@ cd javascript && npm start
 # Python (3.9+)
 cd python && python -m arithmos
 
+# C (C99 + libm)
 cd c && arithmos.exe
+
+# C++ (c++17)
+cd cpp && make && ./arithmos        (or the g++ line in cpp/README.md)
 ```
 
 Each language folder's README has run, test and one-shot commands.
@@ -45,6 +50,7 @@ scripts/     build-cases.py (generates docs/release-1-cases.json from the spec)
 javascript/  reference edition
 python/      Python edition
 c/           C edition
+cpp/         C++ edition
 ```
 
 ## Documentation
@@ -61,7 +67,7 @@ c/           C edition
 | [docs/roadmap.md](docs/roadmap.md) | Releases 1–5 and the language track |
 | [docs/error-messages.md](docs/error-messages.md) | Error messages shown throughout the app |
 
-Current version: 0.4.2.
+Current version: 0.5.0.
 
 ## Versioning
 

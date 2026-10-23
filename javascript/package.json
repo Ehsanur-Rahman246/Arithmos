@@ -1,6 +1,6 @@
 {
   "name": "arithmos-js",
-  "version": "0.4.2",
+  "version": "0.5.0",
   "description": "Arithmos Release 1 — Core CLI (Standard Calculator, Programmer Calculator, Unit Converter) in JavaScript. Reference implementation.",
   "type": "module",
   "bin": {
