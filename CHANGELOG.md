@@ -6,6 +6,16 @@ Each version is tagged `vX.Y.Z`.
 
 ## [Unreleased]
 
+## [0.9.0] — 2026-10-25
+
+### Added
+- PowerShell edition of Release 1 (Standard Calculator, Programmer Calculator, Unit Converter).
+  Passes all 175 shared cases, plus PowerShell extras. Programmer Calculator on native `[long]`
+  with `BigInteger` literal parsing; 12-digit formatting from the exact `ToString('E34')` expansion.
+- PowerShell: arrow-key selector for the menus and pickers (`[Console]::ReadKey`, Ctrl-C read as a
+  key only while a selector is on screen), typed fallback, `ARITHMOS_PLAIN=1`, `NO_COLOR=1`.
+- Selector tests SL1–SL21 for PowerShell (21), plus X2 and X3 (23 in total).
+
 ## [0.8.0] — 2026-10-24
 
 ### Added

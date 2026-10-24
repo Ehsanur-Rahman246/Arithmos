@@ -15,6 +15,7 @@ when a language is marked complete. Progress for languages in progress is tracke
 | PHP | 0.6.0 | PHP 8.0+ (64-bit build) | Native `int`; literals parsed from strings so nothing passes through `float` | Standalone CLI, no dependencies | None |
 | Java | 0.7.0 | JDK 22+ (developed on 25) | Native `long`; literals parsed with `BigInteger` and reduced with `longValue()` | Standalone CLI, no dependencies | None |
 | Bash | 0.8.0 | Bash 4.0+ and awk | Native `$(( ))` (signed 64-bit, wraps); literals validated as digits and parsed digit by digit; `>>>` by masking | Standalone script, needs awk | None in behaviour; awk dependency documented |
+| PowerShell | 0.9.0 | PowerShell 7.2+ (`pwsh`) | Native `[long]`; literals parsed with `BigInteger`; `>>>` by masking | Standalone script, no dependencies | None in behaviour; 7.2+ required (5.1 unsupported) |
 
 ## Interface (all editions)
 

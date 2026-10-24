@@ -763,7 +763,7 @@ Release 1 is implemented in **all 43 selected languages**. Per the roadmap's lan
 | 28 | OCaml | ☐ | ☐ | ☐ | ☐ | Native `int` is **63-bit**; use `Int64` for programmer mode. |
 | 29 | Perl | ☐ | ☐ | ☐ | ☐ | Needs a 64-bit Perl build; use `use integer` carefully for signed behavior. |
 | 30 | PHP | ☑ | ☑ | ☑ | ☑ | Requires a 64-bit build. Literals are parsed from strings and results never pass through `float`, so there is no silent integer-to-float overflow. |
-| 31 | PowerShell | ☐ | ☐ | ☐ | ☐ | `[long]` / `[ulong]`; cross-platform PowerShell 7 preferred. |
+| 31 | PowerShell | ☑ | ☑ | ☑ | ☑ | PowerShell 7.2+ (`pwsh`). Programmer mode uses native `[long]` (`-band -bor -bxor -bnot -shl -shr`); literals parsed into `BigInteger`; `>>>` by masking. Windows PowerShell 5.1 is not supported. |
 | 32 | Prolog | ☐ | ☐ | ☐ | ☐ | SWI-Prolog assumed; integers are unbounded, so mask to 64 bits. |
 | 33 | Python | ☑ | ☑ | ☑ | ☑ | Integers are unbounded; mask and sign-convert to 64 bits manually. Consider `decimal` for conversions. |
 | 34 | R | ☐ | ☐ | ☐ | ☐ | No native 64-bit integer; use `bit64` or emulate with two 32-bit halves. Document the choice. |

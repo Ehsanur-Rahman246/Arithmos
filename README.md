@@ -14,7 +14,7 @@ Date Calculation, Currency, memory/history, GUI). See [docs/roadmap.md](docs/roa
 
 ## Status
 
-Release 1 is complete in **7 of 43** languages. Per-language progress is tracked in
+Release 1 is complete in **8 of 43** languages. Per-language progress is tracked in
 Section 9 of [the Release 1 spec](docs/specifications/release-1.md).
 
 | Language | Version tag | Folder |
@@ -26,6 +26,7 @@ Section 9 of [the Release 1 spec](docs/specifications/release-1.md).
 | PHP | `v0.6.0` | [php/](php/) |
 | Java | `v0.7.0` | [java/](java/) |
 | Bash | `v0.8.0` | [bash/](bash/) |
+| PowerShell | `v0.9.0` | [powershell/](powershell/) |
 
 ## Quick start
 
@@ -50,6 +51,9 @@ cd java && javac -d out $(find src -name '*.java') && java -cp out arithmos.Main
 
 # Bash (Bash 4+, awk)
 cd bash && bash bin/arithmos
+
+# PowerShell (PowerShell 7.2+)
+cd powershell && pwsh bin/arithmos.ps1
 ```
 
 Each language folder's README has run, test and one-shot commands.
@@ -66,6 +70,7 @@ cpp/         C++ edition
 php/         PHP edition
 java/        Java edition
 bash/        Bash edition
+powershell/  PowerShell edition
 ```
 
 ## Documentation
@@ -82,7 +87,7 @@ bash/        Bash edition
 | [docs/roadmap.md](docs/roadmap.md) | Releases 1–5 and the language track |
 | [docs/error-messages.md](docs/error-messages.md) | Error messages shown throughout the app |
 
-Current version: 0.8.0.
+Current version: 0.9.0.
 
 ## Versioning
 
