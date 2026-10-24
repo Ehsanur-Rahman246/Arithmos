@@ -1,0 +1,10 @@
+{
+  // Source roots of the Java edition. Package "arithmos" starts inside these folders,
+  // so java/src/arithmos/Main.java and java/test/arithmos/RunCases.java are both package arithmos.
+  "java.project.sourcePaths": [
+    "java/src",
+    "java/test"
+  ],
+  // Where the language server puts its own compiled classes (keeps it away from your out/ folders).
+  "java.project.outputPath": "java/.vscode-out"
+}

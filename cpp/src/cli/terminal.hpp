@@ -28,8 +28,8 @@ class Terminal {
  private:
   bool interactive_ = false;
   bool color_ = true;
-  [[maybe_unused]] unsigned long savedMode_ = 0;  // Windows console mode
-  [[maybe_unused]] bool modeSaved_ = false;
+  unsigned long savedMode_ = 0;  // Windows console mode
+  bool modeSaved_ = false;
 };
 
 }  // namespace arithmos::cli

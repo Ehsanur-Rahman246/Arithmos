@@ -6,7 +6,16 @@ Each version is tagged `vX.Y.Z`.
 
 ## [Unreleased]
 
-## [0.6.0] — 2026-10-23
+## [0.7.0] — 2026-10-24
+
+### Added
+- Java edition of Release 1 (Standard Calculator, Programmer Calculator, Unit Converter).
+  Passes all 175 shared cases, plus 126 Java extras.
+- Java: arrow-key selector for the menus and pickers (POSIX `stty`, Windows foreign-function
+  console calls), typed fallback, `ARITHMOS_PLAIN=1`, `NO_COLOR=1`.
+- Selector tests SL1–SL21 for Java (21), plus X2 and X3 (23 in total).
+
+## [0.6.0] — 2026-10-24
 
 ### Added
 - PHP edition of Release 1 (Standard Calculator, Programmer Calculator, Unit Converter).
@@ -43,7 +52,7 @@ Each version is tagged `vX.Y.Z`.
 - JavaScript, Python: one-shot errors and usage-after-bad-input now go to stderr (as C already did).
 - JavaScript, Python, C: unit display names follow the spec exactly.
 
-## [0.4.1] — 2026-10-20
+## [0.4.1] — 2026-10-21
 
 ### Added
 - C: arrow-key selector for the menus and pickers (POSIX termios, Windows `_getch`).

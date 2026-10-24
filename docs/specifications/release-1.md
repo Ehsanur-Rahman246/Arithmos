@@ -751,7 +751,7 @@ Release 1 is implemented in **all 43 selected languages**. Per the roadmap's lan
 | 16 | Go | ☐ | ☐ | ☐ | ☐ | `int64` / `uint64`. |
 | 17 | Groovy | ☐ | ☐ | ☐ | ☐ | JVM-based; watch dynamic number promotion to `BigInteger` / `BigDecimal`. |
 | 18 | Haskell | ☐ | ☐ | ☐ | ☐ | Use `Int64` from `Data.Int` and `Data.Bits`. |
-| 19 | Java | ☐ | ☐ | ☐ | ☐ | `long`; `>>` and `>>>` map directly. |
+| 19 | Java | ☑ | ☑ | ☑ | ☑ | `long`; `>>` and `>>>` map directly. |
 | 20 | JavaScript | ☑ | ☑ | ☑ | ☑ | **Reference implementation (Node.js).** Use `BigInt` with `BigInt.asIntN(64, …)` for programmer mode. |
 | 21 | Julia | ☐ | ☐ | ☐ | ☐ | `Int64` wraps natively; `>>` is arithmetic, `>>>` is logical. |
 | 22 | Kotlin | ☐ | ☐ | ☐ | ☐ | `Long`; `shr` / `ushr` / `shl`. |

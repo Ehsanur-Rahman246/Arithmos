@@ -66,6 +66,7 @@ nimcache/
 *.jar
 *.war
 out/
+out-test/
 .gradle/
 target/
 .bsp/

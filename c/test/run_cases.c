@@ -11,6 +11,7 @@
 
 #include <math.h>
 #include <stdio.h>
+#include <stdint.h>
 #include <stdlib.h>
 #include <string.h>
 
@@ -370,7 +371,7 @@ static void extra_garbage(void)
 {
     static const char alphabet[] =
         "0123456789 .+-*/^()%<>!=,;:'\"\\ofnsqrtabsANDORXNOTbasehexdecbinoctconvertlistkgmcf\t\xff\x01";
-    unsigned long seed = 12345;
+    uint64_t seed = UINT64_C(12345);
     int iter;
     Sessions ss;
     calc_session_init(&ss.calc);
@@ -382,10 +383,12 @@ static void extra_garbage(void)
         ArError err;
         double d;
         int len, i;
-        seed = seed * 6364136223846793005UL + 1442695040888963407UL;
+        seed = seed * UINT64_C(6364136223846793005)
+            + UINT64_C(1442695040888963407);
         len = (int)((seed >> 33) % 40);
         for (i = 0; i < len; i++) {
-            seed = seed * 6364136223846793005UL + 1442695040888963407UL;
+            seed = seed * UINT64_C(6364136223846793005)
+            + UINT64_C(1442695040888963407);
             line[i] = alphabet[(seed >> 33) % (sizeof alphabet - 1)];
         }
         line[len] = '\0';
