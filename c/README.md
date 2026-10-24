@@ -1,4 +1,4 @@
-# Arithmos — C edition
+# Arithmos — C edition (Release 1)
 
 Release 1 (Standard Calculator, Programmer Calculator, Unit Converter) in C99,
 standard library only. Follows [the Release 1 spec](../docs/specifications/release-1.md).

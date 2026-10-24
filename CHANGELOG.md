@@ -6,6 +6,20 @@ Each version is tagged `vX.Y.Z`.
 
 ## [Unreleased]
 
+## [0.8.0] — 2026-10-24
+
+### Added
+- Bash edition of Release 1 (Standard Calculator, Programmer Calculator, Unit Converter).
+  Passes all 175 shared cases, plus Bash extras. Pure-Bash Programmer Calculator on native
+  64-bit arithmetic; awk for Standard Calculator and Converter (documented dependency).
+- Bash: arrow-key selector for the menus and pickers (`stty`, raw mode only while a selector
+  is on screen, restored by traps), typed fallback, `ARITHMOS_PLAIN=1`, `NO_COLOR=1`.
+- Selector tests SL1–SL21 for Bash (21), plus X2 and X3 (23 in total).
+
+### Fixed
+- README: removed a stray "Layout: add php/ PHP edition" line from the quick start.
+- docs/roadmap.md: "PH" is now "PHP" in the progress table.
+
 ## [0.7.0] — 2026-10-24
 
 ### Added

@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+# Arithmos — Bash edition (Release 1).
+# Entry point: argv → one-shot mode, or the interactive menu when there are no arguments.
+
+# Fail early and clearly when the runtime is too old or awk is missing.
+if [ -z "${BASH_VERSION-}" ] || [ "${BASH_VERSINFO[0]}" -lt 4 ]; then
+    echo "Arithmos needs Bash 4.0 or newer (macOS: brew install bash)." >&2
+    exit 2
+fi
+if ! command -v "${AR_AWK:-awk}" >/dev/null 2>&1; then
+    echo "Arithmos needs awk (gawk, mawk or any POSIX awk) on the PATH." >&2
+    exit 2
+fi
+
+# Locate the src folder relative to this script, then load every layer.
+AR_ROOT=$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)
+AR_SRC=$AR_ROOT/src
+source "$AR_SRC/autoload.sh"
+
+cli_main "$@"
+exit $?

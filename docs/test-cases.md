@@ -59,6 +59,7 @@ Exactly one of `expected`, `expectedContains`, `error` is present per case or st
 | C++ | `make test` from `cpp/`, or the g++ commands in cpp/README.md |
 | PHP | `make test` from `php/`, or `php test/run_cases.php ../docs/release-1-cases.json` and `php test/run_selector.php` |
 | Java | `make test` from `java/`, or the `javac` / `java` commands in java/README.md |
+| Bash | `make test` from `bash/`, or `bash test/run_cases.sh ../docs/release-1-cases.json` and `bash test/run_selector.sh` |
 
 ## Adding a case
 
@@ -99,8 +100,8 @@ its own test folder and asserts behaviour only (never terminal formatting beyond
 | SL19 | pick(): an unknown typed word is an error and the list comes back |
 | SL20 | pick(): b, q and Esc act at once, with no prompt line |
 | SL21 | pick(): without a selector (pipes) the numbered list works as before |
-| X2 | lines never wider than the terminal; the window shrinks on a short terminal; erase moves up by the drawn line count | C++ (`test/run_selector.cpp`), PHP (`test/run_selector.php`), Java (`test/arithmos/RunSelector.java`) |
-| X3 | raw terminal bytes become keys (arrows, Esc, Home/End, PgUp/PgDn, Ctrl-C/D, UTF-8) | PHP (`test/run_selector.php`), Java (`test/arithmos/RunSelector.java`) |
+| X2 | lines never wider than the terminal; the window shrinks on a short terminal; erase moves up by the drawn line count | C++ (`test/run_selector.cpp`), PHP (`test/run_selector.php`), Java (`test/arithmos/RunSelector.java`), Bash (`test/run_selector.sh`) |
+| X3 | raw terminal bytes become keys (arrows, Esc, Home/End, PgUp/PgDn, Ctrl-C/D, UTF-8) | PHP (`test/run_selector.php`), Java (`test/arithmos/RunSelector.java`), Bash (`test/run_selector.sh`) |
 
 
 | Edition | File | Tests |
@@ -111,6 +112,7 @@ its own test folder and asserts behaviour only (never terminal formatting beyond
 | C++ | `test/run_selector.cpp` | SL1–SL21 = 21 + X2 |
 | PHP | test/run_selector.php | SL1–SL21 + X2 + X3 = 23 |
 | Java | `test/arithmos/RunSelector.java` | SL1–SL21 + X2 + X3 = 23 |
+| Bash | `test/run_selector.sh` | SL1–SL21 + X2 + X3 = 23 |
 
 Rules: every new edition must add all 21 under these numbers (unless it is exempt under release-1.md §9) (the C runner fails if
 the count is not 21). Behaviour that exists in only one edition gets an `X<n>` id and is listed here,

@@ -14,6 +14,7 @@ when a language is marked complete. Progress for languages in progress is tracke
 | C++ | 0.5.0 | C++17 compiler (g++/clang++) | int64_t / uint64_t | Standalone CLI, no dependencies | None |
 | PHP | 0.6.0 | PHP 8.0+ (64-bit build) | Native `int`; literals parsed from strings so nothing passes through `float` | Standalone CLI, no dependencies | None |
 | Java | 0.7.0 | JDK 22+ (developed on 25) | Native `long`; literals parsed with `BigInteger` and reduced with `longValue()` | Standalone CLI, no dependencies | None |
+| Bash | 0.8.0 | Bash 4.0+ and awk | Native `$(( ))` (signed 64-bit, wraps); literals validated as digits and parsed digit by digit; `>>>` by masking | Standalone script, needs awk | None in behaviour; awk dependency documented |
 
 ## Interface (all editions)
 

@@ -35,18 +35,18 @@ never import from `cli`.
 
 ## Module map
 
-| Layer | JavaScript (`javascript/src/`) | Python (`python/arithmos/`) | C (`c/src/`) | C++ (`cpp/src/`) | PHP (`php/src/`) | Java (`java/src/arithmos/`) |
-|---|---|---|---|---|---|---|
-| Entry point | `../bin/arithmos.js`, `cli/index.js` | `__main__.py`, `cli/app.py` | `main.c` | `main.cpp`, `cli/cli.cpp` | `../bin/arithmos.php`, `cli/cli.php` | `Main.java, cli/Cli.java` |
-| Menu | `cli/menu.js` | `cli/menu.py` | `cli/cli.c` | `cli/cli.cpp` | `cli/cli.php` | `cli/Cli.java` |
-| Prompt loop | `cli/repl.js` | `cli/repl.py` | `cli/cli.c` | `cli/cli.cpp` | `cli/tools.php` (`Repl`) | `cli/Tools.java (loop)` |
-| Arrow-key selector | `cli/select.js`, `cli/pick.js` | `cli/selector.py`, `cli/pick.py` | `cli/select.c`, `select.h`,  `cli/pick.c`, `pick.h` | `cli/selector.{hpp,cpp}`, `cli/pick.{hpp,cpp}` | `cli/selector.php`, `cli/pick.php` | `cli/Selector.java, cli/KeyParser.java, cli/Pick.java` |
-| Terminal I/O, colours | `cli/io.js`, `cli/style.js` | `cli/console.py`, `cli/style.py` | `cli/cli.c + select.c` (no colour module) | `cli/terminal.{hpp,cpp}` (colour via `SelIo.color`) | `cli/terminal.php`, `cli/io.php` | `cli/Terminal.java, cli/ConsoleIo.java, cli/Style.java` |
-| Tool bindings | `cli/tools/{standard,programmer,converter}.js` | `cli/tools/{standard,programmer,converter}.py` | `cli/cli.c` | `cli/cli.cpp` | `cli/cli.php` | `cli/Tools.java` |
-| Standard Calculator | `calculator/{tokenizer,parser,evaluator,index}.js` | `calculator/{tokenizer,parser,evaluator,__init__}.py` | `calculator/calculator.c` | `calculator/calculator.{hpp,cpp}` | `calculator/{tokenizer,parser,evaluator,calculator}.php` | `calculator/{Tokenizer,Node,Parser,Evaluator,Calculator}.java` |
-| Programmer Calculator | `programmer/{int64,parse,operations,format,index}.js` | `programmer/{int64,parse,operations,format,__init__}.py` | `programmer/programmer.c` | `programmer/programmer.{hpp,cpp}` | `programmer/{int64,parse,programmer}.php` | `programmer/{Base,Literal,Programmer}.java` |
-| Unit Converter | `converter/{units,convert,temperature,session,index}.js` | `converter/{units,convert,temperature,session,__init__}.py` | `converter/converter.c, units.c` | `converter/{converter.hpp,units.cpp,converter.cpp}` | `converter/{units,converter}.php` | `converter/{Units,Converter}.java` |
-| Shared | `shared/{errors,format-number,index}.js` | `shared/{errors,format_number,__init__}.py` | `shared/shared.c` | `shared/{errors.hpp,text.hpp,format_number.hpp,format_number.cpp}` | `shared/{errors,format_number}.php` | `shared/{ArithmosError,FormatNumber}.java` |
+| Layer | JavaScript (`javascript/src/`) | Python (`python/arithmos/`) | C (`c/src/`) | C++ (`cpp/src/`) | PHP (`php/src/`) | Java (`java/src/arithmos/`) | Bash (`bash/src/`) |
+|---|---|---|---|---|---|---|---|
+| Entry point | `../bin/arithmos.js`, `cli/index.js` | `__main__.py`, `cli/app.py` | `main.c` | `main.cpp`, `cli/cli.cpp` | `../bin/arithmos.php`, `cli/cli.php` | `Main.java, cli/Cli.java` | `../bin/arithmos`, `cli/cli.sh` |
+| Menu | `cli/menu.js` | `cli/menu.py` | `cli/cli.c` | `cli/cli.cpp` | `cli/cli.php` | `cli/Cli.java` | `cli/cli.sh` |
+| Prompt loop | `cli/repl.js` | `cli/repl.py` | `cli/cli.c` | `cli/cli.cpp` | `cli/tools.php` (`Repl`) | `cli/Tools.java (loop)` | `cli/tools.sh` (`tool_loop`) |
+| Arrow-key selector | `cli/select.js`, `cli/pick.js` | `cli/selector.py`, `cli/pick.py` | `cli/select.c`, `select.h`,  `cli/pick.c`, `pick.h` | `cli/selector.{hpp,cpp}`, `cli/pick.{hpp,cpp}` | `cli/selector.php`, `cli/pick.php` | `cli/Selector.java, cli/KeyParser.java, cli/Pick.java` | `cli/selector.sh`, `cli/terminal.sh`, `cli/pick.sh` |
+| Terminal I/O, colours | `cli/io.js`, `cli/style.js` | `cli/console.py`, `cli/style.py` | `cli/cli.c + select.c` (no colour module) | `cli/terminal.{hpp,cpp}` (colour via `SelIo.color`) | `cli/terminal.php`, `cli/io.php` | `cli/Terminal.java, cli/ConsoleIo.java, cli/Style.java` | `cli/terminal.sh`, `cli/io.sh`, `cli/style.sh` |
+| Tool bindings | `cli/tools/{standard,programmer,converter}.js` | `cli/tools/{standard,programmer,converter}.py` | `cli/cli.c` | `cli/cli.cpp` | `cli/cli.php` | `cli/Tools.java` | `cli/tools.sh` |
+| Standard Calculator | `calculator/{tokenizer,parser,evaluator,index}.js` | `calculator/{tokenizer,parser,evaluator,__init__}.py` | `calculator/calculator.c` | `calculator/calculator.{hpp,cpp}` | `calculator/{tokenizer,parser,evaluator,calculator}.php` | `calculator/{Tokenizer,Node,Parser,Evaluator,Calculator}.java` | `calculator/calculator.{awk,sh}` |
+| Programmer Calculator | `programmer/{int64,parse,operations,format,index}.js` | `programmer/{int64,parse,operations,format,__init__}.py` | `programmer/programmer.c` | `programmer/programmer.{hpp,cpp}` | `programmer/{int64,parse,programmer}.php` | `programmer/{Base,Literal,Programmer}.java` | `programmer/{int64,parse,programmer}.sh` |
+| Unit Converter | `converter/{units,convert,temperature,session,index}.js` | `converter/{units,convert,temperature,session,__init__}.py` | `converter/converter.c, units.c` | `converter/{converter.hpp,units.cpp,converter.cpp}` | `converter/{units,converter}.php` | `converter/{Units,Converter}.java` | `converter/{units.sh,converter.awk,converter.sh}` |
+| Shared | `shared/{errors,format-number,index}.js` | `shared/{errors,format_number,__init__}.py` | `shared/shared.c` | `shared/{errors.hpp,text.hpp,format_number.hpp,format_number.cpp}` | `shared/{errors,format_number}.php` | `shared/{ArithmosError,FormatNumber}.java` | `shared/{errors.sh,format_number.awk}` |
 
 ## Data flow
 
@@ -116,6 +116,7 @@ plain notation for `1e-6 ≤ |x| < 1e15`, otherwise `<mantissa>e<sign><exponent>
 | C++ | Same as C: `printf("%.34e")` gives the exact expansion, and the digit string is rounded by hand. |
 | PHP | `sprintf('%.34e')` gives the exact expansion, and the digit string is rounded by hand (as in C). |
 | Java | `new BigDecimal(double)` is the exact value; `round(new MathContext(12, RoundingMode.HALF_UP))` (HALF_UP is away from zero on BigDecimal) |
+| Bash | awk `sprintf("%.34e")` gives the exact expansion, and the digit string is rounded by hand (as in C). |
 
 ## CLI screens
 
@@ -137,6 +138,10 @@ On a real
   `back` steps back one stage and leaves to the main menu from the first.
   One-line commands are accepted at every stage.
 - The Java edition uses `Selector.Keyboard` and `Selector.Screen` interfaces and `Io.SelectFn`.
+- The Bash edition uses function names instead of objects: `IO_WRITE`, `IO_READLINE`, `IO_PREFILL`
+  and `IO_SELECT` form the io object (empty `IO_SELECT` means numbered lists), and the selector loop
+  takes `SEL_KEYFN`, `SEL_OUTFN` and `SEL_SIZEFN`. Engines return a status and leave the result in
+  `AR_OUT` or the error in `AR_CODE` / `AR_MSG` instead of raising.
 
 Selector rules (every edition that can run an interactive terminal program):
 1. Only on a real terminal; otherwise the numbered list (the required baseline).

@@ -52,8 +52,9 @@ patch version instead.
 - [ ] Loads `docs/release-1-cases.json` and passes all 175 cases
 - [ ] Extra tests: number formatting boundaries, CLI scripted sessions, no crash on garbage input
 - [ ] Arrow-key selector on a real terminal, numbered lists when piped or with `ARITHMOS_PLAIN=1`
-            - [ ] Selector tests SL1–SL21 pass (docs/test-cases.md)
-            - [ ] Hand-tested in a real terminal: arrows, Enter, Esc, b, q, typing, Ctrl-C, ARITHMOS_PLAIN=1,
+- [ ] Selector tests SL1–SL21 pass (docs/test-cases.md)
+- [ ] Hand-tested in a real terminal: arrows, Enter, Esc, b, q, typing, Ctrl-C, ARITHMOS_PLAIN=1,
+      terminal not left raw, cursor visible again after exit, Ctrl-C and kill -TERM
                   terminal not left raw
             (A language without a terminal is exempt: record it per release-1.md §9.)
 - [ ] README follows the template
