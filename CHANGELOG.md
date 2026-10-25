@@ -6,6 +6,17 @@ Each version is tagged `vX.Y.Z`.
 
 ## [Unreleased]
 
+## [0.12.0] — 2026-10-26
+
+### Added
+- Go edition of Release 1 (Standard Calculator, Programmer Calculator, Unit Converter).
+  Passes all 175 shared cases, plus Go extras. Programmer Calculator on native `int64`/`uint64`
+  with `math/big` literal parsing; 12-digit formatting from the exact `big.Float` expansion.
+- Go: arrow-key selector for the menus and pickers (POSIX `stty` + `syscall.Read`, Windows
+  `_getwch` + console mode through `syscall.NewLazyDLL`), typed fallback, `ARITHMOS_PLAIN=1`,
+  `NO_COLOR=1`.
+- Selector tests SL1–SL21 for Go (21), plus X2 and X3 (23 in total).
+
 ## [0.11.0] — 2026-10-26
 
 ### Added

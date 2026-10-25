@@ -748,7 +748,7 @@ Release 1 is implemented in **all 43 selected languages**. Per the roadmap's lan
 | 13 | Erlang | ☐ | ☐ | ☐ | ☐ | Arbitrary-precision integers; mask to 64 bits manually. Use `escript` for the CLI. |
 | 14 | F# | ☐ | ☐ | ☐ | ☐ | `int64`; .NET runtime. |
 | 15 | Fortran | ☐ | ☐ | ☐ | ☐ | Use `integer(int64)`; document the compiler (for example gfortran). |
-| 16 | Go | ☐ | ☐ | ☐ | ☐ | `int64` / `uint64`. |
+| 16 | Go | ☑ | ☑ | ☑ | ☑ | Native `int64/uint64`; literals parsed with `math/big`; `>>arithmetic onint64`, `>>>onuint64`. Selector via `stty+syscall.Read(POSIX)` and_getwch (Windows). |
 | 17 | Groovy | ☐ | ☐ | ☐ | ☐ | JVM-based; watch dynamic number promotion to `BigInteger` / `BigDecimal`. |
 | 18 | Haskell | ☐ | ☐ | ☐ | ☐ | Use `Int64` from `Data.Int` and `Data.Bits`. |
 | 19 | Java | ☑ | ☑ | ☑ | ☑ | `long`; `>>` and `>>>` map directly. |

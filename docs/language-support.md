@@ -18,6 +18,7 @@ when a language is marked complete. Progress for languages in progress is tracke
 | PowerShell | 0.9.0 | PowerShell 7.2+ (`pwsh`) | Native `[long]`; literals parsed with `BigInteger`; `>>>` by masking | Standalone script, no dependencies | None in behaviour; 7.2+ required (5.1 unsupported) |
 | Dart | 0.10.0 | Dart SDK 3.0+ (VM) | Native `int` (64-bit on the VM); literals parsed with `BigInt` | Standalone CLI (`dart run` or `dart compile exe`), no dependencies | None in behaviour; VM only (not dart2js) |
 | TypeScript | 0.11.0 | Node.js 20+; TypeScript 5.6+ to build | `BigInt` + `asIntN(64, …)` | CLI compiled with `tsc` (`npm start`), no run-time dependencies | None in behaviour; build step required |
+| Go | 0.12.0 | Go 1.21+ | Native `int64` / `uint64`; literals parsed with `math/big` | Standalone CLI (`go run` or `go build`), no dependencies | None in behaviour; POSIX needs `stty` for the selector |
 
 ## Interface (all editions)
 
