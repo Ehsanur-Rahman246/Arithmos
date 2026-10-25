@@ -1,0 +1,17 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    // node16 is the supported replacement for the deprecated "node" (node10).
+    // With module "node16", a .ts file is CommonJS unless package.json says
+    // "type": "module", which ours does not, so the output stays CommonJS.
+    "module": "node16",
+    "moduleResolution": "node16",
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "outDir": "dist",
+    "rootDir": ".",
+    "types": ["node"]
+  },
+  "include": ["src", "test"]
+}

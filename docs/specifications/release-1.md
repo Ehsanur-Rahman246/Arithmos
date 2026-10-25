@@ -772,7 +772,7 @@ Release 1 is implemented in **all 43 selected languages**. Per the roadmap's lan
 | 37 | Scala | ☐ | ☐ | ☐ | ☐ | JVM-based; `Long`, `>>`, `>>>`, `<<`. |
 | 38 | Solidity | ☐ | ☐ | ☐ | ☐ | Contract logic tested through Foundry or Hardhat, not a standalone CLI. No floating point: the Standard Calculator and Converter need fixed-point arithmetic. Document the precision limits; a reduced edition is acceptable if clearly labeled. |
 | 39 | Swift | ☐ | ☐ | ☐ | ☐ | `Int64`; `&<<` / `&>>` for masking shifts. |
-| 40 | TypeScript | ☐ | ☐ | ☐ | ☐ | Same approach as JavaScript (`BigInt`); strict typing. |
+| 40 | TypeScript | ☑ | ☑ | ☑ | ☑ | Node.js 20+. Programmer mode uses `BigInt` with `asIntN(64, …)` / `asUintN(64, …)`; literals parsed digit by digit; `>>>` via the unsigned pattern. Needs `npm install` for the TypeScript compiler (build-time only). |
 | 41 | VBA | ☐ | ☐ | ☐ | ☐ | Runs inside an Office host. `LongLong` is 64-bit only in 64-bit Office; no native shift operators. Document the host workflow. |
 | 42 | VB.NET | ☐ | ☐ | ☐ | ☐ | `Long`; .NET runtime. |
 | 43 | Zig | ☐ | ☐ | ☐ | ☐ | `i64` / `u64`; use `<<`, `>>` with explicit casts. |

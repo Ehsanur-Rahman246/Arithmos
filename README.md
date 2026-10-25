@@ -14,7 +14,7 @@ Date Calculation, Currency, memory/history, GUI). See [docs/roadmap.md](docs/roa
 
 ## Status
 
-Release 1 is complete in **9 of 43** languages. Per-language progress is tracked in
+Release 1 is complete in **10 of 43** languages. Per-language progress is tracked in
 Section 9 of [the Release 1 spec](docs/specifications/release-1.md).
 
 | Language | Version tag | Folder |
@@ -28,6 +28,7 @@ Section 9 of [the Release 1 spec](docs/specifications/release-1.md).
 | Bash | `v0.8.0` | [bash/](bash/) |
 | PowerShell | `v0.9.0` | [powershell/](powershell/) |
 | Dart | `v0.10.0` | [dart/](dart/) |
+| TypeScript | `v0.11.0` | [typescript/](typescript/) |
 
 ## Quick start
 
@@ -58,6 +59,9 @@ cd powershell && pwsh bin/arithmos.ps1
 
 # Dart (Dart SDK 3+)
 cd dart && dart run bin/arithmos.dart
+
+# TypeScript (Node.js 20+, npm install once)
+cd typescript && npm install && npm start
 ```
 
 Each language folder's README has run, test and one-shot commands.
@@ -76,6 +80,7 @@ java/        Java edition
 bash/        Bash edition
 powershell/  PowerShell edition
 dart/        Dart edition
+typescript/  TypeScript edition
 ```
 
 ## Documentation
@@ -92,7 +97,7 @@ dart/        Dart edition
 | [docs/roadmap.md](docs/roadmap.md) | Releases 1–5 and the language track |
 | [docs/error-messages.md](docs/error-messages.md) | Error messages shown throughout the app |
 
-Current version: 0.10.0.
+Current version: 0.11.0.
 
 ## Versioning
 

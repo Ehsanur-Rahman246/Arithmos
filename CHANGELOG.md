@@ -6,6 +6,16 @@ Each version is tagged `vX.Y.Z`.
 
 ## [Unreleased]
 
+## [0.11.0] — 2026-10-26
+
+### Added
+- TypeScript edition of Release 1 (Standard Calculator, Programmer Calculator, Unit Converter).
+  Passes all 175 shared cases, plus TypeScript extras. Programmer Calculator on `BigInt` with
+  `asIntN(64, …)`; 12-digit formatting with `toExponential(11)`.
+- TypeScript: arrow-key selector for the menus and pickers (raw stdin bytes parsed by `parseKeys`,
+  raw mode only while a key is read), typed fallback, `ARITHMOS_PLAIN=1`, `NO_COLOR=1`.
+- Selector tests SL1–SL21 for TypeScript (21), plus X2 and X3 (23 in total).
+
 ## [0.10.0] — 2026-10-26
 
 ### Added

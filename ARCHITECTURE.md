@@ -35,18 +35,18 @@ never import from `cli`.
 
 ## Module map
 
-| Layer | JavaScript (`javascript/src/`) | Python (`python/arithmos/`) | C (`c/src/`) | C++ (`cpp/src/`) | PHP (`php/src/`) | Java (`java/src/arithmos/`) | Bash (`bash/src/`) | PowerShell (`powershell/src/`) | Dart (`dart/lib/src/`) |
-|---|---|---|---|---|---|---|---|---|---|
-| Entry point | `../bin/arithmos.js`, `cli/index.js` | `__main__.py`, `cli/app.py` | `main.c` | `main.cpp`, `cli/cli.cpp` | `../bin/arithmos.php`, `cli/cli.php` | `Main.java, cli/Cli.java` | `../bin/arithmos`, `cli/cli.sh` | `../bin/arithmos.ps1, cli/cli.ps1` | `../bin/arithmos.dart`, `cli/cli.dart` |
-| Menu | `cli/menu.js` | `cli/menu.py` | `cli/cli.c` | `cli/cli.cpp` | `cli/cli.php` | `cli/Cli.java` | `cli/cli.sh` | `cli/tools.ps1` | `cli/tools.dart` (`runMenu`) |
-| Prompt loop | `cli/repl.js` | `cli/repl.py` | `cli/cli.c` | `cli/cli.cpp` | `cli/tools.php` (`Repl`) | `cli/Tools.java (loop)` | `cli/tools.sh` (`tool_loop`) | `cli/tools.ps1` | `cli/tools.dart` (`toolLoop`) |
-| Arrow-key selector | `cli/select.js`, `cli/pick.js` | `cli/selector.py`, `cli/pick.py` | `cli/select.c`, `select.h`,  `cli/pick.c`, `pick.h` | `cli/selector.{hpp,cpp}`, `cli/pick.{hpp,cpp}` | `cli/selector.php`, `cli/pick.php` | `cli/Selector.java, cli/KeyParser.java, cli/Pick.java` | `cli/selector.sh`, `cli/terminal.sh`, `cli/pick.sh` | `cli/selector.ps1, cli/pick.ps1` | `cli/selector.dart`, `cli/keys.dart`, `cli/pick.dart` |
-| Terminal I/O, colours | `cli/io.js`, `cli/style.js` | `cli/console.py`, `cli/style.py` | `cli/cli.c + select.c` (no colour module) | `cli/terminal.{hpp,cpp}` (colour via `SelIo.color`) | `cli/terminal.php`, `cli/io.php` | `cli/Terminal.java, cli/ConsoleIo.java, cli/Style.java` | `cli/terminal.sh`, `cli/io.sh`, `cli/style.sh` | `cli/io.ps1` | `cli/terminal.dart`, `cli/io.dart` (colour via `Screen.color`) |
-| Tool bindings | `cli/tools/{standard,programmer,converter}.js` | `cli/tools/{standard,programmer,converter}.py` | `cli/cli.c` | `cli/cli.cpp` | `cli/cli.php` | `cli/Tools.java` | `cli/tools.sh` | `cli/tools.ps1` | `cli/tools.dart` |
-| Standard Calculator | `calculator/{tokenizer,parser,evaluator,index}.js` | `calculator/{tokenizer,parser,evaluator,__init__}.py` | `calculator/calculator.c` | `calculator/calculator.{hpp,cpp}` | `calculator/{tokenizer,parser,evaluator,calculator}.php` | `calculator/{Tokenizer,Node,Parser,Evaluator,Calculator}.java` | `calculator/calculator.{awk,sh}` | `calculator/calculator.ps1` | `calculator/calculator.dart` |
-| Programmer Calculator | `programmer/{int64,parse,operations,format,index}.js` | `programmer/{int64,parse,operations,format,__init__}.py` | `programmer/programmer.c` | `programmer/programmer.{hpp,cpp}` | `programmer/{int64,parse,programmer}.php` | `programmer/{Base,Literal,Programmer}.java` | `programmer/{int64,parse,programmer}.sh` | `programmer/programmer.ps1` | `programmer/programmer.dart` |
-| Unit Converter | `converter/{units,convert,temperature,session,index}.js` | `converter/{units,convert,temperature,session,__init__}.py` | `converter/converter.c, units.c` | `converter/{converter.hpp,units.cpp,converter.cpp}` | `converter/{units,converter}.php` | `converter/{Units,Converter}.java` | `converter/{units.sh,converter.awk,converter.sh}` | `converter/{units,converter}.ps1` | `converter/{units,converter}.dart` |
-| Shared | `shared/{errors,format-number,index}.js` | `shared/{errors,format_number,__init__}.py` | `shared/shared.c` | `shared/{errors.hpp,text.hpp,format_number.hpp,format_number.cpp}` | `shared/{errors,format_number}.php` | `shared/{ArithmosError,FormatNumber}.java` | `shared/{errors.sh,format_number.awk}` | `shared/{errors,format-number}.ps1` | `shared/{errors,format_number}.dart` |
+| Layer | JavaScript (`javascript/src/`) | Python (`python/arithmos/`) | C (`c/src/`) | C++ (`cpp/src/`) | PHP (`php/src/`) | Java (`java/src/arithmos/`) | Bash (`bash/src/`) | PowerShell (`powershell/src/`) | Dart (`dart/lib/src/`) | TypeScript (`typescript/src/`) |
+|---|---|---|---|---|---|---|---|---|---|---|
+| Entry point | `../bin/arithmos.js`, `cli/index.js` | `__main__.py`, `cli/app.py` | `main.c` | `main.cpp`, `cli/cli.cpp` | `../bin/arithmos.php`, `cli/cli.php` | `Main.java, cli/Cli.java` | `../bin/arithmos`, `cli/cli.sh` | `../bin/arithmos.ps1, cli/cli.ps1` | `../bin/arithmos.dart`, `cli/cli.dart` | `../bin/arithmos.js`, `main.ts`, `cli/cli.ts` |
+| Menu | `cli/menu.js` | `cli/menu.py` | `cli/cli.c` | `cli/cli.cpp` | `cli/cli.php` | `cli/Cli.java` | `cli/cli.sh` | `cli/tools.ps1` | `cli/tools.dart` (`runMenu`) | `cli/cli.ts` (`runInteractive`) |
+| Prompt loop | `cli/repl.js` | `cli/repl.py` | `cli/cli.c` | `cli/cli.cpp` | `cli/tools.php` (`Repl`) | `cli/Tools.java (loop)` | `cli/tools.sh` (`tool_loop`) | `cli/tools.ps1` | `cli/tools.dart` (`toolLoop`) | `cli/tools.ts` (`promptLoop`) |
+| Arrow-key selector | `cli/select.js`, `cli/pick.js` | `cli/selector.py`, `cli/pick.py` | `cli/select.c`, `select.h`,  `cli/pick.c`, `pick.h` | `cli/selector.{hpp,cpp}`, `cli/pick.{hpp,cpp}` | `cli/selector.php`, `cli/pick.php` | `cli/Selector.java, cli/KeyParser.java, cli/Pick.java` | `cli/selector.sh`, `cli/terminal.sh`, `cli/pick.sh` | `cli/selector.ps1, cli/pick.ps1` | `cli/selector.dart`, `cli/keys.dart`, `cli/pick.dart` | `cli/selector.ts`, `cli/keys.ts`, `cli/pick.ts` |
+| Terminal I/O, colours | `cli/io.js`, `cli/style.js` | `cli/console.py`, `cli/style.py` | `cli/cli.c + select.c` (no colour module) | `cli/terminal.{hpp,cpp}` (colour via `SelIo.color`) | `cli/terminal.php`, `cli/io.php` | `cli/Terminal.java, cli/ConsoleIo.java, cli/Style.java` | `cli/terminal.sh`, `cli/io.sh`, `cli/style.sh` | `cli/io.ps1` | `cli/terminal.dart`, `cli/io.dart` (colour via `Screen.color`) | `cli/io.ts`, `cli/style.ts` |
+| Tool bindings | `cli/tools/{standard,programmer,converter}.js` | `cli/tools/{standard,programmer,converter}.py` | `cli/cli.c` | `cli/cli.cpp` | `cli/cli.php` | `cli/Tools.java` | `cli/tools.sh` | `cli/tools.ps1` | `cli/tools.dart` | `cli/tools.ts` |
+| Standard Calculator | `calculator/{tokenizer,parser,evaluator,index}.js` | `calculator/{tokenizer,parser,evaluator,__init__}.py` | `calculator/calculator.c` | `calculator/calculator.{hpp,cpp}` | `calculator/{tokenizer,parser,evaluator,calculator}.php` | `calculator/{Tokenizer,Node,Parser,Evaluator,Calculator}.java` | `calculator/calculator.{awk,sh}` | `calculator/calculator.ps1` | `calculator/calculator.dart` | `calculator/{tokenizer,parser,evaluator,index}.ts` |
+| Programmer Calculator | `programmer/{int64,parse,operations,format,index}.js` | `programmer/{int64,parse,operations,format,__init__}.py` | `programmer/programmer.c` | `programmer/programmer.{hpp,cpp}` | `programmer/{int64,parse,programmer}.php` | `programmer/{Base,Literal,Programmer}.java` | `programmer/{int64,parse,programmer}.sh` | `programmer/programmer.ps1` | `programmer/programmer.dart` | `programmer/{int64,parse,index}.ts` |
+| Unit Converter | `converter/{units,convert,temperature,session,index}.js` | `converter/{units,convert,temperature,session,__init__}.py` | `converter/converter.c, units.c` | `converter/{converter.hpp,units.cpp,converter.cpp}` | `converter/{units,converter}.php` | `converter/{Units,Converter}.java` | `converter/{units.sh,converter.awk,converter.sh}` | `converter/{units,converter}.ps1` | `converter/{units,converter}.dart` | `converter/{units,index}.ts` |
+| Shared | `shared/{errors,format-number,index}.js` | `shared/{errors,format_number,__init__}.py` | `shared/shared.c` | `shared/{errors.hpp,text.hpp,format_number.hpp,format_number.cpp}` | `shared/{errors,format_number}.php` | `shared/{ArithmosError,FormatNumber}.java` | `shared/{errors.sh,format_number.awk}` | `shared/{errors,format-number}.ps1` | `shared/{errors,format_number}.dart` | `shared/{errors,format-number}.ts` |
 
 ## Data flow
 
@@ -119,6 +119,7 @@ plain notation for `1e-6 ≤ |x| < 1e15`, otherwise `<mantissa>e<sign><exponent>
 | Bash | awk `sprintf("%.34e")` gives the exact expansion, and the digit string is rounded by hand (as in C). |
 | PowerShell | `ToString('E34')` on a `[double]` gives the exact expansion (.NET Core), and the digit string is rounded by hand (as in C) |
 | Dart | `BigInt` exact expansion of the double (`mantissa × 5^k`); the digit string is rounded half-up by hand (Dart's own float formatting is not used) |
+| TypeScript | `toExponential(11)` on the magnitude, exact binary value (as in JavaScript) |
 
 ## CLI screens
 
@@ -149,6 +150,9 @@ On a real
   reading methods return `Future`s. The selector loop takes a `KeySource` (`enter`, `leave`, `readKey`)
   and a `Screen` (`write`, `size`, `color`). Engines are synchronous and throw `ArithmosError`; only the
   CLI layer is `async`, so a SIGTERM can run its handler and restore the terminal while a selector waits.
+- The TypeScript edition uses an `Io` interface (`write`, `readLine`, optional `select`, `close`, `style`).
+  The selector loop takes a `KeySource` (`enter`, `leave`, `readKey`) and a `Screen` (`write`, `size`);
+  raw bytes become keys in the pure `parseKeys`. Engines throw `ArithmosError`; the CLI layer is `async`.
 
 Selector rules (every edition that can run an interactive terminal program):
 1. Only on a real terminal; otherwise the numbered list (the required baseline).

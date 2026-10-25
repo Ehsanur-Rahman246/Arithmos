@@ -62,6 +62,7 @@ Exactly one of `expected`, `expectedContains`, `error` is present per case or st
 | Bash | `make test` from `bash/`, or `bash test/run_cases.sh ../docs/release-1-cases.json` and `bash test/run_selector.sh` |
 | PowerShell | `pwsh test/run_all.ps1` from `powershell/`, or `pwsh test/run_cases.ps1 ../docs/release-1-cases.json` and `pwsh test/run_selector.ps1` |
 | Dart | `dart run test/run_cases.dart ../docs/release-1-cases.json` and `dart run test/run_selector.dart` from `dart/` |
+| TypeScript | `npm test` from `typescript/` (builds, then runs `dist/test/*.test.js`) |
 
 ## Adding a case
 
@@ -102,8 +103,8 @@ its own test folder and asserts behaviour only (never terminal formatting beyond
 | SL19 | pick(): an unknown typed word is an error and the list comes back |
 | SL20 | pick(): b, q and Esc act at once, with no prompt line |
 | SL21 | pick(): without a selector (pipes) the numbered list works as before |
-| X2 | lines never wider than the terminal; the window shrinks on a short terminal; erase moves up by the drawn line count | C++ (`test/run_selector.cpp`), PHP (`test/run_selector.php`), Java (`test/arithmos/RunSelector.java`), Bash (`test/run_selector.sh`), PowerShell (`test/run_selector.ps1`), Dart (`test/run_selector.dart`) |
-| X3 | raw terminal bytes become keys (arrows, Esc, Home/End, PgUp/PgDn, Ctrl-C/D, UTF-8) | PHP (`test/run_selector.php`), Java (`test/arithmos/RunSelector.java`), Bash (`test/run_selector.sh`), PowerShell (`test/run_selector.ps1`, input is ConsoleKeyInfo instead of bytes), Dart (`test/run_selector.dart`, input is bytes) |
+| X2 | lines never wider than the terminal; the window shrinks on a short terminal; erase moves up by the drawn line count | C++ (`test/run_selector.cpp`), PHP (`test/run_selector.php`), Java (`test/arithmos/RunSelector.java`), Bash (`test/run_selector.sh`), PowerShell (`test/run_selector.ps1`), Dart (`test/run_selector.dart`), TypeScript (`test/select.test.ts`) |
+| X3 | raw terminal bytes become keys (arrows, Esc, Home/End, PgUp/PgDn, Ctrl-C/D, UTF-8) | PHP (`test/run_selector.php`), Java (`test/arithmos/RunSelector.java`), Bash (`test/run_selector.sh`), PowerShell (`test/run_selector.ps1`, input is ConsoleKeyInfo instead of bytes), Dart (`test/run_selector.dart`, input is bytes), TypeScript (`test/select.test.ts`) |
 
 
 | Edition | File | Tests |
@@ -117,6 +118,7 @@ its own test folder and asserts behaviour only (never terminal formatting beyond
 | Bash | `test/run_selector.sh` | SL1–SL21 + X2 + X3 = 23 |
 | PowerShell | `test/run_selector.ps1` | SL1–SL21 + X2 + X3 = 23 |
 | Dart | `test/run_selector.dart` | SL1–SL21 + X2 + X3 = 23 |
+| TypeScript | `test/select.test.ts` | SL1–SL21 + X2 + X3 = 23 |
 
 Rules: every new edition must add all 21 under these numbers (unless it is exempt under release-1.md §9) (the C runner fails if
 the count is not 21). Behaviour that exists in only one edition gets an `X<n>` id and is listed here,

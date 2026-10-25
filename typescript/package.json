@@ -1,0 +1,20 @@
+{
+  "name": "arithmos-typescript",
+  "version": "0.11.0",
+  "private": true,
+  "description": "Arithmos Release 1 — TypeScript edition",
+  "bin": { "arithmos": "bin/arithmos.js" },
+  "engines": { "node": ">=20" },
+  "scripts": {
+    "build": "tsc -p .",
+    "typecheck": "tsc -p . --noEmit",
+    "start": "npm run build --silent && node bin/arithmos.js",
+    "test": "npm run build --silent && node --test dist/test/run-cases.test.js dist/test/extras.test.js dist/test/select.test.js",
+    "test:cases": "npm run build --silent && node --test dist/test/run-cases.test.js",
+    "test:selector": "npm run build --silent && node --test dist/test/select.test.js"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "typescript": "^5.6.0"
+  }
+}
