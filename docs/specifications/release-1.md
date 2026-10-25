@@ -743,7 +743,7 @@ Release 1 is implemented in **all 43 selected languages**. Per the roadmap's lan
 | 8 | C# | ☐ | ☐ | ☐ | ☐ | `long` / `ulong`; `decimal` or `double` for calculations. |
 | 9 | Clojure | ☐ | ☐ | ☐ | ☐ | JVM-based; use `long` with unchecked ops for wrap-around. |
 | 10 | COBOL | ☐ | ☐ | ☐ | ☐ | Use GnuCOBOL; document the compiler. Bitwise operations need intrinsic or custom routines. |
-| 11 | Dart | ☐ | ☐ | ☐ | ☐ | Native `int` is 64-bit on the VM but not on web; target the VM. |
+| 11 | Dart | ☑ | ☑ | ☑ | ☑ | Native `int` is 64-bit on the VM (not under dart2js); literals parsed with `BigInt`; `>>>` is built in. Selector via `dart:ffi` (POSIX `stty` + libc `read`; Windows `_getwch`). |
 | 12 | Elixir | ☐ | ☐ | ☐ | ☐ | Integers are arbitrary precision; mask to 64 bits manually. Use `Bitwise`. |
 | 13 | Erlang | ☐ | ☐ | ☐ | ☐ | Arbitrary-precision integers; mask to 64 bits manually. Use `escript` for the CLI. |
 | 14 | F# | ☐ | ☐ | ☐ | ☐ | `int64`; .NET runtime. |

@@ -16,6 +16,7 @@ when a language is marked complete. Progress for languages in progress is tracke
 | Java | 0.7.0 | JDK 22+ (developed on 25) | Native `long`; literals parsed with `BigInteger` and reduced with `longValue()` | Standalone CLI, no dependencies | None |
 | Bash | 0.8.0 | Bash 4.0+ and awk | Native `$(( ))` (signed 64-bit, wraps); literals validated as digits and parsed digit by digit; `>>>` by masking | Standalone script, needs awk | None in behaviour; awk dependency documented |
 | PowerShell | 0.9.0 | PowerShell 7.2+ (`pwsh`) | Native `[long]`; literals parsed with `BigInteger`; `>>>` by masking | Standalone script, no dependencies | None in behaviour; 7.2+ required (5.1 unsupported) |
+| Dart | 0.10.0 | Dart SDK 3.0+ (VM) | Native `int` (64-bit on the VM); literals parsed with `BigInt` | Standalone CLI (`dart run` or `dart compile exe`), no dependencies | None in behaviour; VM only (not dart2js) |
 
 ## Interface (all editions)
 

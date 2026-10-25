@@ -6,6 +6,18 @@ Each version is tagged `vX.Y.Z`.
 
 ## [Unreleased]
 
+## [0.10.0] — 2026-10-26
+
+### Added
+- Dart edition of Release 1 (Standard Calculator, Programmer Calculator, Unit Converter).
+  Passes all 175 shared cases, plus Dart extras. Programmer Calculator on native `int`
+  (64-bit on the Dart VM) with `BigInt` literal parsing; 12-digit formatting from the
+  exact `BigInt` expansion of the double.
+- Dart: arrow-key selector for the menus and pickers (POSIX `stty` + libc `read` through
+  `dart:ffi`, Windows `_getwch` + console mode through `dart:ffi`), typed fallback,
+  `ARITHMOS_PLAIN=1`, `NO_COLOR=1`.
+- Selector tests SL1–SL21 for Dart (21), plus X2 and X3 (23 in total).
+
 ## [0.9.0] — 2026-10-25
 
 ### Added

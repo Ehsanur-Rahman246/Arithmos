@@ -1,0 +1,8 @@
+# dart/pubspec.yaml
+name: arithmos
+description: Arithmos Release 1 - Dart edition (Standard, Programmer, Unit Converter)
+publish_to: none
+version: 0.10.0
+environment:
+  sdk: ^3.0.0
+# No dependencies: Dart SDK only (dart:io, dart:ffi, dart:convert, dart:math).
