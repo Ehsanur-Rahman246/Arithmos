@@ -740,7 +740,7 @@ Release 1 is implemented in **all 43 selected languages**. Per the roadmap's lan
 | 5 | Bash | ☑ | ☑ | ☑ | ☑ | Bash 4.0+. Programmer mode is pure Bash: `$(( ))` is native signed 64-bit and wraps; literals are parsed digit by digit. Decimals use awk (documented dependency). |
 | 6 | C | ☑ | ☑ | ☑ | ☑ | `int64_t` / `uint64_t`; hand-written expression parser. |
 | 7 | C++ | ☑ | ☑ | ☑ | ☑ | Use `<cstdint>` types. |
-| 8 | C# | ☐ | ☐ | ☐ | ☐ | `long` / `ulong`; `decimal` or `double` for calculations. |
+| 8 | C# | ☑ | ☑ | ☑ | ☑ | .NET 8+. Native `long` (`>>` arithmetic, `>>>` logical, C# 11); literals parsed with `BigInteger`. Selector via `Console.ReadKey` (no native calls); ANSI switched on through kernel32 on Windows. |
 | 9 | Clojure | ☐ | ☐ | ☐ | ☐ | JVM-based; use `long` with unchecked ops for wrap-around. |
 | 10 | COBOL | ☐ | ☐ | ☐ | ☐ | Use GnuCOBOL; document the compiler. Bitwise operations need intrinsic or custom routines. |
 | 11 | Dart | ☑ | ☑ | ☑ | ☑ | Native `int` is 64-bit on the VM (not under dart2js); literals parsed with `BigInt`; `>>>` is built in. Selector via `dart:ffi` (POSIX `stty` + libc `read`; Windows `_getwch`). |

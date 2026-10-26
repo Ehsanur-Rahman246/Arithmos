@@ -6,6 +6,18 @@ Each version is tagged `vX.Y.Z`.
 
 ## [Unreleased]
 
+## [0.13.0] — 2026-10-26
+
+### Added
+- C# edition of Release 1 (Standard Calculator, Programmer Calculator, Unit Converter).
+  Passes all 175 shared cases, plus C# extras. Programmer Calculator on native `long` with
+  `BigInteger` literal parsing and the built-in `>>>`; 12-digit formatting from the exact
+  `BigInteger` expansion of the double.
+- C#: arrow-key selector for the menus and pickers (`Console.ReadKey`, Ctrl-C read as a key only
+  while a selector is on screen, ANSI escapes enabled on Windows), typed fallback,
+  `ARITHMOS_PLAIN=1`, `NO_COLOR=1`.
+- Selector tests SL1–SL21 for C# (21), plus X2 and X3 (23 in total).
+
 ## [0.12.0] — 2026-10-26
 
 ### Added
