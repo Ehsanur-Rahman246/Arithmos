@@ -1,0 +1,17 @@
+[package]
+name = "arithmos"
+version = "0.14.0"
+edition = "2021"
+rust-version = "1.75"
+description = "Arithmos Release 1: Standard Calculator, Programmer Calculator, Unit Converter"
+
+[dependencies]
+# none: standard library only
+
+[lib]
+name = "arithmos"
+path = "src/lib.rs"
+
+[[bin]]
+name = "arithmos"
+path = "src/main.rs"

@@ -768,7 +768,7 @@ Release 1 is implemented in **all 43 selected languages**. Per the roadmap's lan
 | 33 | Python | ☑ | ☑ | ☑ | ☑ | Integers are unbounded; mask and sign-convert to 64 bits manually. Consider `decimal` for conversions. |
 | 34 | R | ☐ | ☐ | ☐ | ☐ | No native 64-bit integer; use `bit64` or emulate with two 32-bit halves. Document the choice. |
 | 35 | Ruby | ☐ | ☐ | ☐ | ☐ | Integers are unbounded; mask and sign-convert to 64 bits manually. |
-| 36 | Rust | ☐ | ☐ | ☐ | ☐ | `i64` with `wrapping_shl`-style care; `u64` for logical shifts. |
+| 36 | Rust | ☑ | ☑ | ☑ | ☑ | Native `i64/u64`; literals parsed into a saturating `u128`; `>>>` via `u64`. Selector via `stty` on `/dev/tty` (POSIX) and _getwch + kernel32 (Windows), declared by hand. |
 | 37 | Scala | ☐ | ☐ | ☐ | ☐ | JVM-based; `Long`, `>>`, `>>>`, `<<`. |
 | 38 | Solidity | ☐ | ☐ | ☐ | ☐ | Contract logic tested through Foundry or Hardhat, not a standalone CLI. No floating point: the Standard Calculator and Converter need fixed-point arithmetic. Document the precision limits; a reduced edition is acceptable if clearly labeled. |
 | 39 | Swift | ☐ | ☐ | ☐ | ☐ | `Int64`; `&<<` / `&>>` for masking shifts. |

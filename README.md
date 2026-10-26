@@ -14,7 +14,7 @@ Date Calculation, Currency, memory/history, GUI). See [docs/roadmap.md](docs/roa
 
 ## Status
 
-Release 1 is complete in **12 of 43** languages. Per-language progress is tracked in
+Release 1 is complete in **13 of 43** languages. Per-language progress is tracked in
 Section 9 of [the Release 1 spec](docs/specifications/release-1.md).
 
 | Language | Version tag | Folder |
@@ -31,6 +31,7 @@ Section 9 of [the Release 1 spec](docs/specifications/release-1.md).
 | TypeScript | `v0.11.0` | [typescript/](typescript/) |
 | Go | `v0.12.0` | [go/](go/) |
 | C# | `v0.13.0` | [csharp/](csharp/) |
+| Rust | `v0.14.0` | [rust/](rust/) |
 
 ## Quick start
 
@@ -70,6 +71,9 @@ cd go && go run ./cmd/arithmos
 
 # C# (.NET SDK 8+)
 cd csharp && dotnet run
+
+# Rust (1.75+)
+cd rust && cargo run --release
 ```
 
 Each language folder's README has run, test and one-shot commands.
@@ -91,6 +95,7 @@ dart/        Dart edition
 typescript/  TypeScript edition
 go/          Go edition
 csharp/      C# edition
+rust/        Rust edition
 ```
 
 ## Documentation
@@ -107,7 +112,7 @@ csharp/      C# edition
 | [docs/roadmap.md](docs/roadmap.md) | Releases 1–5 and the language track |
 | [docs/error-messages.md](docs/error-messages.md) | Error messages shown throughout the app |
 
-Current version: 0.13.0.
+Current version: 0.14.0.
 
 ## Versioning
 
