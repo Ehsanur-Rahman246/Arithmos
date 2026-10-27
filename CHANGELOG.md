@@ -6,6 +6,16 @@ Each version is tagged `vX.Y.Z`.
 
 ## [Unreleased]
 
+## [0.15.0] — 2026-10-27
+
+### Added
+- Kotlin edition of Release 1 (Standard Calculator, Programmer Calculator, Unit Converter).
+  Passes all 175 shared cases, plus Kotlin extras. Programmer Calculator on native `Long`
+  with `BigInteger` literal parsing; 12-digit formatting from the exact `BigDecimal(double)`
+  with `RoundingMode.HALF_UP`.
+- Kotlin: arrow-key selector for the menus and pickers (POSIX `stty` on `/dev/tty`, Windows _getwch + console mode through java.lang.foreign), typed fallback, `ARITHMOS_PLAIN=1`, `NO_COLOR=1`.
+- Selector tests SL1–SL21 for Kotlin (21), plus X2 and X3 (23 in total).
+
 ## [0.14.0] — 2026-10-26
 
 ### Added

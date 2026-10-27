@@ -123,6 +123,7 @@ plain notation for `1e-6 ≤ |x| < 1e15`, otherwise `<mantissa>e<sign><exponent>
 | Go | `big.Float.Text('e', 800)` gives the exact expansion; the digit string is rounded half-up by hand (Go's `strconv` is not used) |
 | C# | `BigInteger` exact expansion of the double (`mantissa × 5^k`); the digit string is rounded half-up by hand (.NET's own double formatting is not used) |
 | Rust | `format!(“{:.60e}”)` gives the exact expansion; the digit string is rounded half-up by hand (Rust’s shorter float formatting is not used) |
+| Kotlin | `BigDecimal(double)` is the exact value; `round(MathContext(12, RoundingMode.HALF_UP))` (HALF_UP is away from zero on BigDecimal, as in Java) |
 
 ## CLI screens
 
@@ -165,6 +166,7 @@ On a real
   a `ConsoleKeyInfo` becomes a `Key` in the pure `KeyParser.FromConsole`. Engines throw `ArithmosError`;
   everything is synchronous.
 - The Rust edition uses an `Io` trait (`write`, `read_line`, `read_line_prefill`, `has_selector`, `select`). The selector loop takes a `KeySource` (`enter`, `leave`, `read_key`) and a `Screen` (`write`, `size`, `color`); raw bytes become keys in the pure `parse_keys`. Engines return `Err(ArithmosError)`; everything is synchronous.
+- The Kotlin edition uses an `Io` interface (`write`, `readLine`, `readLinePrefill`, `hasSelector`, `select`). The selector loop takes a `KeySource` (`enter`, `leave`, `read`) and a `Screen` (`write`, `size`, `color`); raw bytes become keys in the pure `parseKeys` (POSIX) and parseWinKey (Windows). Selector results are the sealed Outcome (Chosen, GoBack, GoQuit, EndOfInput, Typed). Engines throw ArithmosError; everything is synchronous.
 
 Selector rules (every edition that can run an interactive terminal program):
 1. Only on a real terminal; otherwise the numbered list (the required baseline).

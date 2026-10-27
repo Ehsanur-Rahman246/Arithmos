@@ -4,7 +4,7 @@
 
 | Release | Status |
 |---|---|
-| 1 — Core CLI | 13 of 43 languages complete (JavaScript, Python, C, C++, PHP, Java, Bash, PowerShell, Dart, TypeScript, Go, C#, Rust). Per-language table: [release-1.md §9](specifications/release-1.md) |
+| 1 — Core CLI | 14 of 43 languages complete (JavaScript, Python, C, C++, PHP, Java, Bash, PowerShell, Dart, TypeScript, Go, C#, Rust, Kotlin). Per-language table: [release-1.md §9](specifications/release-1.md) |
 | 2 — Advanced Calculations | Not started |
 | 3 — Extra Utilities | Not started |
 | 4 — Mini-Games | Not started |

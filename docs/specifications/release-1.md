@@ -754,7 +754,7 @@ Release 1 is implemented in **all 43 selected languages**. Per the roadmap's lan
 | 19 | Java | ☑ | ☑ | ☑ | ☑ | `long`; `>>` and `>>>` map directly. |
 | 20 | JavaScript | ☑ | ☑ | ☑ | ☑ | **Reference implementation (Node.js).** Use `BigInt` with `BigInt.asIntN(64, …)` for programmer mode. |
 | 21 | Julia | ☐ | ☐ | ☐ | ☐ | `Int64` wraps natively; `>>` is arithmetic, `>>>` is logical. |
-| 22 | Kotlin | ☐ | ☐ | ☐ | ☐ | `Long`; `shr` / `ushr` / `shl`. |
+| 22 | Kotlin | ☑ | ☑ | ☑ | ☑ | Kotlin 1.9+ on JDK 22+. Native `Long` (`shl` / `shr` arithmetic / `ushr` logical); literals parsed with `BigInteger`. Selector via `stty` on `/dev/tty` (POSIX) and `Windows _getwch + kernel32` through java.lang.foreign (Windows). |
 | 23 | Lisp | ☐ | ☐ | ☐ | ☐ | Specify the dialect (Common Lisp with SBCL assumed). Integers are arbitrary precision; use `ldb` / masking for 64-bit. |
 | 24 | Lua | ☐ | ☐ | ☐ | ☐ | Requires Lua 5.3+ for native 64-bit integers and bitwise operators. |
 | 25 | MATLAB | ☐ | ☐ | ☐ | ☐ | Needs MATLAB (or document use of GNU Octave). Use `int64` and `bitand` / `bitor` / `bitxor` / `bitshift`; watch saturation instead of wrap-around. |

@@ -21,6 +21,7 @@ when a language is marked complete. Progress for languages in progress is tracke
 | Go | 0.12.0 | Go 1.21+ | Native `int64` / `uint64`; literals parsed with `math/big` | Standalone CLI (`go run` or `go build`), no dependencies | None in behaviour; POSIX needs `stty` for the selector |
 | C# | 0.13.0 | .NET SDK 8+ (C# 11+) | Native `long`; literals parsed with `BigInteger`; `>>>` is built in | Standalone CLI (`dotnet run` or `dotnet publish`), no dependencies | None in behaviour; Standard Calculator lines over 20 000 characters are rejected |
 | Rust | 0.14.0 | Rust 1.75+ (stable, Cargo) | Native `i64` / `u64`; literals parsed with a saturating `u128` | Standalone CLI (`cargo run` or `cargo build --release`), no dependencies | None in behaviour; POSIX needs `stty` for the selector; lines over 20 000 characters are rejected |
+| Kotlin | 0.15.0 | Kotlin 1.9+ on JDK 22+ (`kotlinc`) | Native `Long`; literals parsed with `BigInteger`; `shl` / `shr` / `ushr` | Standalone CLI (`kotlinc -include-runtime` → `java -jar`), no dependencies | None in behaviour; selector uses `stty` (POSIX) or a PowerShell helper (Windows); lines over 20 000 characters are rejected |
 
 ## Interface (all editions)
 
