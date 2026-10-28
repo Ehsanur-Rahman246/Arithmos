@@ -67,6 +67,7 @@ Exactly one of `expected`, `expectedContains`, `error` is present per case or st
 | C# | `dotnet run --project test -- ../docs/release-1-cases.json` from `csharp/` |
 | Rust | `cargo test` from `rust/` |
 | Kotlin | `kotlinc src/main/kotlin src/test/kotlin -include-runtime -d arithmos-tests.jar` then `java -cp arithmos-tests.jar arithmos.test.RunCasesKt ../docs/release-1-cases.json` and `arithmos.test.RunSelectorKt` from `kotlin/` |
+| Swift | `swift test` from `swift/` |
 
 ## Adding a case
 
@@ -107,8 +108,8 @@ its own test folder and asserts behaviour only (never terminal formatting beyond
 | SL19 | pick(): an unknown typed word is an error and the list comes back |
 | SL20 | pick(): b, q and Esc act at once, with no prompt line |
 | SL21 | pick(): without a selector (pipes) the numbered list works as before |
-| X2 | lines never wider than the terminal; the window shrinks on a short terminal; erase moves up by the drawn line count | C++ (`test/run_selector.cpp`), PHP (`test/run_selector.php`), Java (`test/arithmos/RunSelector.java`), Bash (`test/run_selector.sh`), PowerShell (`test/run_selector.ps1`), Dart (`test/run_selector.dart`), TypeScript (`test/select.test.ts`), Go (`test/selector_test.go`), C# (`test/RunSelector.cs`), Rust (`tests/selector.rs`), Kotlin (`src/test/kotlin/RunSelector.kt`) |
-| X3 | raw terminal bytes become keys (arrows, Esc, Home/End, PgUp/PgDn, Ctrl-C/D, UTF-8) | PHP (`test/run_selector.php`), Java (`test/arithmos/RunSelector.java`), Bash (`test/run_selector.sh`), PowerShell (`test/run_selector.ps1`, input is ConsoleKeyInfo instead of bytes), Dart (`test/run_selector.dart`, input is bytes), TypeScript (`test/select.test.ts`), Go (`test/selector_test.go`), , C# (`test/RunSelector.cs`, input is ConsoleKeyInfo, as in PowerShell.), Rust (`tests/selector.rs`), Kotlin (`src/test/kotlin/RunSelector.kt`, input is bytes; plus `parseWinKey` lines for Windows) |
+| X2 | lines never wider than the terminal; the window shrinks on a short terminal; erase moves up by the drawn line count | C++ (`test/run_selector.cpp`), PHP (`test/run_selector.php`), Java (`test/arithmos/RunSelector.java`), Bash (`test/run_selector.sh`), PowerShell (`test/run_selector.ps1`), Dart (`test/run_selector.dart`), TypeScript (`test/select.test.ts`), Go (`test/selector_test.go`), C# (`test/RunSelector.cs`), Rust (`tests/selector.rs`), Kotlin (`src/test/kotlin/RunSelector.kt`), Swift (`Tests/ArithmosKitTests/SelectorTests.swift`) |
+| X3 | raw terminal bytes become keys (arrows, Esc, Home/End, PgUp/PgDn, Ctrl-C/D, UTF-8) | PHP (`test/run_selector.php`), Java (`test/arithmos/RunSelector.java`), Bash (`test/run_selector.sh`), PowerShell (`test/run_selector.ps1`, input is ConsoleKeyInfo instead of bytes), Dart (`test/run_selector.dart`, input is bytes), TypeScript (`test/select.test.ts`), Go (`test/selector_test.go`), , C# (`test/RunSelector.cs`, input is ConsoleKeyInfo, as in PowerShell.), Rust (`tests/selector.rs`), Kotlin (`src/test/kotlin/RunSelector.kt`, input is bytes; plus `parseWinKey` lines for Windows), Swift (`Tests/ArithmosKitTests/SelectorTests.swift`) |
 
 
 | Edition | File | Tests |
@@ -127,6 +128,7 @@ its own test folder and asserts behaviour only (never terminal formatting beyond
 | C# | `test/RunSelector.cs` | SL1–SL21 + X2 + X3 = 23 |
 | Rust | `tests/selector.rs` | SL1–SL21 + X2 + X3 = 23 |
 | Kotlin | `src/test/kotlin/RunSelector.kt` | SL1–SL21 + X2 + X3 = 23 |
+| Swift | `Tests/ArithmosKitTests/SelectorTests.swift` | SL1–SL21 + X2 + X3 = 23 |
 
 Rules: every new edition must add all 21 under these numbers (unless it is exempt under release-1.md §9) (the C runner fails if
 the count is not 21). Behaviour that exists in only one edition gets an `X<n>` id and is listed here,

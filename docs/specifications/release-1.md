@@ -771,7 +771,7 @@ Release 1 is implemented in **all 43 selected languages**. Per the roadmap's lan
 | 36 | Rust | ☑ | ☑ | ☑ | ☑ | Native `i64/u64`; literals parsed into a saturating `u128`; `>>>` via `u64`. Selector via `stty` on `/dev/tty` (POSIX) and _getwch + kernel32 (Windows), declared by hand. |
 | 37 | Scala | ☐ | ☐ | ☐ | ☐ | JVM-based; `Long`, `>>`, `>>>`, `<<`. |
 | 38 | Solidity | ☐ | ☐ | ☐ | ☐ | Contract logic tested through Foundry or Hardhat, not a standalone CLI. No floating point: the Standard Calculator and Converter need fixed-point arithmetic. Document the precision limits; a reduced edition is acceptable if clearly labeled. |
-| 39 | Swift | ☐ | ☐ | ☐ | ☐ | `Int64`; `&<<` / `&>>` for masking shifts. |
+| 39 | Swift | ☑ | ☑ | ☑ | ☑ | Swift 5.9+ (SwiftPM). Native `Int64` with `&<<` / `&>>`; `>>>` on the `UInt64` pattern; literals accumulated in `UInt64` with overflow detection. Selector via `termios` (POSIX only; Windows through WSL). |
 | 40 | TypeScript | ☑ | ☑ | ☑ | ☑ | Node.js 20+. Programmer mode uses `BigInt` with `asIntN(64, …)` / `asUintN(64, …)`; literals parsed digit by digit; `>>>` via the unsigned pattern. Needs `npm install` for the TypeScript compiler (build-time only). |
 | 41 | VBA | ☐ | ☐ | ☐ | ☐ | Runs inside an Office host. `LongLong` is 64-bit only in 64-bit Office; no native shift operators. Document the host workflow. |
 | 42 | VB.NET | ☐ | ☐ | ☐ | ☐ | `Long`; .NET runtime. |

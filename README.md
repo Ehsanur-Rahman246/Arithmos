@@ -14,7 +14,7 @@ Date Calculation, Currency, memory/history, GUI). See [docs/roadmap.md](docs/roa
 
 ## Status
 
-Release 1 is complete in **14 of 43** languages. Per-language progress is tracked in
+Release 1 is complete in **15 of 43** languages. Per-language progress is tracked in
 Section 9 of [the Release 1 spec](docs/specifications/release-1.md).
 
 | Language | Version tag | Folder |
@@ -33,6 +33,7 @@ Section 9 of [the Release 1 spec](docs/specifications/release-1.md).
 | C# | `v0.13.0` | [csharp/](csharp/) |
 | Rust | `v0.14.0` | [rust/](rust/) |
 | Kotlin | `v0.15.0` | [kotlin/](kotlin/) |
+| Swift | `v0.16.0` | [swift/](swift/) |
 
 ## Quick start
 
@@ -78,6 +79,9 @@ cd rust && cargo run --release
 
 # Kotlin (Kotlin 1.9+, JDK 22+)
 cd kotlin && kotlinc src/main/kotlin -include-runtime -d arithmos.jar && java -jar arithmos.jar
+
+# Swift (Swift 5.9+, Linux or macOS)
+cd swift && swift run arithmos
 ```
 
 Each language folder's README has run, test and one-shot commands.
@@ -101,6 +105,7 @@ go/          Go edition
 csharp/      C# edition
 rust/        Rust edition
 kotlin/      Kotlin edition
+swift/       Swift edition
 ```
 
 ## Documentation
@@ -117,7 +122,7 @@ kotlin/      Kotlin edition
 | [docs/roadmap.md](docs/roadmap.md) | Releases 1–5 and the language track |
 | [docs/error-messages.md](docs/error-messages.md) | Error messages shown throughout the app |
 
-Current version: 0.15.0.
+Current version: 0.16.0.
 
 ## Versioning
 

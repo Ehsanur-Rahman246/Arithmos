@@ -6,6 +6,17 @@ Each version is tagged `vX.Y.Z`.
 
 ## [Unreleased]
 
+## [0.16.0] — 2026-10-27
+
+### Added
+- Swift edition of Release 1 (Standard Calculator, Programmer Calculator, Unit Converter).
+  Passes all 175 shared cases, plus Swift extras. Programmer Calculator on native `Int64`
+  (`&<<` / `&>>`) with `UInt64` overflow-checked literal parsing; 12-digit formatting from the
+  exact `%.34e` expansion.
+- Swift: arrow-key selector for the menus and pickers (POSIX `termios`; Windows through WSL),
+  typed fallback, `ARITHMOS_PLAIN=1`, `NO_COLOR=1`.
+- Selector tests SL1–SL21 for Swift (21), plus X2 and X3 (23 in total).
+
 ## [0.15.0] — 2026-10-27
 
 ### Added
